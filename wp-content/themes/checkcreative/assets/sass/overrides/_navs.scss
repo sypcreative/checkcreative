@@ -1,0 +1,35 @@
+.navbar-brand img {
+  max-height: 40px;
+  height: auto;
+  width: auto;
+}
+
+@media (max-width: 767.98px) {
+  .fullscreen-menu {
+    position: fixed;
+    inset: 0;
+    background-color: white;
+    z-index: 1050;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .fullscreen-menu .navbar-nav {
+    flex-direction: column !important;
+    gap: 1.5rem;
+  }
+
+  .navbar-toggler {
+    z-index: 1060;
+  }
+}
+.collapse-mobile {
+  transform: translateY(-100%);
+}
+// .collapse.show {
+//   display: flex; /* o block, depende de tu layout */
+// }

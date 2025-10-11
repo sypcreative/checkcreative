@@ -1,0 +1,23 @@
+$category-colors: (
+  "noticia": (
+    text: #f5cf5d,
+    bg: #de078f,
+  ),
+  "espana": (
+    text: #f1ede4,
+    bg: #1cba7f,
+  ),
+  "evento": (
+    text: #f5cf5d,
+    bg: #f75826,
+  ),
+);
+
+@each $name, $colors in $category-colors {
+  .cat-#{$name} {
+    &__pill {
+      background-color: map-get($colors, bg);
+      color: map-get($colors, text);
+    }
+  }
+}

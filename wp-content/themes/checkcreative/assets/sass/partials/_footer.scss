@@ -1,0 +1,34 @@
+/* ——— FOOTER ——— */
+
+#site-footer {
+  /* marco inferior del footer (ola de color) */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  transform: translateY(var(--footer-shift));
+  will-change: transform; /* ayuda al rendimiento */
+
+  .footer-logo {
+    pointer-events: none;
+    width: 100%;
+    aspect-ratio: 1512 / 295;
+    background: url("../../img/footer-logo-transparent.svg") center top / cover
+      no-repeat;
+  }
+
+  #footer-liquid {
+    /* “líquido” de fondo que sobresale detrás del logo */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1512 / 295;
+    overflow: hidden;
+    z-index: -1;
+  }
+}
+
+#footer-spacer {
+  display: none;
+} // si ya no lo necesitas
