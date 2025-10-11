@@ -1,0 +1,43 @@
+# === WordPress core ===
+/wp-admin/
+/wp-includes/
+
+# Solo si NO modificas wp-content/plugins o themes directamente
+# (si tienes tus propios themes/plugins, elimina esas líneas)
+wp-content/plugins/
+wp-content/themes/twenty*/
+
+# Archivos temporales, cache o logs
+wp-content/cache/
+wp-content/backups/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/debug.log
+
+# === Configuración local ===
+wp-config.php
+wp-config-sample.php
+wp-config-docker.php
+
+# === Dependencias ===
+node_modules/
+vendor/
+
+# === Archivos del sistema ===
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# === Archivos de entorno y herramientas ===
+.env
+.env.local
+*.log
+*.sql
+*.tar
+*.zip
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.code-workspace
