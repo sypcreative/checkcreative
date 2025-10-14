@@ -43,7 +43,7 @@ $menu_principal = [
 	<div class="barba-transition-overlay"></div>
 	<div data-barba="wrapper">
 		<?php wp_body_open(); ?>
-		<div id="page" class="site bg-white" data-barba="container" data-barba-namespace="<?php echo get_post_field('post_name', get_post()); ?>">
+		<div id="page" class="site" data-barba="container" data-barba-namespace="<?php echo get_post_field('post_name', get_post()); ?>">
 			<!-- Nav Cabecera -->
 			<header class="position-fixed w-100 z-4">
 				<div class="container-fluid">

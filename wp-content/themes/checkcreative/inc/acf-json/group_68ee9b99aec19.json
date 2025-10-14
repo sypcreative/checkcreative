@@ -1,18 +1,18 @@
 {
-    "key": "group_685697a8b67e5",
-    "title": "Block Quote",
+    "key": "group_68ee9b99aec19",
+    "title": "Block Description",
     "fields": [
         {
-            "key": "field_685697a8b42d8",
-            "label": "Frase",
-            "name": "block_quote_quote",
+            "key": "field_68ee9b9967d63",
+            "label": "Descripción",
+            "name": "block_description_text",
             "aria-label": "",
             "type": "text",
-            "instructions": "Aparece en grande, con la tipografía corporativa tumb, centrado dentro del bloque",
+            "instructions": "Descripción de qué es Check Creative, aparecerá centrada en la pantalla y en tamaño h3",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -23,13 +23,29 @@
             "append": ""
         },
         {
-            "key": "field_685697d4bc730",
+            "key": "field_68ee9be867d64",
+            "label": "Botón para más información",
+            "name": "block_description_cta",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Opcional. Botón para enlazar a otra página con más información acerca de Check",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_68ee9c3867d65",
             "label": "Imágenes",
-            "name": "block_quote_repeater",
+            "name": "block_description_repeater",
             "aria-label": "",
             "type": "repeater",
-            "instructions": "",
-            "required": 0,
+            "instructions": "Subir un total de 4 imágenes, las imágenes van a tener una animación de transición",
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -38,37 +54,32 @@
             },
             "layout": "table",
             "pagination": 0,
-            "min": 0,
-            "max": 0,
+            "min": 4,
+            "max": 4,
             "collapsed": "",
-            "button_label": "Agregar Fila",
+            "button_label": "Agregar imagen",
             "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_685697eabc731",
+                    "key": "field_68ee9c3d67d66",
                     "label": "Imagen",
-                    "name": "block_quote_repeater_imagen",
+                    "name": "block_description_repeater_image",
                     "aria-label": "",
-                    "type": "image",
+                    "type": "file",
                     "instructions": "",
-                    "required": 1,
+                    "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
                     "return_format": "array",
                     "library": "all",
-                    "min_width": "",
-                    "min_height": "",
                     "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
                     "max_size": "",
                     "mime_types": "",
-                    "preview_size": "medium",
-                    "parent_repeater": "field_685697d4bc730"
+                    "parent_repeater": "field_68ee9c3867d65"
                 }
             ]
         }
@@ -78,7 +89,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/block-quote"
+                "value": "acf\/block-description"
             }
         ]
     ],
@@ -91,5 +102,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1750505546
+    "modified": 1760470909
 }

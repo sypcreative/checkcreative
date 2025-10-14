@@ -7,50 +7,17 @@
   --bg-porcentaje: 0.3;
 }
 
-// .lenis::-webkit-scrollbar {
-//   width: 8px;
-//   height: 8px;
-//   background: transparent;
-// }
-
-// .lenis:not(.is-scrolling)::-webkit-scrollbar-thumb {
-//   background-color: transparent;
-// }
-
-// .lenis.is-scrolling::-webkit-scrollbar-thumb {
-//   background-color: $cor-primary;
-//   border: 1px solid transparent;
-//   border-radius: 4px;
-// }
-
-// .lenis {
-//   overflow: overlay;
-//   scrollbar-gutter: stable overlay;
-// }
-
-// #mini-checkout-wrapper::-webkit-scrollbar {
-//   width: 8px;
-//   height: 8px;
-// }
-
-// #mini-checkout-wrapper::-webkit-scrollbar-track {
-//   background: transparent;
-// }
-
-// #mini-checkout-wrapper::-webkit-scrollbar-thumb {
-//   background-color: $cor-primary;
-//   border: 0.5px solid transparent;
-// }
-/*  Configuración fuentes Desktop */
-
-$display-font-sizes-md: (
-  1: $cor-display-font-sizes-1-md,
-  2: $cor-display-font-sizes-2-md,
-  3: $cor-display-font-sizes-3-md,
-  4: $cor-display-font-sizes-4-md,
-  5: $cor-display-font-sizes-5-md,
-  6: $cor-display-font-sizes-6-md,
+/* Headings base */
+$headings-sizes: (
+  1: $cor-h1-font-size,
+  2: $cor-h2-font-size,
+  3: $cor-h3-font-size,
+  4: $cor-h4-font-size,
+  5: $cor-h5-font-size,
+  6: $cor-h6-font-size,
 );
+
+/* Headings md */
 $headings-sizes-md: (
   1: $cor-h1-font-size-md,
   2: $cor-h2-font-size-md,
@@ -59,111 +26,183 @@ $headings-sizes-md: (
   5: $cor-h5-font-size-md,
   6: $cor-h6-font-size-md,
 );
-$font-sizes-md: (
-  1: $cor-font-size-base-1-md,
-  2: $cor-font-size-base-2-md,
-  3: $cor-font-size-base-3-md,
-  4: $cor-font-size-base-4-md,
-  5: $cor-font-size-base-5-md,
-  6: $cor-font-size-base-6-md,
+
+/* =========================================
+   utils.scss — utilidades tipográficas
+   ========================================= */
+
+/* Si no existen, define familias por defecto */
+$cor-font-family-headings: "Avenir", system-ui, sans-serif !default; // (tu Avenir Black registrada como 900)
+$cor-font-family-body: "Avenir", system-ui, sans-serif !default; // Avenir regular
+$cor-body-font-weight: 400 !default;
+
+/* Root helpers (mantén si los usas) */
+:root {
+  --bg-image: "";
+  --bg-md-image: "";
+  --bg-porcentaje: 0.3;
+}
+
+/* ==============================
+   Mapas a partir de tus variables
+   ============================== */
+
+/* Headings base */
+$headings-sizes: (
+  1: $cor-h1-font-size,
+  2: $cor-h2-font-size,
+  3: $cor-h3-font-size,
+  4: $cor-h4-font-size,
+  5: $cor-h5-font-size,
+  6: $cor-h6-font-size,
 );
 
-// Headings desktop
-@each $size, $value in $headings-sizes-md {
-  .h-md-#{$size} {
+/* Headings md */
+$headings-sizes-md: (
+  1: $cor-h1-font-size-md,
+  2: $cor-h2-font-size-md,
+  3: $cor-h3-font-size-md,
+  4: $cor-h4-font-size-md,
+  5: $cor-h5-font-size-md,
+  6: $cor-h6-font-size-md,
+);
+
+/* Opcional: si quieres reutilizar los mismos line-heights/letter-spacing también para .fs-*
+   podemos leerlos desde tus variables por número */
+@function _h-line-height($n) {
+  @return if(
+    $n == 1,
+    $cor-h1-line-height,
+    if(
+      $n == 2,
+      $cor-h2-line-height,
+      if(
+        $n == 3,
+        $cor-h3-line-height,
+        if(
+          $n == 4,
+          $cor-h4-line-height,
+          if($n == 5, $cor-h5-line-height, $cor-h6-line-height)
+        )
+      )
+    )
+  );
+}
+@function _h-letter($n) {
+  @return if(
+    $n == 1,
+    $cor-h1-letter-spacing,
+    if(
+      $n == 2,
+      $cor-h2-letter-spacing,
+      if(
+        $n == 3,
+        $cor-h3-letter-spacing,
+        if(
+          $n == 4,
+          $cor-h4-letter-spacing,
+          if($n == 5, $cor-h5-letter-spacing, $cor-h6-letter-spacing)
+        )
+      )
+    )
+  );
+}
+
+/* ==============================
+   HEADINGS (Avenir Black via title())
+   ============================== */
+
+/* Elementos h1–h6 + utilidades .h-1… .h-6 con base */
+@each $n, $fs in $headings-sizes {
+  h#{$n},
+  .h-#{$n} {
+    @include title(
+      $n
+    ); /* aplica familia Black, line-height y tracking definidos */
+    font-size: $fs;
+  }
+}
+
+/* Overrides de tamaño a partir de md */
+@each $n, $fs in $headings-sizes-md {
+  .h-md-#{$n} {
     @include media-breakpoint-up(md) {
-      font-size: $value !important;
+      font-size: $fs !important;
     }
   }
 }
 
-// HEADINGS (responsive solo md)
-@each $size, $value in $headings-sizes-md {
-  .h-#{$size},
-  h#{$size} {
-    @include title($size);
-    font-size: $value;
+/* ==============================
+   BODY SCALES .fs-1 … .fs-6 (Avenir)
+   mismos tamaños que h1–h6, pero familia de body
+   ============================== */
+
+/* Base */
+@each $n, $fs in $headings-sizes {
+  .fs-#{$n} {
+    font-family: $cor-font-family-body;
+    font-weight: $cor-body-font-weight;
+    font-size: $fs;
+    line-height: _h-line-height($n); /* reutilizamos métricas para coherencia */
+    letter-spacing: _h-letter($n);
   }
 }
 
-// FONT SIZES (body)
-@each $size, $value in $font-sizes-md {
-  .fs-md-#{$size} {
+/* md */
+@each $n, $fs in $headings-sizes-md {
+  .fs-md-#{$n} {
     @include media-breakpoint-up(md) {
-      font-size: $value !important;
+      font-size: $fs !important;
     }
   }
 }
 
-@each $size, $value in $font-sizes-md {
-  .fs-#{$size} {
-    font-size: $value;
-  }
-}
-// DISPLAY SIZES
-@each $size, $value in $display-font-sizes-md {
-  .display-md-#{$size} {
-    @include media-breakpoint-up(md) {
-      font-size: $value !important;
-    }
-  }
-}
+/* ==============================
+   DISPLAY + SMALL (doble variante)
+   - Black (headings)  : .display, .small
+   - Body (Avenir reg) : .display-body, .small-body
+   ============================== */
 
-@each $size, $value in $display-font-sizes-md {
-  .display-#{$size} {
-    font-size: $value;
-    font-family: $cor-font-family-headings;
-  }
+.display {
+  font-family: $cor-font-family-headings;
+  font-weight: $cor-headings-font-weight;
+  font-size: $cor-display-font-size;
+  line-height: 1; /* ajusta si necesitas otra métrica para display */
+  letter-spacing: $cor-h1-letter-spacing; /* -0.03em como tus headings */
 }
-
-.body {
-  font-size: $cor-font-body !important;
-
-  @include media-breakpoint-up(md) {
-    font-size: $cor-font-body-md !important;
-  }
+.display-body {
+  font-family: $cor-font-family-body;
+  font-weight: $cor-body-font-weight;
+  font-size: $cor-display-font-size;
+  line-height: 1;
+  letter-spacing: $cor-h1-letter-spacing;
 }
-
-.body-md {
-  @include media-breakpoint-up(md) {
-    font-size: $cor-font-body-md !important;
+@include media-breakpoint-up(md) {
+  .display,
+  .display-body {
+    font-size: $cor-display-font-size-md;
   }
 }
 
-.legend {
-  font-size: $cor-font-legend;
+/* Small (texto pequeño) — dos variantes */
+.small {
+  font-family: $cor-font-family-headings;
+  font-weight: $cor-headings-font-weight;
+  font-size: $cor-small-font-size;
+  line-height: 1.3;
+  letter-spacing: $cor-h6-letter-spacing;
 }
-
-.legend-md {
-  @include media-breakpoint-up(md) {
-    font-size: $cor-font-legend-md !important;
-  }
+.small-body {
+  font-family: $cor-font-family-body;
+  font-weight: $cor-body-font-weight;
+  font-size: $cor-small-font-size;
+  line-height: 1.3;
+  letter-spacing: $cor-h6-letter-spacing;
 }
-
-.tag {
-  font-size: $cor-font-tag !important;
-
-  @include media-breakpoint-up(md) {
-    font-size: $cor-font-tag-md !important;
-  }
-}
-
-.jumbo {
-  font-size: 110px !important;
-
-  @include media-breakpoint-down(md) {
-    font-size: 46px !important;
-  }
-}
-
-.hero-jumbo {
-  font-size: 9vw !important;
-}
-
-.meet-us-jumbo {
-  font-size: 90px !important;
-  @include media-breakpoint-down(md) {
-    font-size: 45px !important;
+@include media-breakpoint-up(md) {
+  .small,
+  .small-body {
+    font-size: $cor-small-font-size-md;
   }
 }
 
@@ -181,43 +220,24 @@ $font-sizes-md: (
   }
 }
 
-.line {
-  display: block;
-  overflow: hidden;
+.overflow-clip {
+  overflow: clip;
 }
 
-.line span {
-  display: inline-block;
-  transform: translateY(100%);
-}
+// <section class="vh-100 vw-100">
 
-.z-4 {
-  z-index: 40;
-}
+// 	<!-- Headings (Black) -->
+// 	<h1>H1 por elemento</h1>
+// 	<h2 class="h-2">H2 por utilidad</h2>
+// 	<h3 class="h-3 h-md-2">H3 base, H2 en md</h3>
 
-.mt-neg-1 {
-  @include media-breakpoint-up(md) {
-    margin-top: -100px;
-  }
-}
+// 	<!-- Escalas de texto (Avenir regular) -->
+// 	<p class="fs-4">Texto con tamaño de H4 pero en Avenir.</p>
+// 	<p class="fs-2 fs-md-1">Sube a tamaño H1 en md.</p>
 
-.mt-neg-2 {
-  @include media-breakpoint-up(md) {
-    margin-top: -200px;
-  }
-}
-
-.mt-neg-3 {
-  @include media-breakpoint-up(md) {
-    margin-top: -300px;
-  }
-}
-
-.py-navbar {
-  padding-top: 6rem;
-  padding-bottom: 3rem;
-}
-
-.tumb {
-  font-family: tumbtest;
-}
+// 	<!-- Display y Small en ambas familias -->
+// 	<div class="display">Display en Black</div>
+// 	<div class="display-body">Display en Avenir</div>
+// 	<small class="small">Pequeño Black</small>
+// 	<small class="small-body h-md-2">Pequeño Avenir</small>
+// </section>

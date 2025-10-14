@@ -1,0 +1,45 @@
+/* --- Carousel de logos sin JS --- */
+.logo-marquee {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+.logo-track {
+  gap: clamp(32px, 6vw, 96px);
+  animation: logos-scroll 30s linear infinite;
+  /* evita salto al cambiar tamaño */
+  will-change: transform;
+}
+.logo-marquee:hover .logo-track {
+  animation-play-state: paused;
+}
+
+.logo-item {
+  flex: 0 0 auto; /* no se encogen */
+  min-width: clamp(120px, 16vw, 240px);
+}
+
+.logo-item img {
+  max-height: clamp(28px, 4vw, 56px); /* ajusta la altura de los logos */
+  width: auto;
+  filter: none; /* o grayscale(1) si quieres */
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+.logo-item img:hover {
+  opacity: 1;
+}
+
+@keyframes logos-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  } /* La pista está duplicada, -50% = un ciclo perfecto */
+}

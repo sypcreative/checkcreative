@@ -1,0 +1,110 @@
+{
+    "key": "group_68ee75b4bd106",
+    "title": "Block Hero Home",
+    "fields": [
+        {
+            "key": "field_68ee75b4e07bc",
+            "label": "Título",
+            "name": "block_home_hero_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Título que aparece en gran tamaño centrado en la cabecera de la página principal, por encima del vídeo.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "LUXURY AND WELLNESS",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_68ee94f01d884",
+            "label": "Vídeo",
+            "name": "block_home_hero_video",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "Vídeo que aparece a pantalla completa en la cabecera de la página principal, por debajo del título",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_68ee951bdd8b7",
+            "label": "Textos inferiores",
+            "name": "block_home_hero_repeater",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Textos que aparecen en la zona inferior de la sección, no son obligatorios pero si recomendables (Añadir 3 como máximo) Si solo se añaden dos aparecerán uno a la izquierda y otro a la derecha, si se añaden 3 uno aparecerá centrado.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Agregar texto",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_68ee957e70959",
+                    "label": "Texto",
+                    "name": "block_home_hero_repeater_texto",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Textos inferiores, recomendable: © Check Creative 2025 y ( scroll down ) o algo así",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_68ee951bdd8b7"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/block-hero-home"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1760466402
+}
