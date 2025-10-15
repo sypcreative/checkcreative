@@ -22,6 +22,7 @@
 .logo-item {
   flex: 0 0 auto; /* no se encogen */
   min-width: clamp(120px, 16vw, 240px);
+  height: 40px;
 }
 
 .logo-item img {

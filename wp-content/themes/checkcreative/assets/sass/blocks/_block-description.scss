@@ -7,7 +7,7 @@
     left: 50%;
     max-width: 20vmin;
     height: auto;
-
+    opacity: 0.3;
     // Distribución y rotaciones tipo poster
     &:nth-of-type(1) {
       transform: translate(-50%, -50%) translate(-140px, -120px) rotate(-12deg);

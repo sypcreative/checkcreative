@@ -10,17 +10,6 @@ if (function_exists('acf_add_options_page')) {
 	);
 }
 
-if (function_exists('acf_add_options_page')) {
-	acf_add_options_page(array(
-		'page_title'  => 'Textos de Tienda',
-		'menu_title'  => 'Textos de Tienda',
-		'menu_slug'   => 'textos-tienda',
-		'position'   => 3,
-		'capability'  => 'edit_posts',
-		'redirect'    => false
-	));
-}
-
 add_action('customize_register', 'ocultar_bloques_tema');
 
 

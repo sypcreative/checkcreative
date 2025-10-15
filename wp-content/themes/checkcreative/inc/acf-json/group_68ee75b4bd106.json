@@ -43,6 +43,32 @@
             "mime_types": ""
         },
         {
+            "key": "field_68ef82f43b91d",
+            "label": "Color del texto",
+            "name": "block_home_hero_text_color",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "white": "Blanco",
+                "dark": "Negro"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
             "key": "field_68ee951bdd8b7",
             "label": "Textos inferiores",
             "name": "block_home_hero_repeater",
@@ -106,5 +132,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760466402
+    "modified": 1760528255
 }
