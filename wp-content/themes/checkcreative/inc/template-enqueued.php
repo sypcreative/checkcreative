@@ -1,65 +1,104 @@
 <?php
 
 /**
- * Enqueue scripts and styles.
+ * Enqueue scripts and styles
+ *
+ * @package checkcreative
  */
-function checkcreative_scripts()
+
+// Encola los estilos y scripts del tema principal
+function checkcreative_enqueue_assets()
 {
-	wp_enqueue_style('checkcreative-style', get_stylesheet_uri(), array(), _S_VERSION);
-	wp_style_add_data('checkcreative-style', 'rtl', 'replace');
 
-	//wp_enqueue_script('checkcreative-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
+	$theme_uri  = get_template_directory_uri();
+	$theme_path = get_template_directory();
 
+	// ------------------------
+	// Estilos públicos
+	// ------------------------
+	$css_main = '/assets/dist/css/all.css';
+	wp_enqueue_style(
+		'checkcreative-all',
+		$theme_uri . $css_main,
+		array(),
+		filemtime($theme_path . $css_main)
+	);
+
+	// Hoja de estilos del tema (style.css)
+	wp_enqueue_style(
+		'checkcreative-style',
+		get_stylesheet_uri(),
+		array('checkcreative-all'),
+		filemtime($theme_path . '/style.css')
+	);
+
+	// ------------------------
+	// Script principal (bundle.js)
+	// ------------------------
+	$js_bundle = '/assets/dist/js/bundle.js';
+	wp_enqueue_script(
+		'checkcreative-js',
+		$theme_uri . $js_bundle,
+		array(),
+		filemtime($theme_path . $js_bundle),
+		true // carga en footer
+	);
+}
+add_action('wp_enqueue_scripts', 'checkcreative_enqueue_assets', 20);
+
+
+// ------------------------
+// Evita bloqueo por Cookiebot y añade defer
+// ------------------------
+add_filter('script_loader_tag', function ($tag, $handle, $src) {
+	if ('checkcreative-js' === $handle) {
+		// Añade atributos defer y data-cookieconsent="ignore"
+		$tag = str_replace(
+			'<script ',
+			'<script defer data-cookieconsent="ignore" ',
+			$tag
+		);
+	}
+	return $tag;
+}, 10, 3);
+
+
+// ------------------------
+// Estilos del editor (Gutenberg / ACF)
+// ------------------------
+function checkcreative_enqueue_editor_assets()
+{
+
+	$theme_uri  = get_template_directory_uri();
+	$theme_path = get_template_directory();
+
+	$admin_css = '/assets/dist/css/admin.css';
+	if (file_exists($theme_path . $admin_css)) {
+		wp_enqueue_style(
+			'checkcreative-admin',
+			$theme_uri . $admin_css,
+			array(),
+			filemtime($theme_path . $admin_css)
+		);
+	}
+
+	wp_enqueue_style(
+		'checkcreative-style',
+		get_stylesheet_uri(),
+		array('checkcreative-admin'),
+		filemtime($theme_path . '/style.css')
+	);
+}
+add_action('enqueue_block_editor_assets', 'checkcreative_enqueue_editor_assets');
+
+
+// ------------------------
+// Soporte de comentarios (nativo de WP)
+// ------------------------
+function checkcreative_enqueue_comment_reply()
+{
 	if (is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
 	}
 }
-
-add_action('wp_enqueue_scripts', 'checkcreative_scripts');
-
-
-//! scripts y styles
-function checkcreative_scripts_styles()
-{
-
-	// Estilos
-	wp_enqueue_style('all', get_template_directory_uri() . '/assets/dist/css/all.css', array(), '1.0.3');
-	// hoja de estilos principal
-	wp_enqueue_style('style', get_stylesheet_uri(), array('all'), '1.0.0');
-
-	wp_enqueue_script(
-		'checkcreative-js',
-		get_template_directory_uri() . '/assets/dist/js/bundle.js',
-		array(),
-		'1.0.0',
-		true
-	);
-
-	wp_script_add_data('checkcreative-js', 'type', 'module');
-
-
-	wp_enqueue_script(
-		'places',
-		'https://maps.googleapis.com/maps/api/js?key=AIzaSyBVFp7rOsdigQAvYQTmaINR74hW06j3C0g&libraries=places&loading=async',
-		array(),
-		'1.0.1',
-		true
-	);
-}
-
-add_action('wp_enqueue_scripts', 'checkcreative_scripts_styles');
-
-
-//! scripts y styles
-function checkcreative_scripts_styles_editor()
-{
-
-	// Estilos
-
-	wp_enqueue_style('admin', get_template_directory_uri() . '/assets/dist/css/admin.css', array(), '1.0.0');
-
-	wp_enqueue_style('style', get_stylesheet_uri(), array('admin'), '1.0.0');
-}
-
-
-add_action('enqueue_block_editor_assets', 'checkcreative_scripts_styles_editor');
+add_action('wp_enqueue_scripts', 'checkcreative_enqueue_comment_reply');

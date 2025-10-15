@@ -1,143 +1,112 @@
 <?php
 
 /**
- * checkcreative functions and definitions
+ * Theme functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
  * @package checkcreative
  */
 
-if (! defined('_S_VERSION')) {
-	// Replace the version number of the theme on each release.
-	define('_S_VERSION', '1.0.0');
+// -----------------------------------------------------------------------------
+// Constantes del tema
+// -----------------------------------------------------------------------------
+if (! defined('CHECKCREATIVE_PATH')) {
+	define('CHECKCREATIVE_PATH', get_template_directory());
+}
+if (! defined('CHECKCREATIVE_URI')) {
+	define('CHECKCREATIVE_URI', get_template_directory_uri());
+}
+if (! defined('CHECKCREATIVE_VERSION')) {
+	$theme = wp_get_theme();
+	define('CHECKCREATIVE_VERSION', $theme->get('Version') ?: '1.0.0');
 }
 
-/**
- * Configura los valores predeterminados del tema y registra la compatibilidad con varias funciones de WordPress.
- * Tenga en cuenta que esta función está enlazada con el gancho after_setup_theme, que
- * se ejecuta antes del gancho de inicio. El gancho de inicio es demasiado tarde para algunas funciones, como
- * para la indicación de soporte para miniaturas de publicaciones.
- */
+// -----------------------------------------------------------------------------
+// Soporte del tema + Menús
+// -----------------------------------------------------------------------------
 function checkcreative_setup()
 {
-	add_theme_support('woocommerce');
-	remove_all_actions('woocommerce_before_cart');
-	remove_all_actions('woocommerce_before_checkout_form');
-	remove_all_actions('woocommerce_before_single_product');
 
-	remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
-	remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10);
-	remove_action('woocommerce_before_main_content', 'woocommerce_output_all_notices', 10);
+	// Carga de textos
+	load_theme_textdomain('checkcreative', CHECKCREATIVE_PATH . '/languages');
 
-	/**
-	 * Deje que WordPress administre el título del documento.
-	 * Al agregar compatibilidad con temas, declaramos que este tema no utiliza un
-	 * etiqueta <título> codificada de forma rígida en el encabezado del documento, y espera que WordPress
-	 * proporcionarlo para nosotros.
-	 */
+	// Título del documento gestionado por WP
 	add_theme_support('title-tag');
 
-	/**
-	 * Habilite el soporte para Publicar miniaturas en publicaciones y páginas.
-	 *
-	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-	 */
+	// Imágenes destacadas
 	add_theme_support('post-thumbnails');
 
-	/**
-	 * Menús que se van a usar en este theme
-	 */
-	register_nav_menus(
-		array(
-			'menu-izquierda' => esc_html__('Menú izquierdo', 'checkcreative'),
-			'menu-derecha'   => esc_html__('Menú derecho', 'checkcreative'),
-			'menu-footer'    => esc_html__('Footer', 'checkcreative'),
-		)
-	);
-}
+	// HTML5 en salidas comunes
+	add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script'));
 
+	// Alineaciones anchas en editor
+	add_theme_support('align-wide');
+
+	// Menús
+	register_nav_menus(array(
+		'menu-izquierda' => esc_html__('Menú izquierdo', 'checkcreative'),
+		'menu-derecha'   => esc_html__('Menú derecho', 'checkcreative'),
+		'menu-footer'    => esc_html__('Menú footer', 'checkcreative'),
+	));
+}
 add_action('after_setup_theme', 'checkcreative_setup');
 
-/**
- * Encolar scripts y estilos.
- */
-require get_template_directory() . '/inc/template-enqueued.php';
-require get_template_directory() . '/inc/template-functions.php';
-
-if (defined('JETPACK__VERSION')) {
-	require get_template_directory() . '/inc/jetpack.php';
-}
-
-require get_template_directory() . '/inc/acf-config.php';
-require get_template_directory() . '/inc/custom-config.php';
-require get_template_directory() . '/inc/custom-post-taxonomy.php';
-require get_template_directory() . '/inc/ajax/ajax-config.php';
-require get_template_directory() . '/inc/navs/custom-nav-walker.php';
-require get_template_directory() . '/inc/navs/custom-nav-menu.php';
-require get_template_directory() . '/inc/gtm-functions.php';
-
-function dump($data)
+// -----------------------------------------------------------------------------
+// Content width (opcional, útil para embeds)
+// -----------------------------------------------------------------------------
+function checkcreative_content_width()
 {
-	echo '<pre class="text-white bg-black w-max fs-7 py-5">';
-	var_dump($data);
-	echo '</pre>';
+	$GLOBALS['content_width'] = apply_filters('checkcreative_content_width', 1200);
 }
+add_action('after_setup_theme', 'checkcreative_content_width', 0);
 
+// -----------------------------------------------------------------------------
+// Includes del tema (sin AJAX)
+// -----------------------------------------------------------------------------
 /**
- * Devuelve un array con todos los datos de cerveza de un producto.
- *
- * @param int|null $product_id  ID del producto (por defecto, el post actual).
- * @return array<string, mixed>
+ * Usa require_once solo si el archivo existe.
  */
-function checkcreative_get_beer_data($product_id = null)
+function checkcreative_require($relative_path)
 {
-	$product_id = $product_id ?: get_the_ID();  // Usa el post actual si no se pasa ID
-
-	// Todas tus keys ACF ↓
-	$keys = [
-		'post_type_productos_nombre',
-		'post_type_productos_alcohol',
-		'post_type_productos_tamano',
-		'post_type_productos_descripcion',
-		'post_type_productos_ingredientes',
-		'post_type_productos_temperatura',
-		'post_type_productos_calorias',
-		'post_type_productos_ebc',
-		'post_type_productos_ibu',
-		'post_type_productos_fondo',
-		'post_type_productos_ritmo',
-		'post_type_productos_formatos_repeater',
-	];
-
-	$data = [];
-	foreach ($keys as $key) {
-		$data[$key] = get_field($key, $product_id);
+	$path = CHECKCREATIVE_PATH . $relative_path;
+	if (file_exists($path)) {
+		require_once $path;
 	}
-
-	$data['permalink'] = get_permalink($product_id);
-
-	return $data;
 }
 
-/**
- * Filtros y botón de ver más en ajax
- */
-require get_template_directory() . '/inc/ajax/ajax-blog.php';
-require get_template_directory() . '/inc/ajax/ajax-woocommerce.php';
-require get_template_directory() . '/inc/ajax/ajax-newsletter.php';
+// Encolado de assets (mantenido en un archivo separado para claridad)
+checkcreative_require('/inc/template-enqueued.php');
 
+// Funciones helpers del tema
+checkcreative_require('/inc/template-functions.php');
 
-// Enqueue javascript file
-add_action('wp_enqueue_scripts', 'checkcreative_insert_custom_js');
-function checkcreative_insert_custom_js()
-{
-	wp_localize_script(
-		'checkcreative-js',
-		'checkcreative_ajax',
-		[
-			'ajaxUrl'  => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('checkcreative_update_cart'),
-		]
-	);
+// Jetpack (si está activo)
+if (defined('JETPACK__VERSION')) {
+	checkcreative_require('/inc/jetpack.php');
+}
+
+// ACF y config personalizada
+checkcreative_require('/inc/acf-config.php');
+checkcreative_require('/inc/custom-config.php');
+
+// CPTs y taxonomías
+checkcreative_require('/inc/custom-post-taxonomy.php');
+
+// Navegación
+checkcreative_require('/inc/navs/custom-nav-walker.php');
+checkcreative_require('/inc/navs/custom-nav-menu.php');
+
+// GTM / scripts de cabecera personalizados
+checkcreative_require('/inc/gtm-functions.php');
+
+// -----------------------------------------------------------------------------
+// Utilidades de depuración
+// -----------------------------------------------------------------------------
+if (! function_exists('dump')) {
+	function dump($data)
+	{
+		echo '<pre class="text-white bg-black w-max fs-7 py-5" style="white-space:pre-wrap;">';
+		var_dump($data);
+		echo '</pre>';
+	}
 }

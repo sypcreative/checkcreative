@@ -1,4 +1,6 @@
 .block-description {
+  will-change: transform;
+  isolation: isolate;
   &__img {
     position: absolute;
     top: 50%;

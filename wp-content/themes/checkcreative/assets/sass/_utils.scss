@@ -214,6 +214,10 @@ $headings-sizes-md: (
   height: 50vh;
 }
 
+.vh-200 {
+  height: 200vh;
+}
+
 .vh-md-100 {
   @include media-breakpoint-up(md) {
     height: 100vh !important;
@@ -222,6 +226,23 @@ $headings-sizes-md: (
 
 .overflow-clip {
   overflow: clip;
+}
+
+html,
+body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 // <section class="vh-100 vw-100">
