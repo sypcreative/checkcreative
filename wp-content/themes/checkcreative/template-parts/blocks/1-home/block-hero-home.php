@@ -10,7 +10,7 @@ $repeater = get_field('block_home_hero_repeater');
 		<source src="<?= $video ?>" type="video/mp4" />
 	</video>
 	<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-		<h1 class="block-hero-home__title text-<?= $color ?> display w-50">
+		<h1 class="block-hero-home__title text-<?= $color ?> display w-10 w-md-50">
 			<?php echo esc_html($title); ?>
 		</h1>
 	</div>

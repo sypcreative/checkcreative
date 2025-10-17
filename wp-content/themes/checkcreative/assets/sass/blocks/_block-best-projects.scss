@@ -1,0 +1,56 @@
+// .block-best-projects {
+//   &__content {
+//     gap: clamp(24px, 4vh, 64px);
+//     will-change: transform;
+//   }
+
+//   &__item {
+//     transform-origin: center center;
+//     will-change: transform, opacity;
+//     transition: filter 0.2s linear;
+//     min-height: 100svh;
+// 	 display: block;
+//     place-items: center;
+//   }
+// }
+.block-best-projects {
+  --card-h: 60svh;
+  --pad: calc((100svh - var(--card-h)) / 2);
+
+  &__content {
+    will-change: transform;
+  }
+  &__card {
+    width: 80%;
+    @include media-breakpoint-up(md) {
+      width: 500px !important;
+    }
+  }
+  //!! SI USO height: 100svh; QUITAR ESTE BEFORE Y AFTER Y CAMBIAR min-height a 100svh
+  &__content::before,
+  &__content::after {
+    content: "";
+    display: block;
+    height: var(--pad);
+    flex: 0 0 var(--pad); /* por si usas display:flex */
+  }
+
+  &__item {
+    min-height: 60svh;
+    display: block;
+    transform-origin: center;
+    will-change: transform, opacity;
+    transition: filter 0.2s linear;
+  }
+
+  &__media {
+    height: 300px;
+    //  width: 500px;
+  } // permite que la imagen “llene”
+  &__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}

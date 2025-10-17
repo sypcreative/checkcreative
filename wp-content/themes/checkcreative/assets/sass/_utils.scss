@@ -206,8 +206,26 @@ $headings-sizes-md: (
   }
 }
 
+.h-30 {
+  height: 30%;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.w-30 {
+  width: 30%;
+}
 .w-80 {
   width: 80%;
+}
+
+.w-md-50 {
+  width: 100%;
+  @include media-breakpoint-up(md) {
+    width: 50% !important;
+  }
 }
 
 .vh-50 {
