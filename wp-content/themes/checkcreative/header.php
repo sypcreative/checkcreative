@@ -46,71 +46,71 @@ $menu_principal = [
 		<div id="page" class="site" data-barba="container" data-barba-namespace="<?php echo get_post_field('post_name', get_post()); ?>">
 			<!-- Nav Cabecera -->
 			<header class="position-fixed w-100 z-4">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12">
-							<nav class="navbar navbar-expand-md mt-2 mt-md-4 position-relative" id="menuCabecera">
-								<div class="container-fluid py-1">
-									<!-- Enlaces izquierda -->
-									<div class="d-none d-md-flex me-auto text-uppercase">
-										<?php
-										wp_nav_menu([
-											'theme_location' => 'menu-izquierda',
-											'container' => false,
-											'menu_class' => 'navbar-nav flex-row gap-3',
-											'fallback_cb' => false,
-										]);
-										?>
-									</div>
-									<!-- Logo centrado -->
-									<a class="navbar-brand position-absolute top-50 start-50 translate-middle d-md-block d-none" href="<?= get_home_url() ?>">
-										<img src="<?= get_field('opciones_sitio_logo_principal', 'option') ?>" alt="checkcreative Logo" style="height: 40px;">
-									</a>
-									<a class="navbar-brand position-absolute top-50 start-50 translate-middle d-md-none d-block" href="<?= get_home_url() ?>">
-										<img src="<?= get_field('opciones_sitio_logo_principal', 'option') ?>" alt="checkcreative Logo" style="height: 40px;">
-									</a>
-									<!-- Botón toggle -->
-									<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-										<span class="navbar-toggler-icon"></span>
-									</button>
-								</div>
-								<!-- Enlaces derecha -->
-								<div class="d-none d-md-flex ms-auto text-uppercase">
-									<?php
-									wp_nav_menu([
-										'theme_location' => 'menu-derecha',
-										'container' => false,
-										'menu_class' => 'navbar-nav ms-auto flex-row gap-3',
-										'fallback_cb' => false,
-									]);
-									?>
-								</div>
-								<!-- Menú Mobile a pantalla completa -->
-								<div class="collapse-mobile fullscreen-menu d-md-none jumbo text-uppercase tumb bg-primary gap-3" id="mobileNavbar">
-									<a class="navbar-nav flex-row gap-3 w-100 text-secondary" href="<?= get_home_url() ?>">
-										<span data-anim="nav-links">HOME</span>
-									</a>
-									<?php
-									wp_nav_menu([
-										'theme_location' => 'menu-izquierda',
-										'container' => false,
-										'menu_class' => 'navbar-nav flex-row gap-3 w-100 text-secondary',
-										'fallback_cb' => false,
-										'link_before' => '<span data-anim="nav-links">',
-										'link_after' => '</span>',
-									]);
-									wp_nav_menu([
-										'theme_location' => 'menu-derecha',
-										'container' => false,
-										'menu_class' => 'navbar-nav flex-row gap-3 w-100 text-secondary',
-										'fallback_cb' => false,
-										'link_before' => '<span data-anim="nav-links">',
-										'link_after' => '</span>',
-									]);
-									?>
-								</div>
-							</nav>
+				<div class="container">
+					<nav class="mt-2 mt-md-4" id="menuCabecera">
+						<!-- Rail desktop -->
+						<ul class="nav-rail d-none d-md-flex">
+							<?php
+							// 1) Items del menú izquierdo (solo <li>, sin <ul>)
+							wp_nav_menu([
+								'theme_location' => 'menu-izquierda',
+								'container'      => false,
+								'items_wrap'     => '%3$s',
+								'depth'          => 1,
+								'fallback_cb'    => false,
+								'menu_class'     => '', // ignorado porque no hay <ul>
+								'link_class'    => 'ls-3',
+							]);
+							?>
+
+							<!-- 2) Logo centrado como un item más -->
+							<li class="nav-rail__brand">
+								<a href="<?= get_home_url(); ?>" class="nav-rail__brand-link">
+									<img src="<?= get_field('opciones_sitio_logo_principal', 'option'); ?>" alt="Checkcreative" height="40">
+								</a>
+							</li>
+
+							<?php
+							// 3) Items del menú derecho (solo <li>, sin <ul>)
+							wp_nav_menu([
+								'theme_location' => 'menu-derecha',
+								'container'      => false,
+								'items_wrap'     => '%3$s',
+								'depth'          => 1,
+								'fallback_cb'    => false,
+								'menu_class'     => '',
+							]);
+							?>
+						</ul>
+
+						<!-- Toggle + menú móvil (lo que ya tienes) -->
+						<button class="navbar-toggler d-md-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar" aria-controls="mobileNavbar" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+
+						<div class="collapse-mobile fullscreen-menu d-md-none jumbo text-uppercase tumb bg-primary gap-3" id="mobileNavbar">
+							<a class="navbar-nav flex-row gap-3 w-100 text-secondary" href="<?= get_home_url() ?>">
+								<span data-anim="nav-links">HOME</span>
+							</a>
+							<?php
+							wp_nav_menu([
+								'theme_location' => 'menu-izquierda',
+								'container'      => false,
+								'menu_class'     => 'navbar-nav flex-column text-center gap-3 w-100 text-secondary',
+								'fallback_cb'    => false,
+								'link_before'    => '<span data-anim="nav-links">',
+								'link_after'     => '</span>',
+							]);
+							wp_nav_menu([
+								'theme_location' => 'menu-derecha',
+								'container'      => false,
+								'menu_class'     => 'navbar-nav flex-column text-center gap-3 w-100 text-secondary',
+								'fallback_cb'    => false,
+								'link_before'    => '<span data-anim="nav-links">',
+								'link_after'     => '</span>',
+							]);
+							?>
 						</div>
-					</div>
+					</nav>
 				</div>
 			</header>

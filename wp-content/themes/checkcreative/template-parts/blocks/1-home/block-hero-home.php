@@ -14,7 +14,7 @@ $repeater = get_field('block_home_hero_repeater');
 			<?php echo esc_html($title); ?>
 		</h1>
 	</div>
-	<div class="position-absolute bottom-0 start-0 end-0 d-flex justify-content-between align-items-end px-3 pb-8 z-1 pe-none">
+	<div class="position-absolute bottom-0 start-0 end-0 d-flex justify-content-between align-items-end px-3 pb-9 z-1 pe-none">
 		<div class="container d-flex justify-content-between align-items-end pb-5">
 			<?php foreach ($repeater as $item) {
 				$text = $item['block_home_hero_repeater_texto'] ?? '';

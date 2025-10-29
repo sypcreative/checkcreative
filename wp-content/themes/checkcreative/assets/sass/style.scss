@@ -26,7 +26,6 @@
 // Overrides
 @import "overrides/buttons";
 @import "overrides/navs";
-@import "overrides/woocommerce";
 @import "overrides/form-control";
 
 // Partials
@@ -38,12 +37,14 @@
 @import "blocks/block-clients";
 @import "blocks/block-description";
 @import "blocks/block-best-projects";
+@import "blocks/block-hero-about";
+@import "blocks/block-history";
+@import "blocks/block-works";
 
 // Animations
 @import "animations/three";
 @import "animations/loader";
 @import "animations/lenis";
-@import "animations/ag-modal";
 
 // Utils
 @import "utils/categories";

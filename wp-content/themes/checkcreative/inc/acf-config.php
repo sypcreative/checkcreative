@@ -154,6 +154,136 @@ function checkcreative_blocks(): void
 				),
 			)
 		);
+
+		/**
+		 * Block Hero About
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-hero-about',
+				'title'           => __('Block Hero About', 'checkcreative'),
+				'post_types' => array('page'),
+				'description'     => __('Bloque que contiene un titular, una imagen y dos pequeños textos.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-hero-about.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-hero-about.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block History
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-history',
+				'title'           => __('Block History', 'checkcreative'),
+				'post_types' => array('page'),
+				'description'     => __('Bloque que contiene dos imágenes, un subtítulo y dos textos.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-history.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-history.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block History
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-image',
+				'title'           => __('Block Image', 'checkcreative'),
+				'post_types' => array('page'),
+				'description'     => __('Bloque que contiene una imagen a pantalla completa.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-image.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-image.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Team
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-team',
+				'title'           => __('Block Team', 'checkcreative'),
+				'post_types' => array('page'),
+				'description'     => __('Bloque que contiene una lista de los miembros del equipo de Check Creative.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-team.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-team.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Works
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-works',
+				'title'           => __('Block Works', 'checkcreative'),
+				'post_types' => array('page'),
+				'description'     => __('Bloque que contiene una lista de los trabajos realizados por Check Creative.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/4-works/block-works.php',
+				'category'        => 'checkcreative-works',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-works.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
 	}
 }
 

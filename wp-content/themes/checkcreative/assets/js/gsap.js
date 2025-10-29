@@ -252,3 +252,144 @@ export function initBestProjectsPin() {
 //   });
 //   ScrollTrigger.refresh();
 // }
+
+export function initAboutHero() {
+  const section = document.querySelector(".block-hero-about");
+  if (!section) return;
+
+  const imageWrap = section.querySelector(".block-hero-about__image-wrap");
+  const image = section.querySelector(".block-hero-about__image");
+  if (!imageWrap || !image) return;
+
+  gsap.set(imageWrap, {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    xPercent: -50,
+    yPercent: -50,
+    overflow: "hidden",
+    width: "346px",
+    height: "auto",
+  });
+
+  gsap.set(image, {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top", // 👈 empieza cuando el bloque entra en el viewport
+      end: "bottom top",
+      scrub: 0.6,
+    },
+  });
+
+  tl.fromTo(
+    imageWrap,
+    {
+      yPercent: -50,
+      width: "346px",
+      height: "400px",
+    },
+    {
+      yPercent: 92,
+      width: "100vw",
+      height: "50vh",
+      ease: "power1.out",
+    },
+    0
+  );
+
+  tl.fromTo(
+    image,
+    { yPercent: -5, scale: 1.05 },
+    { yPercent: 0, scale: 1, ease: "power2.out", duration: 1 },
+    0
+  );
+}
+
+export function imageParallax(options = {}) {
+  const {
+    selector = '[data-parallax], [data-image="parallax"]',
+    defaultAmount = 340, // px de desplazamiento total (mitad arriba, mitad abajo)
+    defaultAxis = "y", // 'y' | 'x'
+    start = "top bottom", // empieza cuando el elemento entra en el viewport
+    end = "bottom top", // termina cuando sale
+    scrub = 0.6,
+    scroller = null, // si usas un scroller custom (Lenis), pásalo aquí
+  } = options;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const $els = Array.from(document.querySelectorAll(selector));
+  if (!$els.length) return [];
+
+  // Integración opcional con Lenis u otro scroller
+  if (scroller) {
+    ScrollTrigger.scrollerProxy(scroller, {
+      scrollTop(value) {
+        return arguments.length
+          ? scroller.scrollTo(value, { immediate: true })
+          : scroller.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.body.style.transform ? "transform" : "fixed",
+    });
+    // Asegura actualización cuando el scroller emite
+    scroller.on("scroll", () => ScrollTrigger.update());
+  }
+
+  const triggers = [];
+
+  $els.forEach((el) => {
+    // Lee opciones por data-attributes
+    const axis = (
+      el.getAttribute("data-parallax-axis") || defaultAxis
+    ).toLowerCase();
+    const amount =
+      parseFloat(el.getAttribute("data-parallax-amount")) || defaultAmount;
+
+    // Estado inicial neutro
+    gsap.set(el, {
+      top: "50%",
+      left: "50%",
+      xPercent: -50,
+      yPercent: -50,
+    });
+    // Calcula desde/hasta: mueve medio hacia arriba y acaba medio hacia abajo (o a la inversa)
+    const fromProps = axis === "x" ? { x: -amount / 2 } : { y: -amount / 2 };
+    const toProps = axis === "x" ? { x: amount / 2 } : { y: amount / 2 };
+
+    const tween = gsap.fromTo(el, fromProps, {
+      ...toProps,
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start,
+        end,
+        scrub,
+        // scroller, // descomenta si usas un contenedor scrolleable específico
+        // markers: true,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    triggers.push(tween.scrollTrigger);
+  });
+
+  // Devuelve utilidades por si quieres destruir/reinicializar
+  return {
+    refresh: () => ScrollTrigger.refresh(),
+    kill: () => triggers.forEach((t) => t && t.kill()),
+  };
+}

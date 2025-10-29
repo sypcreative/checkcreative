@@ -4,32 +4,58 @@
   width: auto;
 }
 
-@media (max-width: 767.98px) {
-  .fullscreen-menu {
-    position: fixed;
-    inset: 0;
-    background-color: white;
-    z-index: 1050;
-    padding: 4rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto;
-  }
-
-  .fullscreen-menu .navbar-nav {
-    flex-direction: column !important;
-    gap: 1.5rem;
-  }
-
-  .navbar-toggler {
-    z-index: 1060;
-  }
+.navbar-nav {
+  letter-spacing: 3px;
 }
-.collapse-mobile {
-  transform: translateY(-100%);
-}
+
 // .collapse.show {
 //   display: flex; /* o block, depende de tu layout */
 // }
+
+/* Reseteo básico del rail */
+.nav-rail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // reparte TODOS los ítems a lo largo
+  gap: 0; // no lo usamos; lo reparte space-between
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Los <li> que entrega WordPress ya vienen con .menu-item */
+.nav-rail > li {
+  display: block;
+}
+
+/* Links de los menús (ajusta a tu tipografía/clases) */
+.nav-rail > li > a,
+.nav-rail .menu-item > a {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-decoration: none;
+  /* estilos que uses habitualmente */
+}
+
+/* Logo centrado */
+.nav-rail__brand-link {
+  display: inline-block;
+  line-height: 1;
+}
+.nav-rail__brand img {
+  height: 30px;
+  width: auto;
+}
+
+/* Opcional: igualar visualmente el “peso” del logo */
+@media (min-width: 992px) {
+  .nav-rail__brand {
+    margin: 0 0;
+  } // sin márgenes laterales para no romper la igualdad
+}
+
+header {
+  mix-blend-mode: difference;
+}

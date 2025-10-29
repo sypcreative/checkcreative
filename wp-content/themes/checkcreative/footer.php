@@ -33,9 +33,9 @@ $pages = [
 <!-- Footer -->
 
 </div><!-- #page -->
-<div class="row">
+<!-- <div class="row">
 	<footer id="site-footer" class="bg-primary text-dark vh-100">
-</div>
+</div> -->
 </div>
 
 </footer>

@@ -14,13 +14,8 @@ main {
 }
 
 a {
-  color: $cor-secondary;
+  color: $cor-primary;
   text-decoration: none;
-
-  // &:hover {
-  //   --#{$prefix}link-color-rgb: var(--#{$prefix}link-hover-color-rgb);
-  //   text-decoration: $link-hover-decoration;
-  // }
 }
 
 footer {
@@ -65,6 +60,10 @@ footer {
   white-space: normal;
 }
 
+.z-4 {
+  z-index: 4;
+}
+
 [data-anim="lines"],
 [data-anim="nav-links"] {
   overflow: hidden;
@@ -100,4 +99,16 @@ footer {
   transform: translateY(-100%);
   pointer-events: none;
   will-change: transform;
+}
+
+/* recorte limpio */
+[data-parallax],
+[data-image="parallax"] {
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: 130%;
+}
+.parallax-box {
+  overflow: hidden; /* si usas un contenedor */
 }

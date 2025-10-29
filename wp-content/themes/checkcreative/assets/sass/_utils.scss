@@ -254,6 +254,22 @@ $headings-sizes-md: (
   height: 110%;
 }
 
+.pt-6 {
+  padding-top: 4rem;
+}
+
+.pt-7 {
+  padding-top: 5rem;
+}
+
+.pt-8 {
+  padding-top: 6rem;
+}
+
+.pt-9 {
+  padding-top: 7rem;
+}
+
 .pb-6 {
   padding-bottom: 4rem;
 }
@@ -266,8 +282,16 @@ $headings-sizes-md: (
   padding-bottom: 6rem;
 }
 
+.pb-9 {
+  padding-bottom: 7rem;
+}
+
 .overflow-clip {
   overflow: clip;
+}
+
+.ls-3 {
+  letter-spacing: 0.19em;
 }
 
 html,
@@ -285,6 +309,15 @@ body {
 }
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+.container-fluid {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%; // opcional, asegura que ocupa todo el ancho
+  max-width: 100%; // evita límites de Bootstrap
 }
 
 // <section class="vh-100 vw-100">

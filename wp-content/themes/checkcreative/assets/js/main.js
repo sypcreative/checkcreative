@@ -1,4 +1,6 @@
 import {
+  imageParallax,
+  initAboutHero,
   initBestProjectsPin,
   initDescriptionPin,
   initHeroParallax,
@@ -12,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initDescriptionPin();
   initHeroParallax();
   initBestProjectsPin();
+  initAboutHero();
+  imageParallax();
   // O cualquier otra función global
   console.log("🚀 Todas las funciones inicializadas");
 });
