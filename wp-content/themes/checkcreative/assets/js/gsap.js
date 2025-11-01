@@ -85,11 +85,11 @@ export function initHeroParallax() {
   });
 
   // Vídeo baja ~20% en total (de -10% a +10%)
-  tl.to(video, { yPercent: 30 }, 0);
+  tl.to(video, { yPercent: 50 }, 0);
 
   // Contra-parallax suave del título (sube un poco)
   if (title) {
-    tl.fromTo(title, { yPercent: 0 }, { yPercent: -8 }, 0);
+    tl.fromTo(title, { yPercent: 0 }, { yPercent: -40 }, 0);
   }
 
   // Si el video tarda en cargar, refresca los triggers

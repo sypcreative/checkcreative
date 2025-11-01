@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initBestProjectsPin();
   initAboutHero();
   imageParallax();
-  // O cualquier otra función global
-  console.log("🚀 Todas las funciones inicializadas");
+
+  //   initPixelatedVideoEffect({
+  //     container: ".block-hero-home", // contenedor principal
+  //     video: ".block-hero-home__video", // elemento <video>
+  //     // trigger: ".block-hero-home__content" // opcional: otro elemento para hover
+  //   });
 });

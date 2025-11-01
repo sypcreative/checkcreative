@@ -26,9 +26,9 @@ if ($proyectos && is_array($proyectos)) : ?>
 								<?= $thumb_html ?>
 							</div>
 							<div class="block-best-projects__meta d-flex justify-content-between align-items-end w-100 px-1">
-								<h3 class="block-best-projects__name m-0 fw-bold text-dark fs-2"><?= esc_html($title) ?></h3>
+								<h3 class="block-best-projects__name m-0 fw-bold text-dark fs-4"><?= esc_html($title) ?></h3>
 								<?php if (!empty($year)) : ?>
-									<p class="block-best-projects__year m-0 fw-bold text-dark fs-2 text-uppercase"><?= esc_html($year) ?></p>
+									<p class="block-best-projects__year m-0 fw-bold text-dark fs-4 text-uppercase"><?= esc_html($year) ?></p>
 								<?php endif; ?>
 							</div>
 						</a>

@@ -46,7 +46,7 @@ $menu_principal = [
 		<div id="page" class="site" data-barba="container" data-barba-namespace="<?php echo get_post_field('post_name', get_post()); ?>">
 			<!-- Nav Cabecera -->
 			<header class="position-fixed w-100 z-4">
-				<div class="container">
+				<div class="px-5">
 					<nav class="mt-2 mt-md-4" id="menuCabecera">
 						<!-- Rail desktop -->
 						<ul class="nav-rail d-none d-md-flex">

@@ -49,8 +49,9 @@ $query = new WP_Query($args);
 					<div class="col-12 col-md-6">
 						<article class="block-works__item">
 							<a href="<?php the_permalink(); ?>" class="block-works__link d-block position-relative overflow-hidden">
-								<?php if (has_post_thumbnail()) the_post_thumbnail('large', ['class' => 'block-works__image w-100']); ?>
-
+								<div class="block-works__image">
+									<?php if (has_post_thumbnail()) the_post_thumbnail('large', ['class' => ' w-100']); ?>
+								</div>
 								<div class="block-works__meta d-flex justify-content-between mt-2 text-dark ls-3">
 									<span class="block-works__client text-uppercase"><?php echo esc_html($p_title); ?></span>
 									<span class="block-works__year text-uppercase"><?php echo esc_html($p_year); ?></span>
