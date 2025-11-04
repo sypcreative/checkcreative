@@ -1,0 +1,23 @@
+.gallery-slider {
+  &__viewport {
+    //  margin-left: 50%;
+    //  transform: translateX(-50%);
+    touch-action: pan-y; /* permite scroll vertical nativo, drag horizontal */
+  }
+  &__track {
+    will-change: transform;
+    user-select: none;
+  }
+  &__slide {
+    /* Cada slide es un “card” ancho (estilo tus 3 fotos grandes) */
+    flex: 0 0 auto;
+    width: clamp(260px, 32vw, 520px);
+    overflow: hidden;
+  }
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto; // o fija altura + object-fit si quieres recortar
+    object-fit: cover;
+  }
+}
