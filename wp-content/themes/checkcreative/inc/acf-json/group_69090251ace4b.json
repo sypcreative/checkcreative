@@ -1,11 +1,11 @@
 {
-    "key": "group_69011f65ba401",
-    "title": "Block Works",
+    "key": "group_69090251ace4b",
+    "title": "Block Related Projects",
     "fields": [
         {
-            "key": "field_69011f6573802",
+            "key": "field_69090251d098e",
             "label": "Título",
-            "name": "block_works_title",
+            "name": "block_related_projects_title",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -23,24 +23,35 @@
             "append": ""
         },
         {
-            "key": "field_69012547714c9",
-            "label": "Mostrar filtros",
-            "name": "block_works_filters",
+            "key": "field_69090288f0e9a",
+            "label": "Proyectos",
+            "name": "block_related_projects_projects",
             "aria-label": "",
-            "type": "true_false",
+            "type": "relationship",
             "instructions": "",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "message": "",
-            "default_value": 1,
-            "ui_on_text": "Mostrar",
-            "ui_off_text": "No mostrar",
-            "ui": 1
+            "post_type": [
+                "proyectos"
+            ],
+            "post_status": "",
+            "taxonomy": "",
+            "filters": [
+                "search",
+                "post_type",
+                "taxonomy"
+            ],
+            "return_format": "object",
+            "min": 3,
+            "max": 3,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
         }
     ],
     "location": [
@@ -48,7 +59,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/block-works"
+                "value": "acf\/block-related-projects"
             }
         ]
     ],
@@ -61,5 +72,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762044142
+    "modified": 1762198191
 }

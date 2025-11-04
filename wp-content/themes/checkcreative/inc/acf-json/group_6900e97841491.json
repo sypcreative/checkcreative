@@ -1,6 +1,6 @@
 {
     "key": "group_6900e97841491",
-    "title": "Block team",
+    "title": "Block Team",
     "fields": [
         {
             "key": "field_6900e978bd45e",
@@ -133,5 +133,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761667644
+    "modified": 1762044130
 }

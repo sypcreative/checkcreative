@@ -293,7 +293,7 @@ function checkcreative_blocks(): void
 				'name'            => 'block-description-single',
 				'title'           => __('Block Description Single', 'checkcreative'),
 				'post_types' 		=> ['page', 'proyectos'],
-				'description'     => __('Bloque que contiene una título, descripción y una imagen sobre el proyecto.', 'checkcreative'),
+				'description'     => __('Bloque que contiene un título, descripción y una imagen sobre el proyecto.', 'checkcreative'),
 				'render_template' => 'template-parts/blocks/6-single-works/block-description-single.php',
 				'category'        => 'checkcreative-single-works',
 				'mode'            => 'edit',
@@ -305,6 +305,84 @@ function checkcreative_blocks(): void
 						'mode' => 'preview', // Important!
 						'data' => array(
 							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-description-single.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Objective Single
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-objective-single',
+				'title'           => __('Block Objective Single', 'checkcreative'),
+				'post_types' 		=> ['page', 'proyectos'],
+				'description'     => __('Bloque que contiene un título y el objetivo del proyecto.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/6-single-works/block-objective-single.php',
+				'category'        => 'checkcreative-single-works',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-objective-single.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Gallery Single
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-gallery-single',
+				'title'           => __('Block Gallery Single', 'checkcreative'),
+				'post_types' 		=> ['page', 'proyectos'],
+				'description'     => __('Bloque que contiene una galería de imágenes del proyecto.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/6-single-works/block-gallery-single.php',
+				'category'        => 'checkcreative-single-works',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-gallery-single.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Related Projects Single
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-related-projects',
+				'title'           => __('Block Related Projects', 'checkcreative'),
+				'post_types' 		=> ['page', 'proyectos'],
+				'description'     => __('Bloque que contiene un grid con los proyectos relacionados.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/6-single-works/block-related-projects.php',
+				'category'        => 'checkcreative-single-works',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-related-projects.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
 						),
 					),
 				),
