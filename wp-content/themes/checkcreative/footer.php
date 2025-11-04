@@ -1,25 +1,21 @@
 <?php
 
 /**
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after.
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *< ?php woocommerce_mini_cart(); ?>
+ * Footer template
  * @package checkcreative
  */
 
+// Menú del footer
 $args_footer = [
 	'theme_location'  => 'menu-footer',
-	'container'       => 'ul',
-	'menu_class'      => 'list-unstyled',
+	'container'       => 'nav',
+	'container_class' => 'footer-nav',
+	'menu_class'      => 'list-unstyled mb-0',
 	'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-	'list_item_class' => '',
-	'link_class'      => 'enlace-footer d-block',
 	'fallback_cb'     => false,
 ];
 
+// Páginas legales
 $pages = [
 	'aviso-legal',
 	'politica-de-cookies',
@@ -27,25 +23,43 @@ $pages = [
 	'envios-y-devoluciones',
 	'terminos-condiciones'
 ];
-
 ?>
 
-<!-- Footer -->
+</main>
+<footer id="site-footer" class="bg-primary text-dark">
+	<div class="container py-5">
+		<div class="row g-4 align-items-start">
+			<div class="col-md">
+				<a class="d-inline-block mb-3 text-dark text-decoration-none" href="<?php echo esc_url(home_url('/')); ?>">
+					<?php bloginfo('name'); ?>
+				</a>
+				<p class="small mb-0">© <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?>. Todos los derechos reservados.</p>
+			</div>
 
-</div><!-- #page -->
-<!-- <div class="row">
-	<footer id="site-footer" class="bg-primary text-dark vh-100">
-</div> -->
-</div>
+			<div class="col-md-auto">
+				<?php wp_nav_menu($args_footer); ?>
+			</div>
 
+			<div class="col-md-auto">
+				<ul class="list-unstyled small mb-0">
+					<?php foreach ($pages as $slug) :
+						$p = get_page_by_path($slug);
+						if ($p) : ?>
+							<li>
+								<a class="enlace-footer d-block" href="<?php echo esc_url(get_permalink($p->ID)); ?>">
+									<?php echo esc_html(get_the_title($p->ID)); ?>
+								</a>
+							</li>
+					<?php endif;
+					endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	</div>
 </footer>
 
 
 <?php wp_footer(); ?>
-
-</div> <!-- cierre de data-barba="container" -->
-</div> <!-- cierre de data-barba="container" -->
-<!-- <div class="barba-transition-overlay"></div> -->
 
 </body>
 

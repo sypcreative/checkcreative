@@ -18,7 +18,6 @@ if (is_post_type_archive('product')) {
 
 ?>
 
-<main id="primary" class="site-main">
 
 	<?php if (have_posts()) : ?>
 
@@ -52,7 +51,6 @@ if (is_post_type_archive('product')) {
 	endif;
 	?>
 
-</main><!-- #main -->
 
 <?php
 get_sidebar();

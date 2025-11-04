@@ -11,6 +11,7 @@ body {
 
 main {
   overflow: clip; // funciona como un hidden pero puedes añadir sticky en los hijos
+  //   opacity: 0;
 }
 
 a {
@@ -88,19 +89,6 @@ footer {
   z-index: 1;
 }
 
-.barba-transition-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: #202020; /* o el color que quieras */
-  z-index: 9999999999999999999999;
-  transform: translateY(-100%);
-  pointer-events: none;
-  will-change: transform;
-}
-
 /* recorte limpio */
 [data-parallax],
 [data-image="parallax"] {
@@ -111,4 +99,8 @@ footer {
 }
 .parallax-box {
   overflow: hidden; /* si usas un contenedor */
+}
+
+.pointer-events-none {
+  pointer-events: none;
 }

@@ -8,7 +8,7 @@ $hero = get_field('hero_general_selector');
 
 get_header(); ?>
 
-<main id="primary" class="site-main">
+
 	<?php
 	if ($hero == "home") {
 		get_template_part('template-parts/blocks/2-home/block-home-hero');
@@ -22,7 +22,5 @@ get_header(); ?>
 	// Contenido de la página
 	the_content();
 	?>
-</main>
-<?php
-get_sidebar();
-get_footer();
+
+<?php get_footer(); ?>

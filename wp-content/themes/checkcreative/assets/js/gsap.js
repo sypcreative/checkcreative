@@ -1,6 +1,8 @@
 import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
+
+gsap.registerPlugin(ScrollTrigger, Draggable);
 
 export function initDescriptionPin() {
   const section = document.querySelector(".block-description");
@@ -392,4 +394,83 @@ export function imageParallax(options = {}) {
     refresh: () => ScrollTrigger.refresh(),
     kill: () => triggers.forEach((t) => t && t.kill()),
   };
+}
+
+export function initGallerySlider(root = document) {
+  console.log("Iniciando gallery slider GSAP");
+  const container = root.querySelector(".block-single-gallery");
+  const viewport = root.querySelector(".gallery-slider__viewport");
+  const track = viewport?.querySelector("[data-slider-track]");
+  if (!viewport || !track) return;
+
+  const slides = Array.from(track.children);
+  const getGap = () => {
+    const cs = getComputedStyle(track);
+    // Bootstrap gap -> usa "gap" o "columnGap"
+    return parseFloat(cs.gap || cs.columnGap || 0);
+  };
+
+  // Calcula límites y puntos de snap
+  const measure = () => {
+    const vw = viewport.clientWidth;
+    const gap = getGap();
+    const trackW = track.scrollWidth; // robusto con flex + gap
+    const contW = container.clientWidth;
+    const minX = Math.min(contW - trackW, 0); // hasta dónde puede arrastrar a la izquierda
+    const maxX = 0;
+    // puntos de snap: alinear cada slide con el borde izquierdo del viewport
+    let acc = 0;
+    const snaps = slides.map((slide) => {
+      const x = -acc;
+      const clamped = Math.max(Math.min(x, maxX), minX);
+      acc += slide.offsetWidth + gap;
+      return clamped;
+    });
+
+    return { minX, maxX, snaps };
+  };
+
+  let state = measure();
+  const clampX = gsap.utils.clamp(state.minX, state.maxX);
+
+  // Estilos base para rendimiento
+  gsap.set(track, { x: 0, willChange: "transform" });
+
+  const draggable = Draggable.create(track, {
+    type: "x",
+    bounds: { minX: state.minX, maxX: state.maxX },
+    inertia: false, // (si quieres inercia, necesitas InertiaPlugin)
+    allowContextMenu: false,
+    allowNativeTouchScrolling: true,
+    dragResistance: 0.15,
+    edgeResistance: 0.85,
+    cursor: "grab",
+    activeCursor: "grabbing",
+    onDragEnd() {
+      // Snap al punto más cercano
+      const endX = clampX(this.x);
+      const nearest = gsap.utils.snap(state.snaps, endX);
+      gsap.to(track, { x: nearest, duration: 0.5, ease: "power3.out" });
+    },
+  })[0];
+
+  // Click en slide (si no estás arrastrando) -> centra esa slide
+  slides.forEach((slide, i) => {
+    slide.addEventListener("click", () => {
+      if (draggable.isDragging || draggable.isPressed) return;
+      gsap.to(track, { x: state.snaps[i], duration: 0.5, ease: "power3.out" });
+    });
+  });
+
+  // Recalcular en resize (también útil si cambian fuentes o imágenes cargan)
+  const resize = () => {
+    state = measure();
+    draggable.applyBounds({ minX: state.minX, maxX: state.maxX });
+    const current = clampX(gsap.getProperty(track, "x"));
+    gsap.set(track, { x: current });
+  };
+  window.addEventListener("resize", resize);
+  // Si las imágenes se cargan más tarde, vuelve a medir
+  const imgs = track.querySelectorAll("img");
+  imgs.forEach((img) => img.addEventListener("load", resize));
 }

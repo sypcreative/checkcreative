@@ -3,23 +3,20 @@ import {
   initAboutHero,
   initBestProjectsPin,
   initDescriptionPin,
+  initGallerySlider,
   initHeroParallax,
 } from "./gsap.js";
-import { initLenis } from "./initLenis.js";
+import { setupBarba } from "./pageTransition.js";
 
-// main.js
 document.addEventListener("DOMContentLoaded", () => {
-  const lenis = initLenis();
-  console.log("✅ DOM listo — main.js inicializado");
-  initDescriptionPin();
-  initHeroParallax();
-  initBestProjectsPin();
-  initAboutHero();
-  imageParallax();
-
-  //   initPixelatedVideoEffect({
-  //     container: ".block-hero-home", // contenedor principal
-  //     video: ".block-hero-home__video", // elemento <video>
-  //     // trigger: ".block-hero-home__content" // opcional: otro elemento para hover
-  //   });
+  setupBarba({
+    common: [imageParallax],
+    byNs: {
+      home: [initHeroParallax, initDescriptionPin, initBestProjectsPin],
+      about: [initAboutHero],
+      "single-proyecto": [initGallerySlider],
+      contacto: [],
+    },
+    initOnLoad: true, // <-- se ejecutan también al cargar sin transición
+  });
 });
