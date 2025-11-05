@@ -3,7 +3,7 @@ $proyectos = get_field('block_best_projects_relation');
 if ($proyectos && is_array($proyectos)) : ?>
 
 	<section class="block-best-projects vh-100 overflow-clip">
-		<div class="container h-100 ">
+		<div class="container h-100">
 			<div class="block-best-projects__content d-flex flex-column align-items-center">
 				<?php foreach ($proyectos as $item) :
 					$post = is_object($item) ? $item : get_post((int) $item);

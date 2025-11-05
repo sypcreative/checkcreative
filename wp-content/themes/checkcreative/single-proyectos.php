@@ -34,18 +34,18 @@ get_header();
 					<?php endif; ?>
 				</div>
 
-				<div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start text-uppercase pt-5">
+				<div class="col-6 mb-0 text-start text-uppercase pt-0 pt-md-5">
 					<?php if ($proyecto_cliente) : ?>
-						<p class="mb-0 text-uppercase fw-bold small ls-3">Cliente</p>
+						<p class="mb-0 text-uppercase fw-bold small ls-3">Client</p>
 						<p class="mb-0 fs-6"><?php echo esc_html($proyecto_cliente); ?></p>
 					<?php endif; ?>
 				</div>
 
 
 				<!-- Ubicación -->
-				<div class="col-12 col-md-6 mt-3 mt-md-0 text-md-end text-uppercase pt-5">
+				<div class="col-6 mt-0 text-end text-uppercase pt-0 pt-md-5">
 					<?php if ($proyecto_ubicacion) : ?>
-						<p class="mb-0 text-uppercase fw-bold small ls-3">Ubicación</p>
+						<p class="mb-0 text-uppercase fw-bold small ls-3">Location</p>
 						<p class="mb-0 fs-6"><?php echo esc_html($proyecto_ubicacion); ?></p>
 					<?php endif; ?>
 				</div>
