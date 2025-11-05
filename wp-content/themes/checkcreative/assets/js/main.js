@@ -5,12 +5,13 @@ import {
   initDescriptionPin,
   initGallerySlider,
   initHeroParallax,
+  textAnimations,
 } from "./gsap.js";
 import { setupBarba } from "./pageTransition.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupBarba({
-    common: [imageParallax],
+    common: [imageParallax, textAnimations],
     byNs: {
       home: [initHeroParallax, initDescriptionPin, initBestProjectsPin],
       about: [initAboutHero],

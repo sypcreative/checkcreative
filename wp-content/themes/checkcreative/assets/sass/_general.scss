@@ -94,6 +94,7 @@ footer {
 [data-image="parallax"] {
   top: 50%;
   left: 50%;
+  //   transform: translate3d(-50%, -50%, 0);
   width: auto;
   height: 130%;
 }
@@ -103,4 +104,70 @@ footer {
 
 .pointer-events-none {
   pointer-events: none;
+}
+
+[data-reveal] {
+  will-change: transform, clip-path;
+}
+
+/* contenedor normal */
+[text-anim] {
+  display: block;
+}
+
+/* SplitType crea .ta-line por línea: hacemos overlay con grid */
+[text-anim] .ta-line {
+  display: inline-grid;
+  grid-template-areas: "stack";
+  align-items: baseline;
+}
+
+[text-anim] .ta-base,
+[text-anim] .ta-reveal {
+  grid-area: stack;
+}
+
+/* El bloque sigue en flujo normal */
+[text-anim] {
+  display: block;
+}
+
+/* Cada línea es UNA sola línea real, sin re-wrap interno */
+[text-anim] .ta-line {
+  display: block; /* o inline-block; */
+  position: relative;
+  white-space: nowrap; /* evita que se parta dentro de la línea */
+  line-height: inherit; /* respeta tu leading */
+}
+
+/* Capa base tenue siempre visible */
+[text-anim] .ta-base {
+  opacity: 0.2;
+}
+
+/* Capa superior por ENCIMA de la base, misma línea (no afecta layout) */
+[text-anim] .ta-reveal {
+  position: absolute;
+  inset: 0 0 0 0; /* top/right/bottom/left: 0 */
+  pointer-events: none;
+  /* Máscara dura L→R controlada por --reveal (0→1) */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 calc(var(--reveal, 0) * 100%),
+    transparent calc(var(--reveal, 0) * 100%)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 calc(var(--reveal, 0) * 100%),
+    transparent calc(var(--reveal, 0) * 100%)
+  );
+  mask-repeat: no-repeat;
+}
+
+/* rendimiento */
+[text-anim] .ta-line {
+  will-change: -webkit-mask-image, mask-image;
 }

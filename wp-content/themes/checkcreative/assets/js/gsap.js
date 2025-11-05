@@ -1,6 +1,7 @@
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
@@ -324,8 +325,6 @@ export function imageParallax(options = {}) {
     scroller = null, // si usas un scroller custom (Lenis), pásalo aquí
   } = options;
 
-  gsap.registerPlugin(ScrollTrigger);
-
   const $els = Array.from(document.querySelectorAll(selector));
   if (!$els.length) return [];
 
@@ -473,4 +472,121 @@ export function initGallerySlider(root = document) {
   // Si las imágenes se cargan más tarde, vuelve a medir
   const imgs = track.querySelectorAll("img");
   imgs.forEach((img) => img.addEventListener("load", resize));
+}
+
+export function textAnimations(root = document, { exclude } = {}) {
+  const EXCLUDE = new Set(exclude || []);
+  const targets = gsap.utils
+    .toArray(root.querySelectorAll("[text-anim]"))
+    .filter((el) => !EXCLUDE.has(el));
+  const titles = gsap.utils
+    .toArray(root.querySelectorAll("[title-anim]"))
+    .filter((el) => !EXCLUDE.has(el));
+
+  if (!targets.length) return;
+
+  targets.forEach((el) => {
+    // Revert si ya estaba spliteado (para evitar capas duplicadas)
+    try {
+      el.__split?.revert?.();
+    } catch {}
+    el.__textSweepReady = false;
+
+    const split = new SplitType(el, { types: "lines", lineClass: "ta-line" });
+    el.__split = split;
+
+    const lines = Array.from(el.querySelectorAll(".ta-line"));
+    lines.forEach((line) => {
+      const content = line.textContent;
+      // Reemplazo controlado: 2 capas por línea
+      line.innerHTML = `
+        <span class="ta-base">${content}</span>
+        <span class="ta-reveal">${content}</span>
+      `;
+      // estado inicial
+      line.style.setProperty("--reveal", "0");
+    });
+
+    // Un solo trigger por bloque, progresión línea a línea
+    const total = Math.max(lines.length, 1);
+    const segment = 1 / total;
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 75%",
+      end: "top 20%",
+      scrub: true,
+      // markers: true,
+      onUpdate: (st) => {
+        const p = st.progress; // 0..1
+        lines.forEach((line, i) => {
+          const start = i * segment;
+          const local = Math.min(1, Math.max(0, (p - start) / segment));
+          line.style.setProperty("--reveal", local.toFixed(4));
+        });
+      },
+      // si desmontas/recargas con Barba, limpia
+      onKill: () => {
+        try {
+          split.revert();
+        } catch {}
+      },
+    });
+
+    el.__textSweepReady = true;
+  });
+
+  titles.forEach((ttl) => {
+    // 1) split limpio
+    try {
+      ttl.__split?.revert?.();
+    } catch {}
+    const split = new SplitType(ttl, { types: "lines", lineClass: "ttl-line" });
+    ttl.__split = split;
+
+    const lines = split.lines || [];
+
+    // 2) estado inicial (igual que Barba)
+    gsap.set(lines, {
+      clipPath: "inset(100% 0% 0% 0%)",
+      y: 20,
+      opacity: 0.001,
+      willChange: "transform, clip-path",
+      display: "block",
+    });
+
+    // 3) timeline de entrada (pausado)
+    const tl = gsap.timeline({ paused: true });
+    tl.to(lines, {
+      clipPath: "inset(0% 0% 0% 0%)",
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: "power2.out",
+      stagger: { each: 0.06, from: "start" },
+    });
+
+    // 4) trigger: reproducir al entrar (abajo o arriba),
+    //    y **revertir SOLO** cuando salgas por arriba (onLeaveBack)
+    ScrollTrigger.create({
+      trigger: ttl,
+      start: "top 80%",
+      end: "bottom 10%", // rango “dentro”
+      // no usamos scrub: queremos animación, no mapeo continuo
+      onEnter: () => tl.play(), // entrando al hacer scroll hacia abajo
+      onEnterBack: () => tl.play(), // entrando de nuevo al subir
+      onLeave: () => {}, // saliendo por abajo → mantener revelado (no revertir)
+      onLeaveBack: (self) => {
+        // saliendo por ARRIBA → revertir
+        if (self.direction === -1) tl.reverse();
+      },
+      onKill: () => {
+        try {
+          split.revert();
+        } catch {}
+      },
+    });
+  });
+
+  ScrollTrigger.refresh();
 }
