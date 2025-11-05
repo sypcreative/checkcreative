@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_6906aa47d9666",
-            "label": "Imágenes",
+            "label": "Media",
             "name": "block_project_gallery_repeater",
             "aria-label": "",
             "type": "repeater",
@@ -49,8 +49,114 @@
                     "mime_types": "",
                     "preview_size": "medium",
                     "parent_repeater": "field_6906aa47d9666"
+                },
+                {
+                    "key": "field_690b3b8b25541",
+                    "label": "Vídeo",
+                    "name": "block_project_gallery_repeater_video",
+                    "aria-label": "",
+                    "type": "file",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_size": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "parent_repeater": "field_6906aa47d9666"
                 }
             ]
+        },
+        {
+            "key": "field_690b3f0ce09c8",
+            "label": "Media",
+            "name": "block_project_gallery_items",
+            "aria-label": "",
+            "type": "flexible_content",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "layout_690b3f0fb6e10": {
+                    "key": "layout_690b3f0fb6e10",
+                    "name": "Layout_Image",
+                    "label": "",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_690b3f33e09c9",
+                            "label": "Imagen",
+                            "name": "block_project_gallery_items_img",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_690b3f67e09cb": {
+                    "key": "layout_690b3f67e09cb",
+                    "name": "Layout_video",
+                    "label": "",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_690b3f45e09ca",
+                            "label": "Vídeo",
+                            "name": "block_project_gallery_items_video",
+                            "aria-label": "",
+                            "type": "file",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_size": "",
+                            "max_size": "",
+                            "mime_types": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "min": "",
+            "max": "",
+            "button_label": "Agregar Fila"
         }
     ],
     "location": [
@@ -71,5 +177,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762044595
+    "modified": 1762344871
 }

@@ -1,7 +1,5 @@
 .gallery-slider {
   &__viewport {
-    //  margin-left: 50%;
-    //  transform: translateX(-50%);
     touch-action: pan-y; /* permite scroll vertical nativo, drag horizontal */
   }
   &__track {
@@ -14,10 +12,11 @@
     width: clamp(260px, 32vw, 520px);
     overflow: hidden;
   }
-  &__image {
+  &__image,
+  &__video {
     display: block;
     width: 100%;
-    height: auto; // o fija altura + object-fit si quieres recortar
+    //  height: auto; // o fija altura + object-fit si quieres recortar
     object-fit: cover;
   }
 }
