@@ -12,7 +12,7 @@
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "48",
                 "class": "",
                 "id": ""
             },
@@ -21,6 +21,22 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_6909e925f04d2",
+            "label": "Botón",
+            "name": "block_related_projects_cta",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
         },
         {
             "key": "field_69090288f0e9a",
@@ -72,5 +88,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762198191
+    "modified": 1762257238
 }
