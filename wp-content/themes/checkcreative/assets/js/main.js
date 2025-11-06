@@ -8,10 +8,11 @@ import {
   textAnimations,
 } from "./gsap.js";
 import { setupBarba } from "./pageTransition.js";
+import { initThemeToggler } from "./themeToggler.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupBarba({
-    common: [imageParallax, textAnimations],
+    common: [initThemeToggler, imageParallax, textAnimations],
     byNs: {
       home: [initHeroParallax, initDescriptionPin, initBestProjectsPin],
       about: [initAboutHero],

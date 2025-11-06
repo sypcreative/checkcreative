@@ -1,0 +1,91 @@
+/* _theme-tokens.scss
+   Define las variables CSS para modo claro y oscuro.
+   Bootstrap debe cargarse antes, así estas reglas lo sobreescriben.
+*/
+
+:root,
+.light-theme {
+  /* ----------- COLORES CORPORATIVOS ----------- */
+  --cor-primary: #558992;
+  --cor-secondary: #eff0f2;
+
+  /* Colores oscuros */
+  --cor-dark: #080807;
+  --cor-gray: #d9d9d9;
+  --cor-warm-gray: #d6d1ca;
+  --cor-light: #eff0f2;
+
+  /* Paleta básica */
+  --cor-black: #000000;
+  --cor-white: #ffffff;
+  --cor-transparent: transparent;
+
+  /* ----------- BOOTSTRAP VARIABLES ----------- */
+  --bs-primary: var(--cor-primary);
+  --bs-primary-rgb: 85, 137, 146;
+
+  --bs-secondary: var(--cor-secondary);
+  --bs-secondary-rgb: 239, 240, 242;
+
+  --bs-dark: var(--cor-dark);
+  --bs-dark-rgb: 8, 8, 7;
+
+  --bs-light: var(--cor-light);
+  --bs-light-rgb: 239, 240, 242;
+
+  --bs-gray: var(--cor-gray);
+  --bs-gray-rgb: 217, 217, 217;
+
+  --bs-body-bg: var(--cor-secondary);
+  --bs-body-color: var(--cor-dark);
+
+  /* Para textos, links y bordes */
+  --bs-link-color: var(--cor-primary);
+  --bs-border-color: var(--cor-gray);
+
+  /* Fondo de cards y elementos UI */
+  --bs-card-bg: var(--cor-light);
+}
+
+.dark-theme {
+  /* ----------- COLORES CORPORATIVOS ----------- */
+  --cor-primary: #88c5cd;
+  --cor-secondary: #121212;
+
+  /* Colores oscuros */
+  --cor-dark: #f2f2f2;
+  --cor-gray: #2a2b2d;
+  --cor-warm-gray: #3a3530;
+  --cor-light: #1a1a1a;
+
+  /* Paleta básica */
+  --cor-black: #000000;
+  --cor-white: #ffffff;
+  --cor-transparent: transparent;
+
+  /* ----------- BOOTSTRAP VARIABLES ----------- */
+  --bs-primary: var(--cor-primary);
+  --bs-primary-rgb: 136, 197, 205;
+
+  --bs-secondary: var(--cor-secondary);
+  --bs-secondary-rgb: 18, 18, 18;
+
+  --bs-dark: var(--cor-dark);
+  --bs-dark-rgb: 242, 242, 242;
+
+  --bs-light: var(--cor-light);
+  --bs-light-rgb: 26, 26, 26;
+
+  --bs-gray: var(--cor-gray);
+  --bs-gray-rgb: 42, 43, 45;
+
+  --bs-body-bg: var(--cor-dark);
+  --bs-body-color: var(--cor-dark);
+
+  /* Para textos, links y bordes */
+  --bs-link-color: var(--cor-primary);
+  --bs-border-color: var(--cor-gray);
+
+  /* Fondo de cards y elementos UI */
+  --bs-card-bg: var(--cor-gray);
+}

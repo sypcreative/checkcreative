@@ -38,20 +38,24 @@ function barba_namespace()
 <html <?php language_attributes(); ?>>
 
 <head>
-	<?php get_template_part('template-parts/gtm/gtm', 'head') ?>
-	<!-- Cookiebot -->
-	<script id="Cookiebot"
-		src="https://consent.cookiebot.com/uc.js"
-		data-cbid="38c723d1-4681-485a-95cb-3c93bb20e480"
-		data-blockingmode="auto"
-		type="text/javascript"></script>
-	<?php get_template_part('template-parts/gtm/gtm', 'script') ?>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+		(function() {
+			try {
+				var key = 'theme';
+				var saved = localStorage.getItem(key); // 'light-theme' | 'dark-theme' | null
+				var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+				var initial = saved || (prefersDark ? 'dark-theme' : 'light-theme');
+				document.documentElement.classList.add(initial);
+				// lo guardamos para que el bundle lo lea sin recalcular
+				window.__SITE_THEME__ = initial;
+			} catch (e) {}
+		})();
+	</script>
+
 	<meta name="format-detection" content="telephone=no">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-
-
 	<?php wp_head(); ?>
 </head>
 
@@ -128,7 +132,10 @@ function barba_namespace()
 				</nav>
 			</div>
 		</header>
+		<button id="theme-toggle" class="btn btn-sm theme-toggle position-fixed z-3 bottom-0" aria-pressed="false" aria-label="Cambiar tema">
+			<span class="theme-toggle__label">Tema</span>
+		</button>
 		<main
-			class="site-main"
+			class="site-main bg-secondary"
 			data-barba="container"
 			data-barba-namespace="<?= esc_attr(barba_namespace()); ?>">
