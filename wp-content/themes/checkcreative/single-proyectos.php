@@ -22,13 +22,13 @@ get_header();
 	?>
 
 	<?php if ($proyecto_title || $proyecto_cliente || $proyecto_ubicacion) : ?>
-		<section class="proyecto-header container pb-5 pt-9">
+		<section class="project-header container pb-5 pt-9">
 			<div class="row align-items-center text-center text-md-start pt-8">
 
 				<!-- Título -->
 				<div class="col-12 text-center pb-5">
 					<?php if ($proyecto_title) : ?>
-						<h1 class="proyecto-header__title fw-bold text-uppercase m-0 display">
+						<h1 class="project-header__title fw-bold text-uppercase m-0 display">
 							<?php echo esc_html($proyecto_title); ?>
 						</h1>
 					<?php endif; ?>
@@ -54,7 +54,7 @@ get_header();
 		</section>
 	<?php endif; ?>
 
-	<section class="proyecto-content">
+	<section class="project-content">
 		<?php the_content(); ?>
 	</section>
 
