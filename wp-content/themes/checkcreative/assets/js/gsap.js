@@ -1,9 +1,10 @@
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import SplitType from "split-type";
 
-gsap.registerPlugin(ScrollTrigger, Draggable);
+gsap.registerPlugin(ScrollTrigger, Draggable, SplitText);
 
 export function initDescriptionPin() {
   const section = document.querySelector(".block-description");
@@ -589,4 +590,127 @@ export function textAnimations(root = document, { exclude } = {}) {
   });
 
   ScrollTrigger.refresh();
+}
+
+export function initHighlightText() {
+  let splitHeadingTargets = document.querySelectorAll("[data-highlight-text]");
+  splitHeadingTargets.forEach((heading) => {
+    const scrollStart =
+      heading.getAttribute("data-highlight-scroll-start") || "top 90%";
+    const scrollEnd =
+      heading.getAttribute("data-highlight-scroll-end") || "center 40%";
+    const fadedValue = heading.getAttribute("data-highlight-fade") || 0.2; // Opacity of letter
+    const staggerValue = heading.getAttribute("data-highlight-stagger") || 0.1; // Smoother reveal
+
+    new SplitText(heading, {
+      type: "words, chars",
+      autoSplit: true,
+      onSplit(self) {
+        let ctx = gsap.context(() => {
+          let tl = gsap.timeline({
+            scrollTrigger: {
+              scrub: true,
+              trigger: heading,
+              start: scrollStart,
+              end: scrollEnd,
+            },
+          });
+          tl.from(self.chars, {
+            autoAlpha: fadedValue,
+            stagger: staggerValue,
+            ease: "linear",
+          });
+        });
+        return ctx; // return our animations so GSAP can clean them up when onSplit fires
+      },
+    });
+  });
+}
+
+export function stampCC() {
+  const text = document.querySelector(
+    ".block-single-objective__circle-stamp__text"
+  );
+  const circle = document.querySelector(
+    ".block-single-objective__circle-stamp"
+  );
+
+  if (!text || !circle) return;
+
+  const radius = circle.offsetWidth / 2 - 12; // ajusta margen interior
+
+  const chars = text.textContent.split("");
+  text.textContent = ""; // limpiamos el contenido original
+
+  chars.forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "block-single-objective__rounded-text__char";
+    span.textContent = char;
+
+    const angle = (360 / chars.length) * i;
+
+    span.style.transform = `
+      rotate(${angle}deg)
+      translate(${radius}px)
+      rotate(90deg)
+    `;
+
+    circle.appendChild(span);
+  });
+}
+
+export function initDirectionalListHover() {
+  const directionMap = {
+    top: "translateY(-100%)",
+    bottom: "translateY(100%)",
+    left: "translateX(-100%)",
+    right: "translateX(100%)",
+  };
+
+  document.querySelectorAll("[data-directional-hover]").forEach((container) => {
+    const type = container.getAttribute("data-type") || "all";
+
+    container
+      .querySelectorAll("[data-directional-hover-item]")
+      .forEach((item) => {
+        const tile = item.querySelector("[data-directional-hover-tile]");
+        if (!tile) return;
+
+        item.addEventListener("mouseenter", (e) => {
+          const dir = getDirection(e, item, type);
+          tile.style.transition = "none";
+          tile.style.transform = directionMap[dir] || "translate(0, 0)";
+          void tile.offsetHeight;
+          tile.style.transition = "";
+          tile.style.transform = "translate(0%, 0%)";
+          item.setAttribute("data-status", `enter-${dir}`);
+        });
+
+        item.addEventListener("mouseleave", (e) => {
+          const dir = getDirection(e, item, type);
+          item.setAttribute("data-status", `leave-${dir}`);
+          tile.style.transform = directionMap[dir] || "translate(0, 0)";
+        });
+      });
+
+    function getDirection(event, el, type) {
+      const { left, top, width: w, height: h } = el.getBoundingClientRect();
+      const x = event.clientX - left;
+      const y = event.clientY - top;
+
+      if (type === "y") return y < h / 2 ? "top" : "bottom";
+      if (type === "x") return x < w / 2 ? "left" : "right";
+
+      const distances = {
+        top: y,
+        right: w - x,
+        bottom: h - y,
+        left: x,
+      };
+
+      return Object.entries(distances).reduce((a, b) =>
+        a[1] < b[1] ? a : b
+      )[0];
+    }
+  });
 }

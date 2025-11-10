@@ -2,9 +2,10 @@
 $title = get_field('block_hero_about_title');
 $image = get_field('block_hero_about_image') ? get_field('block_hero_about_image')['url'] : '';
 $repeater = get_field('block_hero_about_repeater');
+$trail = get_field('opciones_sitio_cursor_images', 'option');
 ?>
-
-<section class="block-hero-about vh-100 vw-100 position-relative">
+<!-- <div data-trail="wrapper" class="trail-section"> -->
+<section class="block-hero-about vh-100 vw-100 position-relative" <?= in_array('about', $trail) ? 'data-trail="wrapper"' : ''; ?>>
 	<div class="block-hero-about__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
 		<h1 class="block-hero-about__title text-uppercase display w-100">
 			<?php echo esc_html($title); ?>
@@ -26,4 +27,7 @@ $repeater = get_field('block_hero_about_repeater');
 			<?php } ?>
 		</div>
 	</div>
+	<?php if (in_array('about', $trail)) : ?>
+		<?php get_template_part('template-parts/components/cursor-trail'); ?>
+	<?php endif; ?>
 </section>
