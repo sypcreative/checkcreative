@@ -63,7 +63,7 @@ function barba_namespace()
 	<?php wp_body_open(); ?>
 	<div id="page" class="site">
 		<!-- Nav Cabecera -->
-		<header class="position-fixed w-100 z-4">
+		<header class="position-fixed w-100 z-100">
 			<div class="px-5">
 				<nav class="mt-2 mt-md-4" id="menuCabecera">
 					<!-- Rail desktop -->
@@ -132,9 +132,6 @@ function barba_namespace()
 				</nav>
 			</div>
 		</header>
-		<button id="theme-toggle" class="btn btn-sm theme-toggle position-fixed z-3 bottom-0" aria-pressed="false" aria-label="Cambiar tema">
-			<span class="theme-toggle__label">Tema</span>
-		</button>
 		<main
 			class="site-main bg-secondary"
 			data-barba="container"

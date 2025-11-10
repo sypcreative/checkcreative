@@ -44,12 +44,14 @@
 @import "blocks/block-history";
 @import "blocks/block-works";
 @import "blocks/block-single-description";
+@import "blocks/block-single-objective";
 @import "blocks/block-gallery-single";
 @import "blocks/block-related-projects";
 @import "blocks/block-hero-services";
+@import "blocks/block-team";
 
 // Animations
-@import "animations/three";
+@import "animations/cursor-trail";
 @import "animations/loader";
 @import "animations/lenis";
 

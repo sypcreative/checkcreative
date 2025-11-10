@@ -9,7 +9,7 @@ $img = get_field('block_project_description_single_img');
 		<div class="row">
 			<div class="col-12 col-md-5">
 				<h4 class="pb-md-5 h3 h-md-4"><?php echo esc_html($title); ?></h4>
-				<p class="fs-6 fs-md-5" text-anim><?php echo esc_html($desc); ?></p>
+				<p class="fs-6 fs-md-5" data-highlight-text><?php echo esc_html($desc); ?></p>
 			</div>
 			<div class="block-single-description__image col-12 col-md-6 offset-md-1 order-first order-md-last mb-3 mb-md-0">
 				<div class="block-single-description__image-wrap">

@@ -5,6 +5,7 @@
   &__track {
     will-change: transform;
     user-select: none;
+    height: 80vh;
   }
   &__slide {
     /* Cada slide es un “card” ancho (estilo tus 3 fotos grandes) */
@@ -16,6 +17,7 @@
   &__video {
     display: block;
     width: 100%;
+    height: 100%;
     //  height: auto; // o fija altura + object-fit si quieres recortar
     object-fit: cover;
   }
