@@ -3,6 +3,24 @@
     "title": "Opciones del sitio",
     "fields": [
         {
+            "key": "field_690f114310452",
+            "label": "Información Básica",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
             "key": "field_6900fc92c788d",
             "label": "Logo Check",
             "name": "opciones_sitio_logo_principal",
@@ -26,6 +44,135 @@
             "max_size": "",
             "mime_types": "",
             "preview_size": "medium"
+        },
+        {
+            "key": "field_690f0feaa6216",
+            "label": "Cursor",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "left",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_690f0ffaa6217",
+            "label": "Cursor básico",
+            "name": "opciones_sitio_cursor_basic",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "El cursor básico es el que aparece a lo largo de toda la web. Se puede mantener o se puede desactivar y dejar el cursor que viene por defecto del ordenador",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Activar cursor básico",
+            "default_value": 0,
+            "ui_on_text": "Activar",
+            "ui_off_text": "Desactivar",
+            "ui": 1
+        },
+        {
+            "key": "field_690f106fa6218",
+            "label": "Cursor con imágenes",
+            "name": "opciones_sitio_cursor_images",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Seleccionar si se quiere mantener el cursor de rastro de imágenes en una sección, en dos o en ninguna.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "about": "About",
+                "contact": "Contact"
+            },
+            "default_value": [],
+            "return_format": "value",
+            "multiple": 1,
+            "allow_null": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_690f10d7a6219",
+            "label": "Seleccionar imágenes para el cursor",
+            "name": "opciones_sitio_cursor_images_repeater",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_690f106fa6218",
+                        "operator": "==",
+                        "value": "about"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_690f106fa6218",
+                        "operator": "==",
+                        "value": "contact"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Agregar Fila",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_690f1118a621b",
+                    "label": "Imagen",
+                    "name": "opciones_sitio_cursor_images_repeater_image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_690f10d7a6219"
+                }
+            ]
         }
     ],
     "location": [
@@ -46,5 +193,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761673130
+    "modified": 1762596090
 }
