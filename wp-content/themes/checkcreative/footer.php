@@ -26,7 +26,28 @@ $pages = [
 ?>
 
 </main>
-<footer id="site-footer" class="bg-primary text-dark">
+<aside class="position-fixed bottom-0 start-0 end-0 mb-3 px-5 z-3">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<button
+			id="theme-toggle"
+			class="btn btn-sm theme-toggle"
+			aria-pressed="false"
+			aria-label="Cambiar tema">
+			<span class="theme-toggle__label">Tema</span>
+		</button>
+
+		<div class="time-stamp text-end small">
+			<p class="mb-0" data-current-time>
+				<span data-current-time-hours>09</span>:
+				<span data-current-time-minutes>00</span>:
+				<span data-current-time-seconds>24</span>
+				<span data-current-time-timezone>CET</span>
+			</p>
+		</div>
+	</div>
+</aside>
+
+<footer id="site-footer" class="bg-primary text-dark z-0">
 	<div class="container py-5">
 		<div class="row g-4 align-items-start">
 			<div class="col-md">
