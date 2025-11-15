@@ -61,6 +61,7 @@ function barba_namespace()
 
 <body <?php body_class(); ?> data-barba="wrapper" id="barba-wrapper">
 	<?php wp_body_open(); ?>
+
 	<div id="page" class="site">
 		<!-- Nav Cabecera -->
 		<header class="position-fixed w-100 z-100">

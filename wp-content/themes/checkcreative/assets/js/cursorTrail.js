@@ -17,7 +17,6 @@ export function initImageTrail(config = {}) {
   if (!wrapper || window.innerWidth < options.minWidth) {
     return;
   }
-  console.log(wrapper);
 
   // State management
   const state = {
@@ -29,7 +28,6 @@ export function initImageTrail(config = {}) {
     isActive: false,
   };
 
-  console.log(state.trailImages);
   // Utility functions
   const MathUtils = {
     lerp: (a, b, n) => (1 - n) * a + n * b,
@@ -44,7 +42,6 @@ export function initImageTrail(config = {}) {
   }
 
   function activate(trailImage, x, y) {
-    console.log("HOLA", trailImage, x, y, state.globalIndex, state.last);
     if (!trailImage) return;
 
     const rect = trailImage.getBoundingClientRect();
@@ -89,7 +86,6 @@ export function initImageTrail(config = {}) {
   }
 
   function handleOnMove(e) {
-    console.log("ENTRO?", e);
     if (!state.isActive) return;
 
     const rectWrapper = wrapper.getBoundingClientRect();
@@ -133,7 +129,6 @@ export function initImageTrail(config = {}) {
   }
 
   function startTrail() {
-    console.log("????", state.isActive);
     if (state.isActive) return;
 
     state.isActive = true;

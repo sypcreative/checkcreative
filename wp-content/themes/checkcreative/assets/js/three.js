@@ -358,7 +358,6 @@ class PixelatedVideoEffect {
 // Función exportable para usar desde main.js
 export function initPixelatedVideoEffect(options = {}) {
   const instance = new PixelatedVideoEffect(options);
-  console.log("✅ Efecto de vídeo pixelado inicializado");
   // devolvemos una función de cleanup por si quieres desmontarlo luego
   return () => instance.destroy();
 }
