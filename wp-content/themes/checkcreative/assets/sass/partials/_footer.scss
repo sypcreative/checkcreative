@@ -1,34 +1,90 @@
-/* ——— FOOTER ——— */
+.block-check-footer {
+  grid-column-gap: 7.5em;
+  grid-row-gap: 7.5em;
+  letter-spacing: -0.02em;
+  min-height: 100svh;
+  font-weight: 600;
+  padding-top: 6rem !important;
 
-#site-footer {
-  /* marco inferior del footer (ola de color) */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 0;
-  transform: translateY(var(--footer-shift));
-  will-change: transform; /* ayuda al rendimiento */
-
-  .footer-logo {
-    pointer-events: none;
-    width: 100%;
-    aspect-ratio: 1512 / 295;
-    background: url("../../img/footer-logo-transparent.svg") center top / cover
-      no-repeat;
+  &__logo-row {
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
   }
 
-  #footer-liquid {
-    /* “líquido” de fondo que sobresale detrás del logo */
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    aspect-ratio: 1512 / 295;
-    overflow: hidden;
-    z-index: -1;
+  &__a {
+    color: var(--cor-light);
+    text-decoration: none;
   }
 }
 
-#footer-spacer {
-  display: none;
-} // si ya no lo necesitas
+.footer-wrap__dark {
+  opacity: 0;
+  pointer-events: none;
+  background-color: #201d1d;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .check-footer__links-row {
+    flex-flow: column;
+  }
+
+  .check-footer__logo-row {
+    grid-column-gap: 1.5em;
+    grid-row-gap: 1.5em;
+  }
+
+  .check-footer__col {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .check-footer {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .demo-eyebrow {
+    font-size: 1em;
+  }
+
+  .check-footer__col {
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+  }
+
+  .check-footer__a {
+    font-size: 1.75em;
+  }
+}
+
+[data-underline-link] {
+  text-decoration: none;
+  position: relative;
+}
+
+[data-underline-link]::before {
+  content: "";
+  position: absolute;
+  bottom: -0.0625em;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: currentColor;
+  transition: transform 0.735s cubic-bezier(0.625, 0.05, 0, 1);
+  transform-origin: right;
+  transform: scaleX(0) rotate(0.001deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-hover]:hover [data-underline-link]::before,
+  [data-underline-link]:hover::before {
+    transform-origin: left;
+    transform: scaleX(1) rotate(0.001deg);
+  }
+}

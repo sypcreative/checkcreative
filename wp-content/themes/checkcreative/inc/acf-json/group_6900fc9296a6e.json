@@ -30,7 +30,7 @@
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -44,6 +44,71 @@
             "max_size": "",
             "mime_types": "",
             "preview_size": "medium"
+        },
+        {
+            "key": "field_691662095307d",
+            "label": "Logo Check White",
+            "name": "opciones_sitio_logo_principal_white",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_6916ef6e14fcd",
+            "label": "Mail",
+            "name": "opciones_sitio_mail",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Correo de contacto",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "46",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6916ef9114fce",
+            "label": "Teléfono",
+            "name": "opciones_sitio_phone",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Teléfono de contacto",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_690f0feaa6216",
@@ -173,6 +238,72 @@
                     "parent_repeater": "field_690f10d7a6219"
                 }
             ]
+        },
+        {
+            "key": "field_691663292e31b",
+            "label": "Pie de página (Footer)",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_691663382e31c",
+            "label": "Mostrar el logo",
+            "name": "opciones_sitio_show_logo",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Mostrar",
+            "ui_off_text": "No mostrar",
+            "ui": 1
+        },
+        {
+            "key": "field_6916648cc32e3",
+            "label": "Texto",
+            "name": "opciones_sitio_show_footer_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Si no se añade el logo, se puede añadir un texto (yo pondría CHECK CREATIVE, es para lo que está pensado :)))))",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_691663382e31c",
+                        "operator": "!=",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "CHECK CREATIVE",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         }
     ],
     "location": [
@@ -193,5 +324,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762596090
+    "modified": 1763110895
 }

@@ -5,6 +5,7 @@ import {
   initBestProjectsPin,
   initDescriptionPin,
   initDirectionalListHover,
+  initFooterParallax,
   initGallerySlider,
   initHeroParallax,
   initHighlightText,
@@ -12,6 +13,7 @@ import {
   textAnimations,
 } from "./gsap.js";
 import { setupBarba } from "./pageTransition.js";
+import { initPreloader } from "./preloader.js";
 import { initThemeToggler } from "./themeToggler.js";
 import { initDynamicCurrentTime } from "./timestamp.js";
 
@@ -24,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       initDynamicCurrentTime,
       initHighlightText,
       stampCC,
+      initFooterParallax,
       () =>
         initImageTrail({
           minWidth: 992,
@@ -33,10 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }),
     ],
     byNs: {
+      // INGLÉS
       home: [initHeroParallax, initDescriptionPin, initBestProjectsPin],
       about: [initAboutHero, initDirectionalListHover],
       "single-proyecto": [initGallerySlider],
       contacto: [],
+
+      // ESPAÑOL
+      "sobre-nosotros": [initAboutHero, initDirectionalListHover],
+      "single-proyecto-es": [initGallerySlider],
+      "contacto-es": [],
     },
     initOnLoad: true, // <-- se ejecutan también al cargar sin transición
   });

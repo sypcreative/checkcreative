@@ -15,14 +15,16 @@ $args_footer = [
 	'fallback_cb'     => false,
 ];
 
-// Páginas legales
-$pages = [
-	'aviso-legal',
-	'politica-de-cookies',
-	'politica-de-privacidad',
-	'envios-y-devoluciones',
-	'terminos-condiciones'
-];
+$menu_name = 'menu-footer';
+
+// Obtener el objeto del menú a partir de la ubicación (theme_location)
+$locations = get_nav_menu_locations();
+
+if (isset($locations[$menu_name])) {
+	$menu_id = $locations[$menu_name];
+	$menu_items = wp_get_nav_menu_items($menu_id);
+}
+
 ?>
 
 </main>
@@ -48,34 +50,48 @@ $pages = [
 </aside>
 
 <footer id="site-footer" class="bg-primary text-dark z-0">
-	<div class="container py-5">
-		<div class="row g-4 align-items-start">
-			<div class="col-md">
-				<a class="d-inline-block mb-3 text-dark text-decoration-none" href="<?php echo esc_url(home_url('/')); ?>">
-					<?php bloginfo('name'); ?>
-				</a>
-				<p class="small mb-0">© <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?>. Todos los derechos reservados.</p>
-			</div>
-
-			<div class="col-md-auto">
-				<?php wp_nav_menu($args_footer); ?>
-			</div>
-
-			<div class="col-md-auto">
-				<ul class="list-unstyled small mb-0">
-					<?php foreach ($pages as $slug) :
-						$p = get_page_by_path($slug);
-						if ($p) : ?>
-							<li>
-								<a class="enlace-footer d-block" href="<?php echo esc_url(get_permalink($p->ID)); ?>">
-									<?php echo esc_html(get_the_title($p->ID)); ?>
+	<div data-footer-parallax="" class="footer-wrap position-relative overflow-hidden">
+		<footer data-footer-parallax-inner="" class="block-check-footer container position-relative  d-flex flex-column justify-content-between ls-3 p-4">
+			<div class="block-check-footer__links-row d-flex text-light row">
+				<div class="block-check-footer__col d-flex flex-column col-4">
+					<p class="demo-eyebrow">( Pages )</p>
+					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
+						<?php if (!empty($menu_items)) :
+							foreach ($menu_items as $item) : ?>
+								<a data-underline-link
+									href="<?php echo esc_url($item->url); ?>"
+									class="block-check-footer__a text-capitalize h4 m-0">
+									<?php echo esc_html($item->title); ?>
 								</a>
-							</li>
-					<?php endif;
-					endforeach; ?>
-				</ul>
+						<?php endforeach;
+						endif; ?>
+					</div>
+				</div>
+				<div class="block-check-footer__col d-flex flex-column col-4">
+					<p class="demo-eyebrow">( Socials )</p>
+					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
+						<a data-underline-link="" href="#" class="block-check-footer__a">LinkedIn</a>
+						<a data-underline-link="" href="#" class="block-check-footer__a">Instagram</a>
+						<a data-underline-link="" href="#" class="block-check-footer__a">X/Twitter</a>
+					</div>
+				</div>
+				<div class="block-check-footer__col d-flex flex-column col-4">
+					<p class="demo-eyebrow">( Contact )</p>
+					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
+						<a data-underline-link="" href="mailto:<?= get_field('opciones_sitio_mail', 'option') ?>" class="block-check-footer__a"><?= get_field('opciones_sitio_mail', 'option') ?></a>
+						<a data-underline-link="" href="tel:<?= get_field('opciones_sitio_phone', 'option') ?>" class="block-check-footer__a"><?= get_field('opciones_sitio_phone', 'option') ?></a>
+					</div>
+				</div>
 			</div>
-		</div>
+			<div class="block-check-footer__logo-row d-flex flex-row text-light">
+				<?php if (get_field('opciones_sitio_show_logo', 'option')) : ?>
+					<img src="<?= get_field('opciones_sitio_logo_principal_white', 'option'); ?>" alt="Checkcreative" height="40">
+				<?php else : ?>
+					<div class="display block-check-footer__logo-text"><?= get_field('opciones_sitio_show_footer_text', 'option') ?></div>
+				<?php endif; ?>
+			</div>
+		</footer>
+		<div data-footer-parallax-dark="" class="footer-wrap__dark"></div>
 	</div>
 </footer>
 

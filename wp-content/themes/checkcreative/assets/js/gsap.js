@@ -397,7 +397,6 @@ export function imageParallax(options = {}) {
 }
 
 export function initGallerySlider(root = document) {
-  console.log("Iniciando gallery slider GSAP");
   const container = root.querySelector(".block-single-gallery");
   const viewport = root.querySelector(".gallery-slider__viewport");
   const track = viewport?.querySelector("[data-slider-track]");
@@ -713,4 +712,77 @@ export function initDirectionalListHover() {
       )[0];
     }
   });
+}
+
+export function initFooterParallax() {
+  const elements = document.querySelectorAll("[data-footer-parallax]");
+
+  if (!elements.length) {
+    return;
+  }
+
+  const elementsArray = Array.from(elements);
+
+  // 1) Matar SOLO los ScrollTriggers cuyo trigger sea uno de estos footers
+  ScrollTrigger.getAll().forEach((st) => {
+    const trig = st.trigger;
+    if (trig && elementsArray.includes(trig)) {
+      st.kill();
+    }
+  });
+
+  // 2) Crear nuevos ScrollTriggers para este container
+  elementsArray.forEach((el, index) => {
+    const inner = el.querySelector("[data-footer-parallax-inner]");
+    const dark = el.querySelector("[data-footer-parallax-dark]");
+
+    if (!inner && !dark) {
+      console.warn(
+        "[FooterParallax] No inner/dark found. Skipping this element."
+      );
+      return;
+    }
+
+    // 🔥 MUY IMPORTANTE: matar cualquier tween anterior en estos elementos
+    if (inner) gsap.killTweensOf(inner);
+    if (dark) gsap.killTweensOf(dark);
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "clamp(top bottom)",
+        end: "clamp(top top)",
+        scrub: true,
+        //   markers: true, // quita luego
+        invalidateOnRefresh: true,
+      },
+    });
+
+    if (inner) {
+      tl.fromTo(
+        inner,
+        { yPercent: -25 },
+        {
+          yPercent: 0,
+          ease: "linear",
+          overwrite: "auto",
+        }
+      );
+    }
+
+    if (dark) {
+      tl.fromTo(
+        dark,
+        { opacity: 0.5 },
+        {
+          opacity: 0,
+          ease: "linear",
+          overwrite: "auto",
+        },
+        "<"
+      );
+    }
+  });
+
+  // Nada de refresh aquí: Barba ya refresca.
 }
