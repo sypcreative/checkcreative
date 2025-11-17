@@ -1,0 +1,103 @@
+.block-contact {
+  padding: 6rem 0;
+
+  &__header {
+    margin-bottom: 3rem;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
+
+  &__description {
+    max-width: 640px;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  &__form {
+    max-width: 900px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    input,
+    textarea {
+      border: 1px solid #000;
+      border-radius: 999px;
+      padding: 0.75rem 1.2rem;
+      font: inherit;
+      background: transparent;
+      outline: none;
+
+      &:focus {
+        outline: 1px solid #000;
+        outline-offset: 2px;
+      }
+    }
+
+    textarea {
+      border-radius: 1.5rem;
+      resize: vertical;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  &__agreement {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  &__submit {
+    padding: 0.75rem 2.5rem;
+    border-radius: 999px;
+    border: 1px solid #000;
+    background: transparent;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+}
