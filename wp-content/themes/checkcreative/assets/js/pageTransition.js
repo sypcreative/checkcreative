@@ -3,9 +3,6 @@ import barba from "@barba/core";
 import gsap from "gsap";
 import { initLenis } from "./initLenis.js";
 
-/* ─────────────────────────────────────────────
-   NUEVO: utilidades para máscara + selección
-   ───────────────────────────────────────────── */
 const REVEAL_SELECTORS = [
   "[data-reveal]",
   "h1, h2, h3, h4, .display",
@@ -34,8 +31,7 @@ function getRevealItems(container, margin = 64) {
 function prepRevealEnter(container) {
   const items = getRevealItems(container, 64);
   gsap.set(items, {
-    clipPath: "inset(100% 0% 0% 0%)", // oculto desde abajo
-    //  yPercent: 20,
+    clipPath: "inset(100% 0% 0% 0%)",
     y: (i, el) => (el.matches("img, picture, figure") ? 0 : 20),
     opacity: (i, el) => (el.matches("img, picture, figure") ? 1 : 0.001),
     willChange: "transform, clip-path",
@@ -51,12 +47,12 @@ function animateRevealLeave(
   if (!items.length) return Promise.resolve();
 
   const tl = gsap.timeline({ defaults: { ease } });
-  gsap.set(items, { clipPath: "inset(0% 0% 0% 0%)" }); // asegúrate de estado abierto
+  gsap.set(items, { clipPath: "inset(0% 0% 0% 0%)" });
 
   tl.to(
     items,
     {
-      clipPath: "inset(0% 0% 100% 0%)", // se cierra hacia arriba
+      clipPath: "inset(0% 0% 100% 0%)",
       y: -12,
       opacity: (i, el) => (el.matches("img, picture, figure") ? 1 : 0.001),
       duration,
@@ -82,11 +78,10 @@ function animateRevealEnter(
   const list = items && items.length ? items : prepRevealEnter(container);
   const tl = gsap.timeline({ defaults: { ease } });
 
-  // asegúrate de que el container se ve mientras revelamos los hijos
   gsap.set(container, { autoAlpha: 1 });
 
   tl.to(list, {
-    clipPath: "inset(0% 0% 0% 0%)", // abrir máscara
+    clipPath: "inset(0% 0% 0% 0%)",
     y: 0,
     opacity: 1,
     duration,
@@ -98,95 +93,143 @@ function animateRevealEnter(
 
 function prepEnter(el) {
   gsap.killTweensOf(el);
-  gsap.set(el, { autoAlpha: 0 }); // sin !important
+  gsap.set(el, { autoAlpha: 0 });
 }
 
 export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
-  if (window.__BARBA_MINIMAL__) {
-    return;
-  }
+  if (window.__BARBA_MINIMAL__) return;
   window.__BARBA_MINIMAL__ = true;
+
+  let lenis = null;
 
   const run = (fns, container) =>
     requestAnimationFrame(() => {
       fns.forEach((fn) => {
+        if (typeof fn !== "function") return;
+        const name = fn.name || "anon";
         try {
-          fn?.(container);
+          // console.log("%c[Barba] init:", "color:#ff8800", name);
+          fn(container);
         } catch (e) {
-          console.error(e);
+          console.error("[Barba] ERROR en init:", name, e);
         }
       });
     });
 
   const runInitsFor = (container) => {
-    const ns = container?.getAttribute?.("data-barba-namespace") || "default";
-    console.log("Initial namespace:", ns);
+    if (!container) return;
+
+    const ns = container.getAttribute("data-barba-namespace") || "default";
+    console.log(
+      "%c[Barba] runInitsFor namespace: " + ns,
+      "color:#00eaff;font-weight:bold"
+    );
 
     const nsFns = byNs[ns] || [];
     run([...nsFns, ...common], container);
     kickstartVideoAutoplay(container);
-  };
 
-  // ──────────────────────────────────────────────────────────────
-  // Fallback: ejecutar SIEMPRE en primera carga (con o sin Barba)
-  // ──────────────────────────────────────────────────────────────
-  let __didInitialRun = false;
-  const initialRunFallback = () => {
-    if (__didInitialRun) return;
-
-    const container =
-      document.querySelector('[data-barba="container"]') || document;
-
-    initLenis();
-    runInitsFor(container);
-    __didInitialRun = true;
-
-    // 🔥 forzar recalculado de todos los ScrollTriggers después de los inits
+    // refrescamos ScrollTrigger tras los inits
     requestAnimationFrame(() => {
-      setTimeout(() => {
-        try {
-          window.gsap?.ScrollTrigger?.refresh?.(true);
-        } catch (e) {
-          console.error(e);
-        }
-      }, 50);
+      try {
+        window.gsap?.ScrollTrigger?.refresh?.(true);
+      } catch (e) {
+        console.error(e);
+      }
     });
   };
 
-  if (document.readyState !== "loading") {
-    // Si el DOM ya está listo, lo lanzamos directamente
-    initialRunFallback();
-  } else {
-    // Si no, esperamos a DOMContentLoaded
-    document.addEventListener("DOMContentLoaded", initialRunFallback, {
-      once: true,
-    });
-  }
-  // ──────────────────────────────────────────────────────────────
-
+  // ✅ SOLO UNA INICIALIZACIÓN GLOBAL
   if (initOnLoad) {
-    barba.hooks.once(({ next }) => {
-      const container =
-        next?.container ||
-        document.querySelector('[data-barba="container"]') ||
-        document;
-      initLenis();
-      runInitsFor(container);
-      __didInitialRun = true; // marca que ya hicimos el arranque
-    });
+    window.addEventListener(
+      "load",
+      () => {
+        lenis = initLenis();
+        const container =
+          document.querySelector('[data-barba="container"]') || document;
+        runInitsFor(container);
+      },
+      { once: true }
+    );
   }
 
   barba.init({
     prevent: ({ current, next, el }) => {
       const href = el?.getAttribute("href") || "";
-      if (href.startsWith("#")) return true;
+      if (!href) return false;
+
+      // 2) Detectar cambio de idioma → dejar que el navegador recargue
+      // try {
+      //   // URL destino
+      //   const targetUrl = new URL(href, window.location.origin);
+      //   const targetSegs = targetUrl.pathname.split("/").filter(Boolean); // ["checkcreative","es","sobre-nosotros"]
+
+      //   // URL actual
+      //   const currentSegs = window.location.pathname.split("/").filter(Boolean); // ["checkcreative","en","about"]
+
+      //   // Soportar /checkcreative/es/... y también /es/...
+      //   const getLangFromSegs = (segs) => {
+      //     if (!segs.length) return null;
+      //     // Si el proyecto vive en una subcarpeta (checkcreative), el idioma será el segundo segmento
+      //     if (segs[0] === "checkcreative") return segs[1] || null;
+      //     // Si está en raíz, el idioma será el primero
+      //     return segs[0] || null;
+      //   };
+
+      //   const currentLang = getLangFromSegs(currentSegs);
+      //   const targetLang = getLangFromSegs(targetSegs);
+
+      //   if (currentLang && targetLang && currentLang !== targetLang) {
+      //     // 👉 Es un enlace de cambio de idioma → NO Barba, reload normal
+      //     // console.log("[Barba] Cambio de idioma detectado → reload normal");
+      //     return true;
+      //   }
+      // } catch (e) {
+      //   // si falla el parseo de URL, seguimos con la lógica normal
+      // }
+
+      // 3) Misma página normalizada → no usamos Barba
       const norm = (p) => (p || "").replace(/\/+$/, "") || "/";
       return current && next && norm(current.url.path) === norm(next.url.path);
     },
+
     transitions: [
       {
-        name: "minimal-fade", // dejo tu nombre
+        name: "minimal-fade",
+
+        once({ next }) {
+          const isFirstVisit = !sessionStorage.getItem("preloaderShown");
+          const isHome =
+            next?.container?.getAttribute("data-barba-namespace") === "home";
+
+          if (isFirstVisit && isHome) {
+            return new Promise((resolve) => {
+              initPreloaderMedia({
+                onComplete: () => {
+                  sessionStorage.setItem("preloaderShown", "true");
+                  resolve();
+                },
+              });
+            });
+          }
+
+          return new Promise((resolve) => {
+            const items = prepRevealEnter(next.container);
+            const tl = gsap.timeline({ delay: 0.5, onComplete: resolve });
+
+            tl.to(items, {
+              clipPath: "inset(0% 0% 0% 0%)",
+              y: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: "power2.out",
+              stagger: { each: 0.06, from: "start" },
+            });
+          });
+        },
         async leave({ current }) {
+          if (!current?.container) return;
+
           const ns =
             current.container.getAttribute("data-barba-namespace") || "";
           if (ns === "home") {
@@ -194,50 +237,59 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
               .querySelector(".block-hero-home__video")
               ?.pause?.();
           }
+
           current.container.style.pointerEvents = "none";
 
-          // 🔥 Antes de irnos, matamos TODOS los ScrollTriggers
+          // 🔥 mata tweens del container viejo
+          gsap.killTweensOf(current.container);
+          gsap.killTweensOf(current.container.querySelectorAll("*"));
+
+          // 🔥 mata ScrollTriggers
           if (window.gsap?.ScrollTrigger) {
             window.gsap.ScrollTrigger.getAll().forEach((st) => st.kill());
           }
 
-          // ── CAMBIO: en vez de solo desvanecer, aplicamos máscara hacia arriba
           await animateRevealLeave(current.container, {
             duration: 0.8,
             ease: "power2.out",
           });
-          // Si algo no tiene items visibles, mantenemos tu fallback por seguridad
-          // await fadeOutGSAP(current.container, 0.8);
 
           current.container.style.display = "none";
         },
-        beforeEnter({ next }) {
-          next.container.style.display = "";
-          next.container.style.position =
-            next.container.style.position || "relative";
-          next.container.style.zIndex = "1";
 
-          const lenis = initLenis();
+        beforeEnter({ next }) {
+          const container = next.container;
+          if (!container) return;
+
+          container.style.display = "";
+          container.style.position = container.style.position || "relative";
+          container.style.zIndex = "1";
+
+          // reutilizamos Lenis si ya existe, si no lo creamos
+          if (!lenis) {
+            lenis = initLenis();
+          }
           lenis.resize();
           lenis.scrollTo(0, { immediate: true });
 
-          // Mantengo tu prepEnter, pero además preparo los hijos para la revelación
-          prepEnter(next.container); // autoAlpha:0
-          next.__revealItems = prepRevealEnter(next.container);
-          // dejamos el container visible para que se vea la apertura de máscara
-          gsap.set(next.container, { autoAlpha: 1 });
+          // por si acaso hubiera algo colgado de este container
+          gsap.killTweensOf(container);
+          gsap.killTweensOf(container.querySelectorAll("*"));
 
-          runInitsFor(next.container);
+          prepEnter(container);
+          next.__revealItems = prepRevealEnter(container);
+          gsap.set(container, { autoAlpha: 1 });
+
+          runInitsFor(container);
         },
+
         async enter({ next }) {
-          // ── CAMBIO: revelamos hijos (máscara desde abajo hacia arriba)
           await animateRevealEnter(next.__revealItems, next.container, {
             duration: 0.9,
             ease: "power2.out",
           });
 
           next.container.style.removeProperty("z-index");
-          window.gsap?.ScrollTrigger?.refresh?.(true);
         },
       },
     ],
@@ -256,18 +308,15 @@ function kickstartVideoAutoplay(root = document) {
   );
   if (!videos.length) return;
 
-  // Prepara todos
   videos.forEach((v) => {
     try {
       v.muted = true;
       v.playsInline = true;
       v.setAttribute("preload", "auto");
-      // Si no quieres precargar tanto, usa "metadata" en vez de "auto"
       v.load?.();
     } catch {}
   });
 
-  // Intenta reproducir todos
   const blocked = [];
   videos.forEach((v) => {
     try {
@@ -280,7 +329,6 @@ function kickstartVideoAutoplay(root = document) {
     }
   });
 
-  // Si alguno quedó bloqueado, un solo gesto los reactiva todos
   if (blocked.length) {
     const resumeAll = () => {
       blocked.forEach((v) => {
