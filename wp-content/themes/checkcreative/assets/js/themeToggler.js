@@ -1,65 +1,46 @@
-import gsap from "gsap";
+export function initCookieDarkLight() {
+  // Function to toggle theme
+  function initThemeCheck() {
+    // Get the element that has [data-dash-theme] attribute
+    const dashThemeElement = document.querySelector("[data-theme-status]");
+    if (!dashThemeElement) return;
 
-/**
- * Inicializa el cambio de tema con animación al clicar el botón.
- */
-export function initThemeToggler() {
-  const root = document.documentElement;
-  const btn = document.querySelector("#theme-toggle");
+    // Toggle between light/dark
+    const currentTheme = dashThemeElement.getAttribute("data-theme-status");
+    const newTheme = currentTheme === "light" ? "dark" : "light";
 
-  if (!btn) return;
-
-  // 1️⃣ Aplica el tema guardado al cargar
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark-theme") {
-    root.classList.add("dark-theme");
-    root.classList.remove("light-theme");
-  } else {
-    root.classList.add("light-theme");
-    root.classList.remove("dark-theme");
+    dashThemeElement.setAttribute("data-theme-status", newTheme);
+    localStorage.setItem("theme", newTheme);
   }
 
-  // 2️⃣ Escucha el click del botón
-  btn.addEventListener("click", () => {
-    const isDark = root.classList.contains("dark-theme");
-    const nextTheme = isDark ? "light-theme" : "dark-theme";
+  // Keydown to toggle theme when Shift + T is pressed
+  document.addEventListener("keydown", function (e) {
+    const tagName = e.target.tagName.toLowerCase();
+    if (
+      tagName === "input" ||
+      tagName === "textarea" ||
+      e.target.isContentEditable
+    ) {
+      return; // Do nothing if typing into a field
+    }
 
-    // Guarda preferencia
-    try {
-      localStorage.setItem("theme", nextTheme);
-    } catch {}
-
-    // ✨ overlay animado
-    const overlay = document.createElement("div");
-    overlay.classList.add("theme-overlay");
-    document.body.appendChild(overlay);
-
-    gsap.set(overlay, {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: isDark ? "#fff" : "#000",
-      pointerEvents: "none",
-      zIndex: 9999,
-      opacity: 0,
-    });
-
-    gsap.to(overlay, {
-      opacity: 1,
-      duration: 0.4,
-      ease: "power2.out",
-      onComplete: () => {
-        root.classList.toggle("dark-theme", !isDark);
-        root.classList.toggle("light-theme", isDark);
-        gsap.to(overlay, {
-          opacity: 0,
-          duration: 0.4,
-          ease: "power2.in",
-          onComplete: () => overlay.remove(),
-        });
-      },
-    });
+    if (e.shiftKey && e.keyCode === 84) {
+      // Shift+T
+      e.preventDefault();
+      initThemeCheck();
+    }
   });
+
+  // For all elements with [data-theme-toggle], add click handler
+  document.querySelectorAll("[data-theme-toggle]").forEach(function (button) {
+    button.addEventListener("click", initThemeCheck);
+  });
+
+  // If theme cookie is 'dark', set theme to dark
+  if (localStorage.getItem("theme") === "dark") {
+    const themeElement = document.querySelector("[data-theme-status]");
+    if (themeElement) {
+      themeElement.setAttribute("data-theme-status", "dark");
+    }
+  }
 }

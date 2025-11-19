@@ -304,6 +304,84 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_691da1d02b7cf",
+            "label": "Enlaces inferiores",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_691da1dc2b7d0",
+            "label": "Cambio de Tema",
+            "name": "opciones_sitio_show_theme_toggle",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Mostrar",
+            "ui_off_text": "No mostrar",
+            "ui": 1
+        },
+        {
+            "key": "field_691da2152b7d1",
+            "label": "Timestamp",
+            "name": "opciones_sitio_show_timestamp",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Mostrar",
+            "ui_off_text": "No mostrar",
+            "ui": 1
+        },
+        {
+            "key": "field_691da23c2b7d2",
+            "label": "Cambio de idioma",
+            "name": "opciones_sitio_show_language_toggle",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Mostrar",
+            "ui_off_text": "No mostrar",
+            "ui": 1
         }
     ],
     "location": [
@@ -324,5 +402,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1763110895
+    "modified": 1763550842
 }

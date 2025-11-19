@@ -40,26 +40,12 @@ function barba_namespace()
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script>
-		(function() {
-			try {
-				var key = 'theme';
-				var saved = localStorage.getItem(key); // 'light-theme' | 'dark-theme' | null
-				var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-				var initial = saved || (prefersDark ? 'dark-theme' : 'light-theme');
-				document.documentElement.classList.add(initial);
-				// lo guardamos para que el bundle lo lea sin recalcular
-				window.__SITE_THEME__ = initial;
-			} catch (e) {}
-		})();
-	</script>
-
 	<meta name="format-detection" content="telephone=no">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?> data-barba="wrapper" id="barba-wrapper">
+<body <?php body_class(); ?> data-theme-status="light" data-barba="wrapper" id="barba-wrapper">
 	<?php wp_body_open(); ?>
 
 	<div id="page" class="site">
@@ -78,7 +64,7 @@ function barba_namespace()
 							'depth'          => 1,
 							'fallback_cb'    => false,
 							'menu_class'     => '', // ignorado porque no hay <ul>
-							'link_class'    => 'ls-3',
+							'link_class'    => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
 						]);
 						?>
 
@@ -98,6 +84,7 @@ function barba_namespace()
 							'depth'          => 1,
 							'fallback_cb'    => false,
 							'menu_class'     => '',
+							'link_class'    => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
 						]);
 						?>
 					</ul>

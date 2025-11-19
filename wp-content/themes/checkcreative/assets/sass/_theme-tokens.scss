@@ -4,7 +4,7 @@
 */
 
 :root,
-.light-theme {
+[data-theme-status="light"] {
   /* ----------- COLORES CORPORATIVOS ----------- */
   --cor-primary: #558992;
   --cor-secondary: #eff0f2;
@@ -45,9 +45,12 @@
 
   /* Fondo de cards y elementos UI */
   --bs-card-bg: var(--cor-light);
+
+  //SVG icon color
+  --icon-theme-color: var(--cor-dark);
 }
 
-.dark-theme {
+[data-theme-status="dark"] {
   /* ----------- COLORES CORPORATIVOS ----------- */
   --cor-primary: #88c5cd;
   --cor-secondary: #121212;
@@ -88,4 +91,63 @@
 
   /* Fondo de cards y elementos UI */
   --bs-card-bg: var(--cor-gray);
+
+  //SVG icon color
+  --icon-theme-color: var(--cor-dark);
+}
+
+.btn-darklight {
+  color: #131313;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0 solid transparent;
+  border-radius: 0.25em;
+  outline: 0 transparent;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-darklight__icon {
+  width: 1.25em;
+  height: 100%;
+  margin-right: 0.25em;
+  position: relative;
+}
+
+.btn-darklight__icon-box {
+  height: 100%;
+  padding-top: 0.66em;
+  padding-bottom: 0.66em;
+  display: flex;
+  position: relative;
+}
+
+.btn-darklight__icon-box.is--absolute {
+  position: absolute;
+}
+
+/* Background */
+[data-theme-status] {
+  transition: background-color 0.4s cubic-bezier(0.35, 1, 0.6, 1);
+}
+[data-theme-status="dark"] {
+  background-color: #070915 !important;
+}
+
+/* Button Icon */
+.btn-darklight .btn-darklight__icon-box {
+  transition: transform 0.8s cubic-bezier(0.35, 1.5, 0.6, 1);
+  transform: translateY(0%) rotate(-90deg);
+}
+
+[data-theme-status="dark"] .btn-darklight .btn-darklight__icon-box {
+  transform: translateY(-100%) rotate(0.001deg);
+}
+
+.btn-darklight__icon-box svg {
+  color: var(--icon-theme-color);
+  transition: color 0.3s ease;
 }
