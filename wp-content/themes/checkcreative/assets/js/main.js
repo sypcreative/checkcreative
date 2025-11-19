@@ -9,18 +9,19 @@ import {
   initGallerySlider,
   initHeroParallax,
   initHighlightText,
+  initMasonryGrid,
   stampCC,
   textAnimations,
 } from "./gsap.js";
 import { setupBarba } from "./pageTransition.js";
-import { initPreloader } from "./preloader.js";
-import { initThemeToggler } from "./themeToggler.js";
+import { initCookieDarkLight } from "./themeToggler.js";
 import { initDynamicCurrentTime } from "./timestamp.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupBarba({
     common: [
-      initThemeToggler,
+      // initThemeToggler,
+      initCookieDarkLight,
       imageParallax,
       textAnimations,
       initDynamicCurrentTime,
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       about: [initAboutHero, initDirectionalListHover],
       "single-proyecto": [initGallerySlider],
       contacto: [],
-
+      gallery: [initMasonryGrid],
       // ESPAÑOL
       "sobre-nosotros": [initAboutHero, initDirectionalListHover],
       "single-proyecto-es": [initGallerySlider],

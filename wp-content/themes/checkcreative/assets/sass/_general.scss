@@ -20,7 +20,7 @@ main {
 }
 
 a {
-  color: $cor-primary;
+  color: $cor-dark;
   text-decoration: none;
 }
 
@@ -143,3 +143,18 @@ footer {
 [text-anim] .ta-line {
   will-change: -webkit-mask-image, mask-image;
 }
+
+.language-toggle .lang-link {
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.language-toggle .lang-link:hover {
+  opacity: 1;
+}
+
+.language-toggle .lang-link.is-active {
+  opacity: 1;
+}
+
