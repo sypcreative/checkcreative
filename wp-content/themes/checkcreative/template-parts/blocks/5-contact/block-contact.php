@@ -10,11 +10,12 @@ $privacy_label      = get_field('privacy_label') ?: 'I agree with the';
 $privacy_link       = get_field('privacy_link');
 $privacy_link_label = get_field('privacy_link_label') ?: 'privacy policy';
 $button_label       = get_field('button_label') ?: 'SEND';
+$trail 				  = get_field('opciones_sitio_cursor_images', 'option');
 
 $block_id    = 'block-contact-';
 ?>
-<section id="<?php echo esc_attr($block_id); ?>" class="block-contact">
-	<div class="container vh-100">
+<section id="<?php echo esc_attr($block_id); ?>" class="block-contact" data-trail="wrapper">
+	<div class="container h-100">
 
 		<div class="block-contact__header">
 			<h1 class="block-contact__title display">
@@ -108,4 +109,7 @@ $block_id    = 'block-contact-';
 			</div>
 		</form>
 	</div>
+	<?php if (in_array('contact', $trail)) : ?>
+		<?php get_template_part('template-parts/components/cursor-trail'); ?>
+	<?php endif; ?>
 </section>

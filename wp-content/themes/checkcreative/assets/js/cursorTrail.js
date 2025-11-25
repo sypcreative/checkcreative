@@ -149,8 +149,8 @@ export function initImageTrail(config = {}) {
     state.trailImageTimestamps.clear();
   }
 
-  // Initialize ScrollTrigger
-  ScrollTrigger.create({
+  // 👉 Guarda el ScrollTrigger para poder matarlo luego
+  const st = ScrollTrigger.create({
     trigger: wrapper,
     start: "top bottom",
     end: "bottom top",
@@ -174,5 +174,6 @@ export function initImageTrail(config = {}) {
   return () => {
     stopTrail();
     window.removeEventListener("resize", handleResize);
+    if (st) st.kill();
   };
 }

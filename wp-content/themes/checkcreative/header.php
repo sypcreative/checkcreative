@@ -45,9 +45,11 @@ function barba_namespace()
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?> data-theme-status="light" data-barba="wrapper" id="barba-wrapper">
+<body <?php body_class(); ?> data-theme-status="light" data-barba="wrapper" data-cursor="<?php echo get_field('opciones_sitio_cursor_basic', 'option') ? 'basic' : 'none'; ?>" id="barba-wrapper">
 	<?php wp_body_open(); ?>
-
+	<?php if (get_field('opciones_sitio_cursor_basic', 'option')) : ?>
+		<div class="cursor"></div>
+	<?php endif; ?>
 	<div id="page" class="site">
 		<!-- Nav Cabecera -->
 		<header class="position-fixed w-100 z-100">
