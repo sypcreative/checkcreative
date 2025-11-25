@@ -3,6 +3,60 @@
     "title": "Block Best Projects",
     "fields": [
         {
+            "key": "field_69248dc68f706",
+            "label": "Diseño",
+            "name": "block_best_projects_vista",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "vertical": "Vertical",
+                "cards": "Horizontal"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_69260ec4fa8ca",
+            "label": "Overlay",
+            "name": "block_best_projects_overlay",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69248dc68f706",
+                        "operator": "==",
+                        "value": "cards"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Sí",
+            "ui_off_text": "No",
+            "ui": 1
+        },
+        {
             "key": "field_68ef87816b89d",
             "label": "Proyectos",
             "name": "block_best_projects_relation",
@@ -52,5 +106,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760536217
+    "modified": 1764101893
 }
