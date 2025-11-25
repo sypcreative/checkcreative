@@ -3,13 +3,57 @@
     "title": "Block Hero Home",
     "fields": [
         {
+            "key": "field_692469b9e252b",
+            "label": "General",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_69246898092f7",
+            "label": "Vídeo o imágenes",
+            "name": "block_home_hero_selector",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "video": "Video",
+                "image": "Imágenes"
+            },
+            "default_value": "image",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
             "key": "field_68ee75b4e07bc",
             "label": "Título",
             "name": "block_home_hero_title",
             "aria-label": "",
             "type": "text",
             "instructions": "Título que aparece en gran tamaño centrado en la cabecera de la página principal, por encima del vídeo.",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -21,6 +65,77 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_68ee951bdd8b7",
+            "label": "Textos inferiores",
+            "name": "block_home_hero_repeater",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Textos que aparecen en la zona inferior de la sección, no son obligatorios pero si recomendables (Añadir 3 como máximo) Si solo se añaden dos aparecerán uno a la izquierda y otro a la derecha, si se añaden 3 uno aparecerá centrado.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Agregar texto",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_68ee957e70959",
+                    "label": "Texto",
+                    "name": "block_home_hero_repeater_texto",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Textos inferiores, recomendable: © Check Creative 2025 y ( scroll down ) o algo así",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_68ee951bdd8b7"
+                }
+            ]
+        },
+        {
+            "key": "field_6924687f092f6",
+            "label": "Cabecera con Video",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69246898092f7",
+                        "operator": "==",
+                        "value": "video"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
         },
         {
             "key": "field_68ee94f01d884",
@@ -69,12 +184,38 @@
             "placeholder": ""
         },
         {
-            "key": "field_68ee951bdd8b7",
-            "label": "Textos inferiores",
-            "name": "block_home_hero_repeater",
+            "key": "field_692468dd092f8",
+            "label": "Cabecera con Imágenes",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_69246898092f7",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_69246948092fa",
+            "label": "Imágenes",
+            "name": "block_home_hero_images",
             "aria-label": "",
             "type": "repeater",
-            "instructions": "Textos que aparecen en la zona inferior de la sección, no son obligatorios pero si recomendables (Añadir 3 como máximo) Si solo se añaden dos aparecerán uno a la izquierda y otro a la derecha, si se añaden 3 uno aparecerá centrado.",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -87,29 +228,34 @@
             "min": 0,
             "max": 0,
             "collapsed": "",
-            "button_label": "Agregar texto",
+            "button_label": "Agregar Fila",
             "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_68ee957e70959",
-                    "label": "Texto",
-                    "name": "block_home_hero_repeater_texto",
+                    "key": "field_69246966092fb",
+                    "label": "Imagen",
+                    "name": "block_home_hero_images_image",
                     "aria-label": "",
-                    "type": "text",
-                    "instructions": "Textos inferiores, recomendable: © Check Creative 2025 y ( scroll down ) o algo así",
-                    "required": 0,
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
                         "width": "",
                         "class": "",
                         "id": ""
                     },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_68ee951bdd8b7"
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_69246948092fa"
                 }
             ]
         }
@@ -132,5 +278,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760528255
+    "modified": 1763994049
 }
