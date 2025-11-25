@@ -28,17 +28,6 @@
 .nav-rail > li {
   display: block;
 }
-
-/* Links de los menús (ajusta a tu tipografía/clases) */
-.nav-rail > li > a,
-.nav-rail .menu-item > a {
-  display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-decoration: none;
-  /* estilos que uses habitualmente */
-}
-
 /* Logo centrado */
 .nav-rail__brand-link {
   display: inline-block;
