@@ -7,7 +7,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100svh;
-
   // Para eliminar del front el mensaje de que estamos en un sitio de desarrollo generado por WPML
   .otgs-development-site-front-end {
     display: none;
@@ -40,6 +39,10 @@ footer {
 
 .z-100 {
   z-index: 10000;
+}
+
+[data-cursor="basic"] {
+  cursor: none;
 }
 
 [data-anim="lines"],
@@ -157,4 +160,3 @@ footer {
 .language-toggle .lang-link.is-active {
   opacity: 1;
 }
-

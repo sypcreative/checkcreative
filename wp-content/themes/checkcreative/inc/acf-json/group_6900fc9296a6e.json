@@ -164,7 +164,8 @@
             },
             "choices": {
                 "about": "About",
-                "contact": "Contact"
+                "contact": "Contact",
+                "home": "Home"
             },
             "default_value": [],
             "return_format": "value",
@@ -402,5 +403,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1763550842
+    "modified": 1764001061
 }
