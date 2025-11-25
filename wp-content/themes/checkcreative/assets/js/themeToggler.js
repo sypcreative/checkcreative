@@ -1,19 +1,46 @@
+// themeToggler.js
+
+let themeListenersAttached = false;
+
 export function initCookieDarkLight() {
-  // Function to toggle theme
-  function initThemeCheck() {
-    // Get the element that has [data-dash-theme] attribute
-    const dashThemeElement = document.querySelector("[data-theme-status]");
-    if (!dashThemeElement) return;
-
-    // Toggle between light/dark
-    const currentTheme = dashThemeElement.getAttribute("data-theme-status");
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-
-    dashThemeElement.setAttribute("data-theme-status", newTheme);
-    localStorage.setItem("theme", newTheme);
+  // ⚠️ Para que no dupliquemos listeners cada vez que Barba llama a esto
+  if (themeListenersAttached) {
+    applyStoredTheme();
+    return;
   }
 
-  // Keydown to toggle theme when Shift + T is pressed
+  themeListenersAttached = true;
+
+  function getThemeElement() {
+    // El elemento que controla el tema: body o html con data-theme-status
+    return (
+      document.querySelector("[data-theme-status]") || document.documentElement
+    );
+  }
+
+  function setTheme(theme) {
+    const el = getThemeElement();
+    el.setAttribute("data-theme-status", theme);
+    localStorage.setItem("theme", theme);
+  }
+
+  function toggleTheme() {
+    const el = getThemeElement();
+    const currentTheme = el.getAttribute("data-theme-status") || "light";
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+
+    console.log("Toggle theme:", currentTheme, "→", newTheme);
+    setTheme(newTheme);
+  }
+
+  function applyStoredTheme() {
+    const stored = localStorage.getItem("theme");
+    if (stored === "dark" || stored === "light") {
+      setTheme(stored);
+    }
+  }
+
+  // 🎹 Shift + T → alternar tema
   document.addEventListener("keydown", function (e) {
     const tagName = e.target.tagName.toLowerCase();
     if (
@@ -21,26 +48,25 @@ export function initCookieDarkLight() {
       tagName === "textarea" ||
       e.target.isContentEditable
     ) {
-      return; // Do nothing if typing into a field
+      return;
     }
 
-    if (e.shiftKey && e.keyCode === 84) {
-      // Shift+T
+    if (e.shiftKey && (e.key === "t" || e.key === "T" || e.keyCode === 84)) {
       e.preventDefault();
-      initThemeCheck();
+      toggleTheme();
     }
   });
 
-  // For all elements with [data-theme-toggle], add click handler
-  document.querySelectorAll("[data-theme-toggle]").forEach(function (button) {
-    button.addEventListener("click", initThemeCheck);
+  // 🖱️ Delegación de eventos para cualquier [data-theme-toggle]
+  // Funciona aunque Barba reemplace el botón
+  document.addEventListener("click", function (e) {
+    const toggle = e.target.closest("[data-theme-toggle]");
+    if (!toggle) return;
+
+    e.preventDefault();
+    toggleTheme();
   });
 
-  // If theme cookie is 'dark', set theme to dark
-  if (localStorage.getItem("theme") === "dark") {
-    const themeElement = document.querySelector("[data-theme-status]");
-    if (themeElement) {
-      themeElement.setAttribute("data-theme-status", "dark");
-    }
-  }
+  // Aplicar tema guardado al cargar
+  applyStoredTheme();
 }
