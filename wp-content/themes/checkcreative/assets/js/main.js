@@ -1,7 +1,13 @@
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import {
+  initBasicCustomCursor,
+  initDynamicCustomTextCursor,
+} from "./cursor.js";
 import { initImageTrail } from "./cursorTrail.js";
 import {
   imageParallax,
   initAboutHero,
+  initBestProjectCards,
   initBestProjectsPin,
   initDescriptionPin,
   initDirectionalListHover,
@@ -10,6 +16,7 @@ import {
   initHeroParallax,
   initHighlightText,
   initMasonryGrid,
+  initStackingCards,
   stampCC,
   textAnimations,
 } from "./gsap.js";
@@ -20,7 +27,8 @@ import { initDynamicCurrentTime } from "./timestamp.js";
 document.addEventListener("DOMContentLoaded", () => {
   setupBarba({
     common: [
-      // initThemeToggler,
+      initBasicCustomCursor,
+      // initDynamicCustomTextCursor,
       initCookieDarkLight,
       imageParallax,
       textAnimations,
@@ -38,7 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
     byNs: {
       // INGLÉS
-      home: [initHeroParallax, initDescriptionPin, initBestProjectsPin],
+      home: [
+        initHeroParallax,
+        initDescriptionPin,
+        initBestProjectsPin,
+        initBestProjectCards,
+        initStackingCards,
+      ],
       about: [initAboutHero, initDirectionalListHover],
       "single-proyecto": [initGallerySlider],
       contacto: [],

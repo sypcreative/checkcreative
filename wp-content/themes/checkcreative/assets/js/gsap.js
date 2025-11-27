@@ -1119,3 +1119,78 @@ export function initBestProjectCards() {
     });
   });
 }
+
+export function initStackingCards() {
+  const container = document.querySelector("[data-stacking-cards]");
+  if (!container) return;
+
+  const cards = container.querySelectorAll("[data-stacking-cards-item]");
+  if (cards.length < 2) return;
+
+  const descs = container.querySelectorAll("[data-stacking-cards-desc]");
+  if (!descs.length) return;
+
+  const imgs = container.querySelectorAll("[data-stacking-cards-image]");
+  if (!imgs.length) return;
+
+  const STEP = -65;
+
+  const tl = gsap.timeline({
+    defaults: { ease: "none" },
+    scrollTrigger: {
+      trigger: container,
+      start: "top 20%",
+      end: "bottom bottom",
+      scrub: true,
+      pin: true,
+      pinSpacing: false,
+      invalidateOnRefresh: true,
+      // markers: true,
+    },
+  });
+
+  // Recorremos por índice
+  cards.forEach((card, i) => {
+    const desc = descs[i];
+    const img = imgs[i];
+    // 1) REVEAL DEL TEXTO DE ESTA CARD (si tiene)
+    if (desc) {
+      const fadedValue =
+        parseFloat(desc.getAttribute("data-highlight-fade")) || 0.2;
+      const staggerValue =
+        parseFloat(desc.getAttribute("data-highlight-stagger")) || 0.06;
+      console.log({ fadedValue, staggerValue });
+      const split = new SplitText(desc, {
+        type: "words,chars",
+        autoSplit: true,
+      });
+
+      // aparece el texto de la card i
+      tl.from(split.chars, {
+        autoAlpha: fadedValue,
+        stagger: staggerValue,
+        duration: 0.4, // tramo de scroll para el texto
+        ease: "linear",
+      });
+    }
+    tl.from(
+      img,
+      {
+        height: 0,
+        duration: 8.5, // tramo de scroll para la imagen
+        ease: "power4.inOut",
+      },
+      "<"
+    );
+    // 2) LUEGO se mueve la SIGUIENTE card (i+1)
+    const nextCard = cards[i + 1];
+    if (nextCard) {
+      tl.to(nextCard, {
+        yPercent: STEP * (i + 1),
+        duration: 11.5, // tramo de scroll para el stacking
+      });
+    }
+  });
+
+  ScrollTrigger.refresh();
+}

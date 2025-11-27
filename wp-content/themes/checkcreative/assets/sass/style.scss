@@ -39,22 +39,23 @@
 @import "partials/cursor";
 
 // Blocks
-@import "blocks/block-clients";
-@import "blocks/block-description";
 @import "blocks/block-best-projects";
+@import "blocks/block-clients";
+@import "blocks/block-contact";
+@import "blocks/block-description";
+@import "blocks/block-gallery-single";
+@import "blocks/block-gallery";
 @import "blocks/block-hero-about";
+@import "blocks/block-hero-home";
+@import "blocks/block-hero-services";
 @import "blocks/block-history";
-@import "blocks/block-works";
+@import "blocks/block-related-projects";
+@import "blocks/block-services-home";
 @import "blocks/block-single-description";
 @import "blocks/block-single-objective";
-@import "blocks/block-gallery-single";
-@import "blocks/block-related-projects";
-@import "blocks/block-hero-services";
-@import "blocks/block-hero-home";
-@import "blocks/block-videos";
 @import "blocks/block-team";
-@import "blocks/block-contact";
-@import "blocks/block-gallery";
+@import "blocks/block-videos";
+@import "blocks/block-works";
 
 // Animations
 @import "animations/cursor-trail";

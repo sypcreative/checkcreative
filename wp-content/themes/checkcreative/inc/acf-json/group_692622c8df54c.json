@@ -1,0 +1,183 @@
+{
+    "key": "group_692622c8df54c",
+    "title": "Block Services Home",
+    "fields": [
+        {
+            "key": "field_692622c8bcfa2",
+            "label": "Servicios",
+            "name": "block_services_home_service",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Agregar Fila",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_692622f0bcfa3",
+                    "label": "Número de servicio",
+                    "name": "block_services_home_service_number",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "26",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "ui_on_text": "Mostrar",
+                    "ui_off_text": "No mostrar",
+                    "ui": 1,
+                    "parent_repeater": "field_692622c8bcfa2"
+                },
+                {
+                    "key": "field_6926232bbcfa4",
+                    "label": "Nombre del servicio",
+                    "name": "block_services_home_service_name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "31",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_692622c8bcfa2"
+                },
+                {
+                    "key": "field_69262338bcfa5",
+                    "label": "Descripción del servicios",
+                    "name": "block_services_home_service_description",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_692622c8bcfa2"
+                },
+                {
+                    "key": "field_6926236abcfa6",
+                    "label": "Imagen",
+                    "name": "block_services_home_service_image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "47",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "preview_size": "medium",
+                    "parent_repeater": "field_692622c8bcfa2"
+                },
+                {
+                    "key": "field_6926237ebcfa7",
+                    "label": "Keywords",
+                    "name": "block_services_home_service_keywords",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "button_label": "Agregar Fila",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_692623a6bcfa8",
+                            "label": "Keyword",
+                            "name": "block_services_home_service_keywords_keyword",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_6926237ebcfa7"
+                        }
+                    ],
+                    "parent_repeater": "field_692622c8bcfa2"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/block-services-home"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1764107707
+}
