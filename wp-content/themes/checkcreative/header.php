@@ -92,11 +92,17 @@ function barba_namespace()
 					</ul>
 
 					<!-- Toggle + menú móvil (lo que ya tienes) -->
-					<button class="navbar-toggler d-md-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar" aria-controls="mobileNavbar" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
+					<button class="navbar-toggler d-md-none ms-auto"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#mobileNavbar"
+						aria-controls="mobileNavbar"
+						aria-expanded="false"
+						aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon">hola</span>
 					</button>
 
-					<div class="collapse-mobile fullscreen-menu d-md-none jumbo text-uppercase tumb bg-primary gap-3" id="mobileNavbar">
+					<div class="collapse fullscreen-menu d-md-none jumbo text-uppercase bg-primary gap-3" id="mobileNavbar">
 						<a class="navbar-nav flex-row gap-3 w-100 text-secondary" href="<?= get_home_url() ?>">
 							<span data-anim="nav-links">HOME</span>
 						</a>
