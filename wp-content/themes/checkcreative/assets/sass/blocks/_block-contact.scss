@@ -1,5 +1,10 @@
 .block-contact {
   padding: 6rem 0;
+  height: 100vh;
+
+  @include media-breakpoint-down(md) {
+    height: 100% !important;
+  }
 
   &__header {
     margin-bottom: 3rem;
@@ -20,58 +25,81 @@
     max-width: 900px;
   }
 
+  /* GRID */
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
   }
 
+  /* FIELD + FLOATING LABEL */
   &__field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+    position: relative;
+    padding-top: 0.5rem; // espacio para cuando el label sube
+    display: block;
 
     &--full {
       grid-column: 1 / -1;
     }
 
-    label {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
     input,
     textarea {
-      border: 1px solid #000;
-      border-radius: 999px;
-      padding: 0.75rem 1.2rem;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #000;
+      padding: 0.6rem 0;
       font: inherit;
       background: transparent;
       outline: none;
+      border-radius: 0;
+      transition: border-color 0.25s ease, border-bottom-width 0.2s ease;
 
       &:focus {
-        outline: 1px solid #000;
-        outline-offset: 2px;
+        border-bottom-width: 2px;
+        border-bottom-color: #000;
+      }
+
+      /* Estado flotante: cuando tiene foco o texto */
+      &:focus + label,
+      &:not(:placeholder-shown) + label {
+        top: 0;
+        font-size: 0.7rem;
+        opacity: 1;
+        letter-spacing: 0.08em;
       }
     }
 
     textarea {
-      border-radius: 1.5rem;
       resize: vertical;
+      min-height: 120px;
+    }
+
+    label {
+      position: absolute;
+      left: 0;
+      top: 1.2rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #000;
+      opacity: 0.6;
+      pointer-events: none;
+      transition: all 0.25s ease;
     }
   }
 
+  /* FOOTER */
   &__footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
     gap: 1.5rem;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
   }
 
   &__agreement {
@@ -90,14 +118,21 @@
     }
   }
 
+  /* BUTTON */
   &__submit {
     padding: 0.75rem 2.5rem;
-    border-radius: 999px;
+    border-radius: 10px;
     border: 1px solid #000;
     background: transparent;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
   }
 }
