@@ -6,6 +6,10 @@
     will-change: transform;
     user-select: none;
     height: 80vh;
+
+    @include media-breakpoint-down(md) {
+      height: 45vh;
+    }
   }
   &__slide {
     /* Cada slide es un “card” ancho (estilo tus 3 fotos grandes) */

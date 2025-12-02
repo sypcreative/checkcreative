@@ -190,11 +190,11 @@ function checkcreative_blocks(): void
 		 */
 		acf_register_block(
 			array(
-				'name'            => 'block-history',
-				'title'           => __('Block History', 'checkcreative'),
+				'name'            => 'block-title-history',
+				'title'           => __('Block Title History', 'checkcreative'),
 				'post_types' => array('page'),
-				'description'     => __('Bloque que contiene dos imágenes, un subtítulo y dos textos.', 'checkcreative'),
-				'render_template' => 'template-parts/blocks/2-about/block-history.php',
+				'description'     => __('Bloque que un titular y un texto posicionados a derecha e izquierda respectivamente.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-title-history.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
 				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
@@ -204,7 +204,7 @@ function checkcreative_blocks(): void
 					'attributes' => array(
 						'mode' => 'preview', // Important!
 						'data' => array(
-							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-history.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-title-history.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
 						),
 					),
 				),
@@ -544,6 +544,58 @@ function checkcreative_blocks(): void
 						'mode' => 'preview', // Important!
 						'data' => array(
 							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-services-home.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Images
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-images',
+				'title'           => __('Block Images', 'checkcreative'),
+				'post_types' 		=> ['page'],
+				'description'     => __('Bloque que contiene dos imágenes.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-images.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-images.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+
+		/**
+		 * Block Paragraphs
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-paragraphs',
+				'title'           => __('Block Paragraphs', 'checkcreative'),
+				'post_types' 		=> ['page'],
+				'description'     => __('Bloque que contiene párrafos de texto.', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/2-about/block-paragraphs.php',
+				'category'        => 'checkcreative-about',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'keywords'        => array('categorias', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-paragraphs.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
 						),
 					),
 				),

@@ -6,27 +6,43 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 let _lenis; // evita doble init
+let _tickerCallback; // guardamos la ref para poder hacer remove luego
 
 export function initLenis(options = {}) {
   if (_lenis) return _lenis;
 
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  // 👉 Si quieres probar SIN Lenis en móvil, descomenta:
+  //   if (isMobile) {
+  //     return null;
+  //   }
+
   const lenis = new Lenis({
-    duration: 1.2,
-    lerp: 0.1,
-    smoothWheel: true,
+    // En móvil un poco menos “gomoso”
+    duration: isMobile ? 0.7 : 1.2,
+    lerp: isMobile ? 0.25 : 0.1,
+
+    smoothWheel: !isMobile, // rueda solo desktop
+    smoothTouch: false, // MUY importante para que el gesto táctil no se sienta raro
+
     ...options,
   });
 
-  // RAF loop
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
   // Conecta Lenis con ScrollTrigger
-  lenis.on("scroll", () => ScrollTrigger.update());
+  lenis.on("scroll", ScrollTrigger.update);
 
+  // Usamos el ticker de GSAP como loop global
+  _tickerCallback = (time) => {
+    // gsap.ticker da segundos, Lenis quiere ms
+    lenis.raf(time * 1000);
+  };
+  gsap.ticker.add(_tickerCallback);
+
+  // Evita correcciones de lag que pueden pegar “saltos”
+  gsap.ticker.lagSmoothing(0);
+
+  // scrollerProxy para que ScrollTrigger lea el scroll de Lenis
   ScrollTrigger.scrollerProxy(document.body, {
     scrollTop(value) {
       if (arguments.length) {
@@ -43,10 +59,12 @@ export function initLenis(options = {}) {
         height: window.innerHeight,
       };
     },
-    pinType: "transform", // evita “bamboleo” con smooth
+    // Volvemos a "transform" como tenías antes, que te funcionaba bien en desktop
+    pinType: "transform",
+    // Si alguna vez quieres probar el auto:
+    // pinType: document.body.style.transform ? "transform" : "fixed",
   });
 
-  // Mantén tamaños sincronizados
   ScrollTrigger.addEventListener("refresh", () => lenis.resize());
   ScrollTrigger.refresh();
 
@@ -55,8 +73,13 @@ export function initLenis(options = {}) {
 }
 
 export function destroyLenis() {
-  if (_lenis) {
-    _lenis.destroy();
-    _lenis = undefined;
+  if (!_lenis) return;
+
+  if (_tickerCallback) {
+    gsap.ticker.remove(_tickerCallback);
+    _tickerCallback = null;
   }
+
+  _lenis.destroy();
+  _lenis = undefined;
 }

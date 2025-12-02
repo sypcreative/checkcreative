@@ -44,6 +44,24 @@
 
     &-before {
       padding-top: 75%;
+      @include media-breakpoint-down(md) {
+        padding-top: 180%;
+      }
+    }
+  }
+
+  &__card-title {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 50%;
+
+    &-h2 {
+      display: inline-block;
+      max-width: 100%;
+      white-space: normal;
+      text-wrap: balance;
     }
   }
 

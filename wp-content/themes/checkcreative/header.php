@@ -42,6 +42,7 @@ function barba_namespace()
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="format-detection" content="telephone=no">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/assets/img/favicon.png" sizes="150x50">
 	<?php wp_head(); ?>
 </head>
 
@@ -55,30 +56,75 @@ function barba_namespace()
 		<header class="position-fixed w-100 z-100">
 			<div class="px-5">
 				<nav class="mt-2 mt-md-4" id="menuCabecera">
+					<div class="d-flex align-items-end justify-content-end d-md-none">
+						<!-- Toggle móvil -->
+						<button class="navbar-toggler"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#mobileNavbar"
+							aria-controls="mobileNavbar"
+							aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon">MENU</span>
+						</button>
+					</div>
+
+					<!-- Menú fullscreen móvil -->
+					<div class="collapse fullscreen-menu d-md-none jumbo text-uppercase bg-primary gap-3 p-3" id="mobileNavbar">
+						<button class="navbar-toggler position-absolute top-0 end-0 m-4"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#mobileNavbar"
+							aria-controls="mobileNavbar"
+							aria-expanded="true"
+							aria-label="Close navigation">
+							<span class="">CERRAR</span>
+						</button>
+						<!-- Botón de cerrar dentro del overlay -->
+
+						<a class="navbar-nav flex-column gap-3 w-100 text-decoration-none h3" href="<?= get_home_url() ?>">
+							<span>HOME</span>
+						</a>
+						<?php
+						wp_nav_menu([
+							'theme_location' => 'menu-izquierda',
+							'container'      => false,
+							'menu_class'     => 'navbar-nav flex-column gap-3 w-100 text-secondary h3',
+							'fallback_cb'    => false,
+							'link_before'    => '<span>',
+							'link_after'     => '</span>',
+						]);
+						wp_nav_menu([
+							'theme_location' => 'menu-derecha',
+							'container'      => false,
+							'menu_class'     => 'navbar-nav flex-column gap-3 w-100 text-secondary h3',
+							'fallback_cb'    => false,
+							'link_before'    => '<span>',
+							'link_after'     => '</span>',
+						]);
+						?>
+					</div>
+
+
 					<!-- Rail desktop -->
 					<ul class="nav-rail d-none d-md-flex">
 						<?php
-						// 1) Items del menú izquierdo (solo <li>, sin <ul>)
 						wp_nav_menu([
 							'theme_location' => 'menu-izquierda',
 							'container'      => false,
 							'items_wrap'     => '%3$s',
 							'depth'          => 1,
 							'fallback_cb'    => false,
-							'menu_class'     => '', // ignorado porque no hay <ul>
-							'link_class'    => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
+							'menu_class'     => '',
+							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
 						]);
 						?>
-
-						<!-- 2) Logo centrado como un item más -->
 						<li class="nav-rail__brand">
 							<a href="<?= get_home_url(); ?>" class="nav-rail__brand-link">
 								<img src="<?= get_field('opciones_sitio_logo_principal', 'option'); ?>" alt="Checkcreative" height="40">
 							</a>
 						</li>
-
 						<?php
-						// 3) Items del menú derecho (solo <li>, sin <ul>)
 						wp_nav_menu([
 							'theme_location' => 'menu-derecha',
 							'container'      => false,
@@ -86,46 +132,12 @@ function barba_namespace()
 							'depth'          => 1,
 							'fallback_cb'    => false,
 							'menu_class'     => '',
-							'link_class'    => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
+							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
 						]);
 						?>
 					</ul>
-
-					<!-- Toggle + menú móvil (lo que ya tienes) -->
-					<button class="navbar-toggler d-md-none ms-auto"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#mobileNavbar"
-						aria-controls="mobileNavbar"
-						aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon">hola</span>
-					</button>
-
-					<div class="collapse fullscreen-menu d-md-none jumbo text-uppercase bg-primary gap-3" id="mobileNavbar">
-						<a class="navbar-nav flex-row gap-3 w-100 text-secondary" href="<?= get_home_url() ?>">
-							<span data-anim="nav-links">HOME</span>
-						</a>
-						<?php
-						wp_nav_menu([
-							'theme_location' => 'menu-izquierda',
-							'container'      => false,
-							'menu_class'     => 'navbar-nav flex-column text-center gap-3 w-100 text-secondary',
-							'fallback_cb'    => false,
-							'link_before'    => '<span data-anim="nav-links">',
-							'link_after'     => '</span>',
-						]);
-						wp_nav_menu([
-							'theme_location' => 'menu-derecha',
-							'container'      => false,
-							'menu_class'     => 'navbar-nav flex-column text-center gap-3 w-100 text-secondary',
-							'fallback_cb'    => false,
-							'link_before'    => '<span data-anim="nav-links">',
-							'link_after'     => '</span>',
-						]);
-						?>
-					</div>
 				</nav>
+
 			</div>
 		</header>
 		<main

@@ -1,4 +1,11 @@
-.block-services-home {
-  min-height: 100vh; // para que como mínimo ocupe una pantalla
-  //   padding-bottom: 38rem;
+.block-services-home__service {
+  /* Altura mínima común para todas las cards */
+  --service-min-height: 420px;
+
+  min-height: var(--service-min-height);
+  display: flex; // ya lo tienes en el HTML, pero por si acaso
+}
+
+.block-services-home__service > .row {
+  height: 100%;
 }

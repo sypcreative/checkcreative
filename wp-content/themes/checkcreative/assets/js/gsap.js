@@ -18,36 +18,84 @@ export function initDescriptionPin() {
     transformOrigin: "50% 50%",
   });
 
-  const tl = gsap.timeline({
-    defaults: { ease: "none" },
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: "+=180%",
-      pin: true,
-      scrub: 0.6,
-      anticipatePin: 1,
-      markers: false,
-    },
-  });
-
   const yShift = [-70, -80, 90, 130];
   const xShift = [-300, 200, -130, 150];
   const rot = [-6, 4, -3, 5];
 
-  images.forEach((img, i) => {
-    const idx = i % 4;
-    tl.to(
-      img,
-      {
-        x: `+=${xShift[idx]}`,
-        y: `+=${yShift[idx]}`,
-        rotation: `+=${rot[idx]}`,
-        scale: 1.06,
-        opacity: 1,
-      },
-      0 // que todas empiecen a la vez; cambia por i*0.05 si quieres escalonado
-    );
+  ScrollTrigger.matchMedia({
+    // ✅ DESKTOP / TABLET GRANDE
+    "(min-width: 769px)": function () {
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=20%",
+          pin: true,
+          scrub: 0.6, // mejor que true
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          // pinSpacing: true,   // por si quieres tocar spacing
+          //  markers: true,
+        },
+      });
+
+      images.forEach((img, i) => {
+        const idx = i % 4;
+        tl.to(
+          img,
+          {
+            x: `+=${xShift[idx]}`,
+            y: `+=${yShift[idx]}`,
+            rotation: `+=${rot[idx]}`,
+            scale: 1.06,
+            opacity: 1,
+          },
+          0 // todas a la vez; pon i * 0.05 si quieres escalonado
+        );
+      });
+    },
+
+    // 📱 MÓVIL
+    "(max-width: 768px)": function () {
+      // En móvil: SIN pin, SIN scrub, animación “normal” al entrar
+      const tlMobile = gsap.timeline({
+        defaults: { ease: "power2.out" },
+        scrollTrigger: {
+          trigger: section,
+          start: "top 75%",
+          end: "bottom top",
+          toggleActions: "play none none reverse",
+          pin: false,
+          scrub: false,
+          invalidateOnRefresh: true,
+          // markers: true,
+        },
+      });
+
+      images.forEach((img, i) => {
+        const idx = i % 4;
+        tlMobile.fromTo(
+          img,
+          {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 0.95,
+            opacity: 0,
+          },
+          {
+            x: xShift[idx] * 0.4, // menos exagerado en móvil
+            y: yShift[idx] * 0.4,
+            rotation: rot[idx],
+            scale: 1.03,
+            opacity: 1,
+            duration: 0.6,
+          },
+          i * 0.08
+        );
+      });
+    },
   });
 
   // Si las imágenes tardan en cargar (ACF), refresca triggers
@@ -187,75 +235,6 @@ export function initBestProjectsPin() {
   });
   ScrollTrigger.refresh();
 }
-
-// !! SI USO __item height: 100svh; USAR ESTA FUNCTION
-
-// export function initBestProjectsPin() {
-//   const section = document.querySelector(".block-best-projects");
-//   if (!section) return;
-
-//   const content = section.querySelector(".block-best-projects__content");
-//   if (!content) return;
-
-//   const items = gsap.utils.toArray(".block-best-projects__item");
-//   if (!items.length) return;
-
-//   const getScrollLen = () => {
-//     const total = content.scrollHeight;
-//     const vh = window.innerHeight;
-//     return Math.max(1, total - vh);
-//   };
-
-//   const tl = gsap.timeline({
-//     defaults: { ease: "none" },
-//     scrollTrigger: {
-//       trigger: section,
-//       start: "top top",
-//       end: () => `+=${getScrollLen()}`,
-//       pin: true,
-//       scrub: 0.6,
-//       snap: {
-//         snapTo: (value) =>
-//           gsap.utils.snap(1 / Math.max(1, items.length - 1), value),
-//         duration: 0.25,
-//         ease: "power1.inOut",
-//       },
-//       invalidateOnRefresh: true,
-//       onUpdate: (self) => focusNearest(self),
-//       anticipatePin: 1,
-//       markers: false,
-//     },
-//   });
-
-//   tl.to(content, {
-//     y: () => -(content.scrollHeight - window.innerHeight),
-//   });
-
-//   // Efecto de enfoque al elemento más cercano al centro de la pantalla
-//   const focusNearest = () => {
-//     const center = window.innerHeight / 2;
-
-//     items.forEach((item) => {
-//       const rect = item.getBoundingClientRect();
-//       const itemCenter = rect.top + rect.height / 2;
-//       const dist = Math.abs(itemCenter - center);
-
-//       // Mapear distancia -> escala/opacidad:
-//       // cuando dist=0 => scale 1.08 / opacity 1
-//       // cuando dist= center => scale ~0.9 / opacity ~0.6
-//       const scale = gsap.utils.clamp(0.9, 1.08, 1.08 - (dist / center) * 0.18);
-//       const opacity = gsap.utils.clamp(0.6, 1, 1 - (dist / center) * 0.4);
-
-//       gsap.to(item, { scale, opacity, duration: 0.2, overwrite: true });
-//     });
-//   };
-
-//   // Recalcular al redimensionar
-//   ScrollTrigger.addEventListener("refreshInit", () => {
-//     gsap.set(content, { clearProps: "y" });
-//   });
-//   ScrollTrigger.refresh();
-// }
 
 export function initAboutHero() {
   const section = document.querySelector(".block-hero-about");
@@ -515,7 +494,7 @@ export function textAnimations(root = document, { exclude } = {}) {
       trigger: el,
       start: "top 75%",
       end: "top 20%",
-      scrub: true,
+      scrub: 0.4,
       // markers: true,
       onUpdate: (st) => {
         const p = st.progress; // 0..1
@@ -608,7 +587,7 @@ export function initHighlightText() {
         let ctx = gsap.context(() => {
           let tl = gsap.timeline({
             scrollTrigger: {
-              scrub: true,
+              scrub: 0.4,
               trigger: heading,
               start: scrollStart,
               end: scrollEnd,
@@ -816,7 +795,7 @@ export function initFooterParallax() {
         trigger: el,
         start: "clamp(top bottom)",
         end: "clamp(top top)",
-        scrub: true,
+        scrub: 0.4,
         //   markers: true, // quita luego
         invalidateOnRefresh: true,
       },
@@ -1133,64 +1112,159 @@ export function initStackingCards() {
   const imgs = container.querySelectorAll("[data-stacking-cards-image]");
   if (!imgs.length) return;
 
+  const spacer = document.querySelector("[data-stacking-cards-spacer]");
   const STEP = -65;
+  const SCROLL_PER_CARD = 0.9;
+
+  const getScrollAmount = () =>
+    (cards.length - 1) * window.innerHeight * SCROLL_PER_CARD;
 
   const tl = gsap.timeline({
     defaults: { ease: "none" },
     scrollTrigger: {
       trigger: container,
-      start: "top 20%",
-      end: "bottom bottom",
-      scrub: true,
+      start: "top 12%",
+      end: () => "+=" + getScrollAmount(),
+      scrub: 0.4,
       pin: true,
       pinSpacing: false,
       invalidateOnRefresh: true,
+      onRefresh: (self) => {
+        const amount = getScrollAmount();
+
+        const containerHeight = container.offsetHeight;
+        const viewport = window.innerHeight;
+
+        // scroll "natural" que ya consumiría esa sección sin pin
+        const naturalScroll = Math.max(containerHeight - viewport, 0);
+
+        // solo el extra que queremos añadir por el efecto
+        const MAX_SPACER = 1000; // tú ajustas
+
+        const extraScroll = Math.max(
+          Math.min(amount - naturalScroll, MAX_SPACER),
+          0
+        );
+
+        if (spacer) {
+          spacer.style.height = extraScroll + "px";
+        }
+
+        self.end = self.start + amount;
+      },
       // markers: true,
     },
   });
 
-  // Recorremos por índice
   cards.forEach((card, i) => {
     const desc = descs[i];
     const img = imgs[i];
-    // 1) REVEAL DEL TEXTO DE ESTA CARD (si tiene)
+
     if (desc) {
       const fadedValue =
         parseFloat(desc.getAttribute("data-highlight-fade")) || 0.2;
       const staggerValue =
         parseFloat(desc.getAttribute("data-highlight-stagger")) || 0.06;
-      console.log({ fadedValue, staggerValue });
+
       const split = new SplitText(desc, {
         type: "words,chars",
         autoSplit: true,
       });
 
-      // aparece el texto de la card i
       tl.from(split.chars, {
         autoAlpha: fadedValue,
         stagger: staggerValue,
-        duration: 0.4, // tramo de scroll para el texto
+        duration: 0.4,
         ease: "linear",
       });
     }
+
     tl.from(
       img,
       {
         height: 0,
-        duration: 8.5, // tramo de scroll para la imagen
+        duration: 0.8,
         ease: "power4.inOut",
       },
       "<"
     );
-    // 2) LUEGO se mueve la SIGUIENTE card (i+1)
+
     const nextCard = cards[i + 1];
     if (nextCard) {
       tl.to(nextCard, {
         yPercent: STEP * (i + 1),
-        duration: 11.5, // tramo de scroll para el stacking
+        duration: 1.1,
       });
     }
   });
 
   ScrollTrigger.refresh();
+}
+
+export function initScrollLine() {
+  const section = document.querySelector("[data-line-scroll]");
+  console.log("initScrollLine");
+  if (!section) return;
+
+  const path = section.querySelector("#linea-trazo");
+  if (!path) return;
+  console.log("path", path);
+  const length = path.getTotalLength();
+
+  console.log("path", path, "length", length);
+  // Estado inicial “oculto”
+  path.style.strokeDasharray = length;
+  path.style.strokeDashoffset = length;
+
+  gsap.to(path, {
+    strokeDashoffset: 0,
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top 70%", // cuando la sección entra en viewport
+      end: "bottom 70%", // hasta casi salir
+      scrub: 0.4, // ligado al scroll
+      // markers: true,
+    },
+  });
+}
+
+export function initCSSMarquee() {
+  const pixelsPerSecond = 20; // velocidad en px/s
+  const marquees = document.querySelectorAll("[data-css-marquee]");
+
+  // Duplicar cada [data-css-marquee-list] dentro de su contenedor
+  marquees.forEach((marquee) => {
+    marquee.querySelectorAll("[data-css-marquee-list]").forEach((list) => {
+      const duplicate = list.cloneNode(true);
+      marquee.appendChild(duplicate);
+    });
+  });
+
+  // IntersectionObserver para pausar si no está en viewport
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        entry.target
+          .querySelectorAll("[data-css-marquee-list]")
+          .forEach((list) => {
+            list.style.animationPlayState = entry.isIntersecting
+              ? "running"
+              : "paused";
+          });
+      });
+    },
+    { threshold: 0 }
+  );
+
+  // Calcular ancho y fijar duración en función de la velocidad
+  marquees.forEach((marquee) => {
+    marquee.querySelectorAll("[data-css-marquee-list]").forEach((list) => {
+      const width = list.offsetWidth;
+      list.style.animationDuration = width / pixelsPerSecond + "s";
+      list.style.animationPlayState = "paused";
+    });
+
+    observer.observe(marquee);
+  });
 }

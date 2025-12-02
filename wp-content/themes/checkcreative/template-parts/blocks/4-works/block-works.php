@@ -5,8 +5,8 @@ $show_filters = get_field('block_works_filters');
 $args = array(
 	'post_type' => 'proyectos',
 	'posts_per_page' => -1,
-	'orderby'        => 'date',
-	'order'          => 'DESC',
+	'orderby'        => 'menu_order',
+	'order'          => 'ASC',
 );
 
 $query = new WP_Query($args);

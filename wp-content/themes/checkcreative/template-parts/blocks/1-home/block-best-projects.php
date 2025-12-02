@@ -2,9 +2,10 @@
 $proyectos = get_field('block_best_projects_relation');
 $overlay = get_field('block_best_projects_overlay');
 $view = get_field('block_best_projects_vista');
+$title = get_field('block_best_projects_title');
 if ($proyectos && is_array($proyectos)) : ?>
 
-	<section class="block-best-projects h-100 overflow-clip position-relative">
+	<section class="block-best-projects h-100 overflow-clip position-relative py-5">
 		<div class="container h-100">
 			<?php if ($view == 'vertical') : ?>
 				<div class="block-best-projects__content d-flex flex-column align-items-center">
@@ -43,12 +44,14 @@ if ($proyectos && is_array($proyectos)) : ?>
 
 			<?php endif; ?>
 			<?php if ($view == 'cards') : ?>
-
 				<div data-init-projects-cards="" class="block-best-projects__card-group position-relative">
 					<div class="block-best-projects__relative-object opacity-0 pointer-events-none position-relative">
 						<div class="block-best-projects__relative-object-before"></div>
 					</div>
 					<div data-projects-cards-collection="" class="block-best-projects__collection w-100 h-100 position-absolute top-0 start-0">
+						<div class="block-best-projects__card-title">
+							<h2 class="block-best-projects__card-title-h2 text-center w-100 text-uppercase display text-center"><?= ($title) ?></h2>
+						</div>
 						<div data-projects-cards-list="" class="block-best-projects__list justify-content-center align-items-center d-flex h-100 w-100 position-relative">
 
 							<?php foreach ($proyectos as $item) :
@@ -73,7 +76,7 @@ if ($proyectos && is_array($proyectos)) : ?>
 										<div class="block-best-projects__card-drag-before"></div>
 										<div class="block-best-projects__media d-flex position-absolute justify-content-center align-items-center top-0 start-0 w-100 h-100">
 											<?= $thumb_html ?>
-											<a href="#" class="block-best-projects__btn z-2"><span class="block-best-projects__btn-span">View Project</span></a>
+											<a href="<?= esc_url($permalink) ?>" class="block-best-projects__btn z-2"><span class="block-best-projects__btn-span">View Project</span></a>
 											<h3 class="block-best-projects__h3 position-absolute text-center z-2"><?= esc_html($title) ?></h3>
 										</div>
 									</div>

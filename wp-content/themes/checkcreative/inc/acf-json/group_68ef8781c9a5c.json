@@ -29,6 +29,26 @@
             "placeholder": ""
         },
         {
+            "key": "field_692c28ad9b61d",
+            "label": "Título de la sección",
+            "name": "block_best_projects_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_69260ec4fa8ca",
             "label": "Overlay",
             "name": "block_best_projects_overlay",
@@ -106,5 +126,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1764101893
+    "modified": 1764501701
 }

@@ -1,6 +1,19 @@
-/* --- Carousel de logos sin JS --- */
+/* Contenedor del marquee */
 .logo-marquee {
+  width: 100%;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  /* Si quieres mantener el fade lateral */
   mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
     to right,
     transparent,
     #000 8%,
@@ -9,38 +22,52 @@
   );
 }
 
+/* La lista que se desplaza (se clonará con JS) */
 .logo-track {
-  gap: clamp(32px, 6vw, 96px);
-  animation: logos-scroll 30s linear infinite;
-  /* evita salto al cambiar tamaño */
-  will-change: transform;
-}
-.logo-marquee:hover .logo-track {
-  animation-play-state: paused;
+  flex: none;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
+/* Cada logo */
 .logo-item {
-  flex: 0 0 auto; /* no se encogen */
-  min-width: clamp(120px, 16vw, 240px);
-  height: 50px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: clamp(32px, 6vw, 96px); // tu "gap"
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  height: 75px;
 }
 
 .logo-item img {
-  max-height: clamp(28px, 4vw, 56px); /* ajusta la altura de los logos */
+  max-height: clamp(28px, 4vw, 56px);
   width: auto;
-  filter: none; /* o grayscale(1) si quieres */
   opacity: 0.9;
   transition: opacity 0.2s ease;
 }
+
 .logo-item img:hover {
   opacity: 1;
 }
 
-@keyframes logos-scroll {
-  from {
-    transform: translateX(0);
-  }
+/* Animación de traslación */
+@keyframes translateX {
   to {
-    transform: translateX(-50%);
-  } /* La pista está duplicada, -50% = un ciclo perfecto */
+    transform: translateX(-100%);
+  }
+}
+
+/* Aplicamos la animación a cada lista (original + clon) */
+[data-css-marquee-list] {
+  animation: translateX 30s linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused; /* JS decide cuándo correr */
+}
+
+/* Opcional: al hacer hover que se pare */
+.logo-marquee:hover [data-css-marquee-list] {
+  animation-play-state: paused;
 }

@@ -2,6 +2,7 @@
 import barba from "@barba/core";
 import gsap from "gsap";
 import { initLenis } from "./initLenis.js";
+import { initLogoRevealLoader } from "./preloader.js";
 
 const REVEAL_SELECTORS = [
   "[data-reveal]",
@@ -101,7 +102,9 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
   window.__BARBA_MINIMAL__ = true;
 
   let lenis = null;
+  let destroyers = []; // 👈 aquí guardaremos todos los cleanups
 
+  // Ejecuta funciones y recoge cleanups
   const run = (fns, container) =>
     requestAnimationFrame(() => {
       fns.forEach((fn) => {
@@ -109,7 +112,12 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
         const name = fn.name || "anon";
         try {
           // console.log("%c[Barba] init:", "color:#ff8800", name);
-          fn(container);
+          const res = fn(container);
+
+          // 👇 si la función devuelve otra función, la consideramos cleanup
+          if (typeof res === "function") {
+            destroyers.push(res);
+          }
         } catch (e) {
           console.error("[Barba] ERROR en init:", name, e);
         }
@@ -118,6 +126,18 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
 
   const runInitsFor = (container) => {
     if (!container) return;
+
+    // 🔥 Limpia todo lo de la página anterior
+    if (destroyers.length) {
+      destroyers.forEach((fn) => {
+        try {
+          fn && fn();
+        } catch (e) {
+          console.error("[Barba] error en cleanup:", e);
+        }
+      });
+      destroyers = [];
+    }
 
     const ns = container.getAttribute("data-barba-namespace") || "default";
     console.log(
@@ -129,7 +149,6 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
     run([...nsFns, ...common], container);
     kickstartVideoAutoplay(container);
 
-    // refrescamos ScrollTrigger tras los inits
     requestAnimationFrame(() => {
       try {
         window.gsap?.ScrollTrigger?.refresh?.(true);
@@ -158,37 +177,6 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
       const href = el?.getAttribute("href") || "";
       if (!href) return false;
 
-      // 2) Detectar cambio de idioma → dejar que el navegador recargue
-      // try {
-      //   // URL destino
-      //   const targetUrl = new URL(href, window.location.origin);
-      //   const targetSegs = targetUrl.pathname.split("/").filter(Boolean); // ["checkcreative","es","sobre-nosotros"]
-
-      //   // URL actual
-      //   const currentSegs = window.location.pathname.split("/").filter(Boolean); // ["checkcreative","en","about"]
-
-      //   // Soportar /checkcreative/es/... y también /es/...
-      //   const getLangFromSegs = (segs) => {
-      //     if (!segs.length) return null;
-      //     // Si el proyecto vive en una subcarpeta (checkcreative), el idioma será el segundo segmento
-      //     if (segs[0] === "checkcreative") return segs[1] || null;
-      //     // Si está en raíz, el idioma será el primero
-      //     return segs[0] || null;
-      //   };
-
-      //   const currentLang = getLangFromSegs(currentSegs);
-      //   const targetLang = getLangFromSegs(targetSegs);
-
-      //   if (currentLang && targetLang && currentLang !== targetLang) {
-      //     // 👉 Es un enlace de cambio de idioma → NO Barba, reload normal
-      //     // console.log("[Barba] Cambio de idioma detectado → reload normal");
-      //     return true;
-      //   }
-      // } catch (e) {
-      //   // si falla el parseo de URL, seguimos con la lógica normal
-      // }
-
-      // 3) Misma página normalizada → no usamos Barba
       const norm = (p) => (p || "").replace(/\/+$/, "") || "/";
       return current && next && norm(current.url.path) === norm(next.url.path);
     },
@@ -202,9 +190,11 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
           const isHome =
             next?.container?.getAttribute("data-barba-namespace") === "home";
 
+          console.log("isFirstVisit:", isFirstVisit, "isHome:", isHome);
           if (isFirstVisit && isHome) {
             return new Promise((resolve) => {
-              initPreloaderMedia({
+              console.log("Showing preloader on first visit to home");
+              initLogoRevealLoader({
                 onComplete: () => {
                   sessionStorage.setItem("preloaderShown", "true");
                   resolve();
@@ -227,6 +217,7 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
             });
           });
         },
+
         async leave({ current }) {
           if (!current?.container) return;
 
@@ -240,11 +231,9 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
 
           current.container.style.pointerEvents = "none";
 
-          // 🔥 mata tweens del container viejo
           gsap.killTweensOf(current.container);
           gsap.killTweensOf(current.container.querySelectorAll("*"));
 
-          // 🔥 mata ScrollTriggers
           if (window.gsap?.ScrollTrigger) {
             window.gsap.ScrollTrigger.getAll().forEach((st) => st.kill());
           }
@@ -265,14 +254,12 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
           container.style.position = container.style.position || "relative";
           container.style.zIndex = "1";
 
-          // reutilizamos Lenis si ya existe, si no lo creamos
           if (!lenis) {
             lenis = initLenis();
           }
           lenis.resize();
           lenis.scrollTo(0, { immediate: true });
 
-          // por si acaso hubiera algo colgado de este container
           gsap.killTweensOf(container);
           gsap.killTweensOf(container.querySelectorAll("*"));
 
@@ -280,6 +267,7 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
           next.__revealItems = prepRevealEnter(container);
           gsap.set(container, { autoAlpha: 1 });
 
+          // 👇 aquí ya hacemos el cleanup de la página anterior y luego inits nuevos
           runInitsFor(container);
         },
 
@@ -304,7 +292,9 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
 
 function kickstartVideoAutoplay(root = document) {
   const videos = Array.from(
-    root.querySelectorAll(".block-hero-home__video, .gallery-slider__video")
+    root.querySelectorAll(
+      ".block-hero-home__video, .gallery-slider__video, .masonry-item__visual video"
+    )
   );
   if (!videos.length) return;
 

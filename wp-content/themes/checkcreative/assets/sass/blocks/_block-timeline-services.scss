@@ -1,0 +1,124 @@
+#linea-trazo {
+  fill: none;
+  stroke: var(--cor-primary);
+  stroke-width: 6px;
+}
+
+.block-line {
+  &__wrapper {
+    width: 50%;
+    left: 50%;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-50%);
+
+    @include media-breakpoint-down(md) {
+      width: 110%;
+    }
+  }
+}
+
+.linea-scroll {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1400px; /* o el ancho que uses para el layout */
+}
+
+.linea-scroll svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Posiciones concretas (ajusta a ojo hasta que queden sobre la línea) */
+.process-step {
+  position: absolute;
+  max-width: 50%;
+  font-family: system-ui, sans-serif; /* cambia por tus fuentes */
+  &--1 {
+    top: 18%;
+    left: -46%; /* bloque a la izquierda, parte alta de la curva */
+    text-align: end;
+  }
+  &--2 {
+    top: 35%;
+    right: -30%; /* un poco más abajo, a la derecha */
+  }
+  &--3 {
+    top: 45%;
+    left: 15%; /* en el centro, parte baja de la curva */
+  }
+  &--4 {
+    top: 65%;
+    left: 35%; /* un poco más abajo, a la izquierda */
+  }
+  &--5 {
+    text-align: end;
+    top: 89%;
+    left: 2%;
+  }
+  &__badge {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  &__text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  &__title {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+}
+
+.process-image {
+  position: absolute;
+  width: 180px;
+  height: auto;
+  &--1 {
+    top: 17%;
+    left: 97%;
+    rotate: 5deg;
+  }
+  &--2 {
+    top: 50%;
+    right: -15%;
+    rotate: 2deg;
+  }
+  &--3 {
+    top: 30%;
+    left: -25%;
+    rotate: -3deg;
+  }
+  &--4 {
+    top: 60%;
+    left: -10%;
+    rotate: 6deg;
+  }
+  &--5 {
+    top: 75%;
+    left: 60%;
+    rotate: -8deg;
+  }
+}
+
+/* Título “process.” arriba en la curva */
+.process-label {
+  position: absolute;
+  margin: 0;
+  font-size: 2.5rem;
+  font-style: italic;
+  &--1 {
+    top: 120px;
+    right: 120px;
+  }
+  //   &--2 {
+  //     top: 30%;
+  //     left: 30%;
+  //   }
+}

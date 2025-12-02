@@ -3,77 +3,6 @@
     "title": "Block Project Gallery",
     "fields": [
         {
-            "key": "field_6906aa47d9666",
-            "label": "Media",
-            "name": "block_project_gallery_repeater",
-            "aria-label": "",
-            "type": "repeater",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "table",
-            "pagination": 0,
-            "min": 0,
-            "max": 0,
-            "collapsed": "",
-            "button_label": "Agregar Fila",
-            "rows_per_page": 20,
-            "sub_fields": [
-                {
-                    "key": "field_6906aa64d9667",
-                    "label": "Imagen",
-                    "name": "block_project_gallery_repeater_image",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": "",
-                    "preview_size": "medium",
-                    "parent_repeater": "field_6906aa47d9666"
-                },
-                {
-                    "key": "field_690b3b8b25541",
-                    "label": "Vídeo",
-                    "name": "block_project_gallery_repeater_video",
-                    "aria-label": "",
-                    "type": "file",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "library": "all",
-                    "min_size": "",
-                    "max_size": "",
-                    "mime_types": "",
-                    "parent_repeater": "field_6906aa47d9666"
-                }
-            ]
-        },
-        {
             "key": "field_690b3f0ce09c8",
             "label": "Media",
             "name": "block_project_gallery_items",
@@ -177,5 +106,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762344871
+    "modified": 1764560996
 }

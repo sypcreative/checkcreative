@@ -3,6 +3,46 @@
     "title": "Block Services Home",
     "fields": [
         {
+            "key": "field_692ebc069a164",
+            "label": "Título de la sección",
+            "name": "block_services_home_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_692ebc81d313c",
+            "label": "Título visible?",
+            "name": "block_services_home_title_visible",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Esta casilla es básciamente por si quieres mantener el titular de la sección pineado mientras se hace la animación o si prefieres que desaparezca de la pantalla con scroll normal y no se quede pineado\/fijado",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Visible",
+            "ui_off_text": "No visible",
+            "ui": 1
+        },
+        {
             "key": "field_692622c8bcfa2",
             "label": "Servicios",
             "name": "block_services_home_service",
@@ -179,5 +219,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1764107707
+    "modified": 1764670720
 }
