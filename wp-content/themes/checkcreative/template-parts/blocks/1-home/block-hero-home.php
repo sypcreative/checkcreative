@@ -8,20 +8,20 @@ $images = get_field('block_home_hero_images');
 $trail = get_field('opciones_sitio_cursor_images', 'option');
 ?>
 
-<section class="block-hero-home <?php echo $selector == 'video' ? "vh-120" : "vh-100" ?> vw-100 position-relative overflow-clip" data-trail="wrapper">
+<section class="block-hero-home <?php echo $selector == 'video' ? "vh-100" : "vh-100" ?> vw-100 position-relative overflow-clip" data-trail="wrapper">
 	<?php if ($selector == 'video') : ?>
 		<video class="block-hero-home__video position-absolute top-0 start-0 w-100 h-100 object-fit-cover z-0" autoplay muted loop playsinline>
 			<source src="<?= $video ?>" type="video/mp4" />
 		</video>
 		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-			<h1 class="block-hero-home__title text-<?= $color ?> display w-10 w-md-50">
+			<h1 class="block-hero-home__title text-<?= $color ?> display">
 				<?php echo esc_html($title); ?>
 			</h1>
 		</div>
 	<?php endif; ?>
 	<?php if ($selector == 'image') : ?>
 		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-			<h1 class="block-hero-home__title text-<?= $color ?> display w-10 w-md-50">
+			<h1 class="block-hero-home__title text-<?= $color ?> display">
 				<?php echo esc_html($title); ?>
 			</h1>
 		</div>

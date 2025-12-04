@@ -12,7 +12,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "50",
+                "width": "",
                 "class": "",
                 "id": ""
             },
@@ -23,8 +23,24 @@
             "append": ""
         },
         {
+            "key": "field_692f84db7da44",
+            "label": "Enlace See More",
+            "name": "block_services_home_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
             "key": "field_692ebc81d313c",
-            "label": "Título visible?",
+            "label": "¿Título visible?",
             "name": "block_services_home_title_visible",
             "aria-label": "",
             "type": "true_false",
@@ -219,5 +235,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1764670720
+    "modified": 1764797918
 }

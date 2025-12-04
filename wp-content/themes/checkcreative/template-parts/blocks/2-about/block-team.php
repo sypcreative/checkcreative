@@ -19,7 +19,7 @@ $repeater = get_field('block_team_repeater');
 					<div data-directional-hover-tile="" class="block-team-list__hover-tile"></div>
 					<div class="block-team-list__border is--item"></div>
 					<div class="block-team__members_member_info d-flex flex-row justify-content-between align-items-center position-relative w-100">
-						<p class="block-team__members_member_info_name h1 text-uppercase mb-0 fw-600">
+						<p class="block-team__members_member_info_name h-md-1 h3 text-uppercase mb-0 fw-600">
 							<?php echo esc_html($name); ?>
 						</p>
 						<p class="block-team__members_member_info_role mb-0 fs-5 text-uppercase">

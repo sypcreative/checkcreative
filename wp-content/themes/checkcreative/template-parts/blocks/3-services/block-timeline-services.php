@@ -21,8 +21,8 @@ $images = get_field('block_timeline_services_images') ?: [];
 				?>
 				<article class="process-step process-step--<?= $i ?>">
 					<span class="process-step__badge"><?= esc_html($service_phase) ?></span>
-					<h3 class="process-step__title"><?= esc_html($service_title) ?></h3>
-					<p class="process-step__text" data-highlight-text>
+					<h3 class="process-step__title h5"><?= esc_html($service_title) ?></h3>
+					<p class="process-step__text fs-6" data-highlight-text>
 						<?= esc_html($service_text) ?>
 					</p>
 				</article>

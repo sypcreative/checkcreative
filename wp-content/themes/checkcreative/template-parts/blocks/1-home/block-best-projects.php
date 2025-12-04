@@ -3,6 +3,11 @@ $proyectos = get_field('block_best_projects_relation');
 $overlay = get_field('block_best_projects_overlay');
 $view = get_field('block_best_projects_vista');
 $title = get_field('block_best_projects_title');
+$link = get_field('block_best_projects_link');
+$url = $link ? $link['url'] : '';
+$target = $link ? $link['target'] : '_self';
+$url_title = $link ? $link['title'] : '';
+
 if ($proyectos && is_array($proyectos)) : ?>
 
 	<section class="block-best-projects h-100 overflow-clip position-relative py-5">
@@ -83,6 +88,15 @@ if ($proyectos && is_array($proyectos)) : ?>
 								</div>
 							<?php endforeach; ?>
 						</div>
+						<?php if ($url) : ?>
+							<div class="block-best-projects__link d-flex justify-content-center position-relative">
+								<a
+									href="<?php echo esc_url($url); ?>"
+									target="<?php echo esc_attr($target); ?>">
+									<?php echo esc_html($url_title); ?>
+								</a>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			<?php endif; ?>

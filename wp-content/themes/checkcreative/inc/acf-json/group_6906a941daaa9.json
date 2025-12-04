@@ -41,6 +41,31 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_6930bba02e322",
+            "label": "Imagen Móvil",
+            "name": "block_single_objective_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Esta es una imagen que se va a mostrar solo en versión movil para que no haya mucho texto seguido y poder intercalar una imgen",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "preview_size": "medium"
         }
     ],
     "location": [
@@ -61,5 +86,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1762044356
+    "modified": 1764801584
 }

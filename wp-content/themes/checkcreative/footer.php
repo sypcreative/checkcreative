@@ -63,7 +63,7 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 		<?php endif; ?>
 
 		<?php if ($show_timestamp): ?>
-			<div class="time-stamp text-end small">
+			<div class="time-stamp text-end small text-primary">
 				<p class="mb-0" data-current-time>
 					<span data-current-time-hours>09</span>:
 					<span data-current-time-minutes>00</span>:
@@ -84,12 +84,12 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 				$total = count($langs);
 				$i     = 0;
 			?>
-				<div class="language-toggle small text-end text-dark">
+				<div class="language-toggle small text-end text-primary">
 					<?php foreach ($langs as $lang): ?>
 						<?php $i++; ?>
 
 						<a href="<?php echo esc_url($lang['url']); ?>"
-							class="lang-link text-dark <?php echo $lang['current_lang'] ? 'is-active' : ''; ?>">
+							class="lang-link text-primary <?php echo $lang['current_lang'] ? 'is-active' : ''; ?>">
 							<?php echo strtoupper($lang['slug']); ?>
 						</a>
 
@@ -136,13 +136,6 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 						<a data-underline-link="" href="tel:<?= get_field('opciones_sitio_phone', 'option') ?>" class="block-check-footer__a"><?= get_field('opciones_sitio_phone', 'option') ?></a>
 					</div>
 				</div>
-			</div>
-			<div class="block-check-footer__logo-row d-flex flex-row text-light">
-				<?php if (get_field('opciones_sitio_show_logo', 'option')) : ?>
-					<img src="<?= get_field('opciones_sitio_logo_principal_white', 'option'); ?>" alt="Checkcreative" height="40">
-				<?php else : ?>
-					<div class="display block-check-footer__logo-text"><?= get_field('opciones_sitio_show_footer_text', 'option') ?></div>
-				<?php endif; ?>
 			</div>
 		</footer>
 		<div data-footer-parallax-dark="" class="footer-wrap__dark"></div>

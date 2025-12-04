@@ -287,6 +287,39 @@ $headings-sizes-md: (
   }
 }
 
+@include media-breakpoint-up(md) {
+  .pt-md-6 {
+    padding-top: 4rem !important;
+  }
+  .pt-md-7 {
+    padding-top: 5rem !important;
+  }
+  .pt-md-8 {
+    padding-top: 6rem !important;
+  }
+  .pt-md-9 {
+    padding-top: 7rem !important;
+  }
+  .pt-md-10 {
+    padding-top: 8rem !important;
+  }
+  .pt-md-11 {
+    padding-top: 9rem !important;
+  }
+  .pt-md-12 {
+    padding-top: 10rem !important;
+  }
+  .pt-md-13 {
+    padding-top: 11rem !important;
+  }
+  .pt-md-14 {
+    padding-top: 12rem !important;
+  }
+  .pt-md-15 {
+    padding-top: 13rem !important;
+  }
+}
+
 .pb {
   &-6 {
     padding-bottom: 4rem;

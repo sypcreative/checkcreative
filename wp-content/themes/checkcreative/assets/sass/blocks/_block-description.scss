@@ -1,5 +1,4 @@
 .block-description {
-  will-change: transform;
   isolation: isolate;
   &__img {
     position: absolute;
@@ -8,6 +7,8 @@
     max-width: 20vmin;
     height: auto;
     opacity: 0.3;
+    will-change: transform, opacity; // aquí sí
+
     // Distribución y rotaciones tipo poster
     &:nth-of-type(1) {
       transform: translate(-50%, -50%) translate(-140px, -120px) rotate(-12deg);

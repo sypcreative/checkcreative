@@ -188,3 +188,11 @@ function handle_block_contact_submit()
 	wp_safe_redirect($redirect_url);
 	exit;
 }
+
+// Tamaño específico para las imágenes del bloque description
+add_image_size(
+	'description-block', // nombre
+	700,                 // ancho máximo (px)
+	875,                 // alto máximo (px) → 4:5 aprox
+	true                 // hard crop
+);

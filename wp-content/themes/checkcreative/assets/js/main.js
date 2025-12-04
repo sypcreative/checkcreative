@@ -9,6 +9,7 @@ import {
   initAboutHero,
   initBestProjectCards,
   initBestProjectsPin,
+  initContactGallery,
   initCSSMarquee,
   initDescriptionPin,
   initDirectionalListHover,
@@ -20,7 +21,6 @@ import {
   initScrollLine,
   initStackingCards,
   stampCC,
-  textAnimations,
 } from "./gsap.js";
 import { setupBarba } from "./pageTransition.js";
 import { initCookieDarkLight } from "./themeToggler.js";
@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // initDynamicCustomTextCursor,
       initCookieDarkLight,
       imageParallax,
-      textAnimations,
       initDynamicCurrentTime,
       initHighlightText,
       stampCC,
@@ -59,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       about: [initAboutHero, initDirectionalListHover],
       "single-proyecto": [initGallerySlider],
       services: [initScrollLine],
+      contact: [initContactGallery],
       contacto: [],
       gallery: [initMasonryGrid],
       // ESPAÑOL

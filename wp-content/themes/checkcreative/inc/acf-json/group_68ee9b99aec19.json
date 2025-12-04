@@ -39,6 +39,26 @@
             "return_format": "array"
         },
         {
+            "key": "field_692f6a90d6f50",
+            "label": "Mostrar imágenes",
+            "name": "block_description_show",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Mostrar",
+            "ui_off_text": "No mostrar",
+            "ui": 1
+        },
+        {
             "key": "field_68ee9c3867d65",
             "label": "Imágenes",
             "name": "block_description_repeater",
@@ -46,7 +66,15 @@
             "type": "repeater",
             "instructions": "Subir un total de 4 imágenes, las imágenes van a tener una animación de transición",
             "required": 1,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_692f6a90d6f50",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -102,5 +130,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760470909
+    "modified": 1764715281
 }

@@ -2,7 +2,6 @@ import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger, Draggable, SplitText);
 
@@ -10,95 +9,96 @@ export function initDescriptionPin() {
   const section = document.querySelector(".block-description");
   if (!section) return;
 
-  const images = section.querySelectorAll(".block-description__img");
-  if (!images.length) return;
+  const allImages = section.querySelectorAll(".block-description__img");
+  if (!allImages.length) return;
+
+  const heading = section.querySelector("[data-highlight-text]");
+
+  const isMobile = window.innerWidth <= 768;
+
+  // 👉 En móvil animamos menos imágenes
+  const images = isMobile
+    ? Array.from(allImages) // solo 2 primeras
+    : Array.from(allImages);
 
   gsap.set(images, {
     willChange: "transform",
     transformOrigin: "50% 50%",
+    force3D: true,
+  });
+
+  gsap.set(section, {
+    transformStyle: "preserve-3d",
   });
 
   const yShift = [-70, -80, 90, 130];
   const xShift = [-300, 200, -130, 150];
   const rot = [-6, 4, -3, 5];
 
-  ScrollTrigger.matchMedia({
-    // ✅ DESKTOP / TABLET GRANDE
-    "(min-width: 769px)": function () {
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=20%",
-          pin: true,
-          scrub: 0.6, // mejor que true
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          // pinSpacing: true,   // por si quieres tocar spacing
-          //  markers: true,
-        },
-      });
+  const SECTION_DURATION = 1; // Duración lógica de toda la animación
 
-      images.forEach((img, i) => {
-        const idx = i % 4;
-        tl.to(
-          img,
-          {
-            x: `+=${xShift[idx]}`,
-            y: `+=${yShift[idx]}`,
-            rotation: `+=${rot[idx]}`,
-            scale: 1.06,
-            opacity: 1,
-          },
-          0 // todas a la vez; pon i * 0.05 si quieres escalonado
-        );
-      });
-    },
-
-    // 📱 MÓVIL
-    "(max-width: 768px)": function () {
-      // En móvil: SIN pin, SIN scrub, animación “normal” al entrar
-      const tlMobile = gsap.timeline({
-        defaults: { ease: "power2.out" },
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          end: "bottom top",
-          toggleActions: "play none none reverse",
-          pin: false,
-          scrub: false,
-          invalidateOnRefresh: true,
-          // markers: true,
-        },
-      });
-
-      images.forEach((img, i) => {
-        const idx = i % 4;
-        tlMobile.fromTo(
-          img,
-          {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            scale: 0.95,
-            opacity: 0,
-          },
-          {
-            x: xShift[idx] * 0.4, // menos exagerado en móvil
-            y: yShift[idx] * 0.4,
-            rotation: rot[idx],
-            scale: 1.03,
-            opacity: 1,
-            duration: 0.6,
-          },
-          i * 0.08
-        );
-      });
+  // 🔥 UN SOLO TIMELINE PARA TODO (sin matchMedia)
+  const tl = gsap.timeline({
+    defaults: { ease: "none" },
+    scrollTrigger: {
+      trigger: section,
+      start: isMobile ? "top 20%" : "top top",
+      end: isMobile ? "+=40%" : "+=50%", // un poco menos scroll en mobile
+      pin: isMobile ? false : true,
+      scrub: isMobile ? 0.1 : 0.6, // scrub más suave
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      // markers: true,
     },
   });
 
-  // Si las imágenes tardan en cargar (ACF), refresca triggers
+  // 🎞️ Imágenes
+  images.forEach((img, i) => {
+    const idx = i % 4;
+    tl.to(
+      img,
+      {
+        x: `+=${xShift[idx]}`,
+        y: `+=${yShift[idx]}`,
+        rotation: `+=${rot[idx]}`,
+        scale: 1.06,
+        opacity: 1,
+        duration: SECTION_DURATION,
+      },
+      0 // todas empiezan desde el inicio del timeline
+    );
+  });
+
+  // ✨ Texto highlight sincronizado
+  if (heading) {
+    const fadedValue = heading.getAttribute("data-highlight-fade") || 0.2;
+    const staggerValue = heading.getAttribute("data-highlight-stagger") || 0.1;
+
+    const split = new SplitText(heading, {
+      type: "words, chars",
+      autoSplit: true,
+    });
+
+    // Estado inicial: ya empezamos “bajitas” de opacidad
+    gsap.set(split.chars, {
+      autoAlpha: fadedValue,
+    });
+
+    tl.to(
+      split.chars,
+      {
+        autoAlpha: 1,
+        ease: "linear",
+        stagger: {
+          each: staggerValue,
+          amount: SECTION_DURATION,
+        },
+      },
+      0
+    );
+  }
+
+  // Refresh al cargar
   const onLoadRefresh = () => ScrollTrigger.refresh();
   window.addEventListener("load", onLoadRefresh, { once: true });
 }
@@ -109,16 +109,15 @@ export function initHeroParallax() {
 
   const video = section.querySelector(".block-hero-home__video");
   const title = section.querySelector(".block-hero-home__title");
-
   if (!video) return;
 
   // Preparación para rendimiento y evitar bordes al mover
-  gsap.set(video, {
-    yPercent: -15, // arranca un poco arriba
-    scale: 1.1, // zoom leve para cubrir al mover
-    willChange: "transform",
-    transformOrigin: "50% 50%",
-  });
+  //   gsap.set(video, {
+  //     yPercent: -15, // arranca un poco arriba
+  //     scale: 1.1, // zoom leve para cubrir al mover
+  //     willChange: "transform",
+  //     transformOrigin: "50% 50%",
+  //   });
 
   if (title) {
     gsap.set(title, { willChange: "transform" });
@@ -137,7 +136,7 @@ export function initHeroParallax() {
   });
 
   // Vídeo baja ~20% en total (de -10% a +10%)
-  tl.to(video, { yPercent: 50 }, 0);
+  //   tl.to(video, { yPercent: 50 }, 0);
 
   // Contra-parallax suave del título (sube un poco)
   if (title) {
@@ -453,126 +452,11 @@ export function initGallerySlider(root = document) {
   imgs.forEach((img) => img.addEventListener("load", resize));
 }
 
-export function textAnimations(root = document, { exclude } = {}) {
-  const EXCLUDE = new Set(exclude || []);
-  const targets = gsap.utils
-    .toArray(root.querySelectorAll("[text-anim]"))
-    .filter((el) => !EXCLUDE.has(el));
-  const titles = gsap.utils
-    .toArray(root.querySelectorAll("[title-anim]"))
-    .filter((el) => !EXCLUDE.has(el));
-
-  if (!targets.length) return;
-
-  targets.forEach((el) => {
-    // Revert si ya estaba spliteado (para evitar capas duplicadas)
-    try {
-      el.__split?.revert?.();
-    } catch {}
-    el.__textSweepReady = false;
-
-    const split = new SplitType(el, { types: "lines", lineClass: "ta-line" });
-    el.__split = split;
-
-    const lines = Array.from(el.querySelectorAll(".ta-line"));
-    lines.forEach((line) => {
-      const content = line.textContent;
-      // Reemplazo controlado: 2 capas por línea
-      line.innerHTML = `
-        <span class="ta-base">${content}</span>
-        <span class="ta-reveal">${content}</span>
-      `;
-      // estado inicial
-      line.style.setProperty("--reveal", "0");
-    });
-
-    // Un solo trigger por bloque, progresión línea a línea
-    const total = Math.max(lines.length, 1);
-    const segment = 1 / total;
-
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 75%",
-      end: "top 20%",
-      scrub: 0.4,
-      // markers: true,
-      onUpdate: (st) => {
-        const p = st.progress; // 0..1
-        lines.forEach((line, i) => {
-          const start = i * segment;
-          const local = Math.min(1, Math.max(0, (p - start) / segment));
-          line.style.setProperty("--reveal", local.toFixed(4));
-        });
-      },
-      // si desmontas/recargas con Barba, limpia
-      onKill: () => {
-        try {
-          split.revert();
-        } catch {}
-      },
-    });
-
-    el.__textSweepReady = true;
-  });
-
-  titles.forEach((ttl) => {
-    // 1) split limpio
-    try {
-      ttl.__split?.revert?.();
-    } catch {}
-    const split = new SplitType(ttl, { types: "lines", lineClass: "ttl-line" });
-    ttl.__split = split;
-
-    const lines = split.lines || [];
-
-    // 2) estado inicial (igual que Barba)
-    gsap.set(lines, {
-      clipPath: "inset(100% 0% 0% 0%)",
-      y: 20,
-      opacity: 0.001,
-      willChange: "transform, clip-path",
-      display: "block",
-    });
-
-    // 3) timeline de entrada (pausado)
-    const tl = gsap.timeline({ paused: true });
-    tl.to(lines, {
-      clipPath: "inset(0% 0% 0% 0%)",
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out",
-      stagger: { each: 0.06, from: "start" },
-    });
-
-    // 4) trigger: reproducir al entrar (abajo o arriba),
-    //    y **revertir SOLO** cuando salgas por arriba (onLeaveBack)
-    ScrollTrigger.create({
-      trigger: ttl,
-      start: "top 80%",
-      end: "bottom 10%", // rango “dentro”
-      // no usamos scrub: queremos animación, no mapeo continuo
-      onEnter: () => tl.play(), // entrando al hacer scroll hacia abajo
-      onEnterBack: () => tl.play(), // entrando de nuevo al subir
-      onLeave: () => {}, // saliendo por abajo → mantener revelado (no revertir)
-      onLeaveBack: (self) => {
-        // saliendo por ARRIBA → revertir
-        if (self.direction === -1) tl.reverse();
-      },
-      onKill: () => {
-        try {
-          split.revert();
-        } catch {}
-      },
-    });
-  });
-
-  ScrollTrigger.refresh();
-}
-
 export function initHighlightText() {
   let splitHeadingTargets = document.querySelectorAll("[data-highlight-text]");
   splitHeadingTargets.forEach((heading) => {
+    if (heading.closest(".block-description")) return;
+
     const scrollStart =
       heading.getAttribute("data-highlight-scroll-start") || "top 90%";
     const scrollEnd =
@@ -1112,6 +996,8 @@ export function initStackingCards() {
   const imgs = container.querySelectorAll("[data-stacking-cards-image]");
   if (!imgs.length) return;
 
+  const cta = container.querySelector("[data-stacking-cards-cta]");
+
   const spacer = document.querySelector("[data-stacking-cards-spacer]");
   const STEP = -65;
   const SCROLL_PER_CARD = 0.9;
@@ -1197,6 +1083,17 @@ export function initStackingCards() {
       });
     }
   });
+  if (cta && cards.length) {
+    const lastIndex = cards.length - 1;
+
+    tl.to(
+      cta,
+      {
+        yPercent: STEP * lastIndex,
+      },
+      0 // para que se vaya recolocando durante toda la animación
+    );
+  }
 
   ScrollTrigger.refresh();
 }
@@ -1267,4 +1164,72 @@ export function initCSSMarquee() {
 
     observer.observe(marquee);
   });
+}
+
+export function initContactGallery() {
+  const wrapper = document.querySelector("[data-contact-gallery]");
+  if (!wrapper) return;
+
+  const images = wrapper.querySelectorAll(".block-contact__image");
+  if (images.length <= 1) return;
+
+  const TRANSITION_TIME = 1.1; // cuánto tarda en subir
+  const DISPLAY_TIME = 3; // tiempo que cada imagen se queda en pantalla
+
+  // Todas apiladas
+  gsap.set(images, {
+    position: "absolute",
+    inset: 0,
+  });
+
+  // Estado inicial:
+  // - primera: en pantalla (0, zIndex 2)
+  // - resto: abajo (100, zIndex 1)
+  images.forEach((img, index) => {
+    gsap.set(img, {
+      yPercent: index === 0 ? 0 : 100,
+      zIndex: index === 0 ? 2 : 1,
+    });
+  });
+
+  let currentIndex = 0;
+
+  function goToNext() {
+    const current = images[currentIndex];
+    const nextIndex = (currentIndex + 1) % images.length;
+    const next = images[nextIndex];
+
+    // Preparamos la siguiente: abajo y por encima
+    gsap.set(next, {
+      yPercent: 100,
+      zIndex: 3, // por encima de la actual
+    });
+
+    gsap.to(next, {
+      yPercent: 0,
+      duration: TRANSITION_TIME,
+      ease: "power2.inOut",
+      onComplete: () => {
+        // Ahora next ya tapa completamente a current
+
+        // teleport de la anterior hacia abajo, fuera de vista
+        gsap.set(current, {
+          yPercent: 100,
+          zIndex: 1,
+        });
+
+        // normalizamos zIndex: todas al fondo, y la actual visible arriba
+        images.forEach((img) => gsap.set(img, { zIndex: 1 }));
+        gsap.set(next, { zIndex: 2 });
+
+        currentIndex = nextIndex;
+
+        // siguiente cambio tras DISPLAY_TIME
+        gsap.delayedCall(DISPLAY_TIME, goToNext);
+      },
+    });
+  }
+
+  // arrancamos tras dejar visible un rato la primera
+  gsap.delayedCall(DISPLAY_TIME, goToNext);
 }

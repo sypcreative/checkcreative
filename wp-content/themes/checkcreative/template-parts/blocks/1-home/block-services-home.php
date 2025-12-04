@@ -2,22 +2,42 @@
 $title = get_field('block_services_home_title') ?: '';
 $visible = get_field('block_services_home_title_visible') ?: '';
 $services = get_field('block_services_home_service');
-
+$link = get_field('block_services_home_link');
+$url = $link ? $link['url'] : '';
+$url_title = $link ? $link['title'] : '';
+$target = $link ? $link['target'] : '_self';
 ?>
 
 <section class="block-services-home w-100 pt-9">
 	<?php if (!$visible) : ?>
 		<div class="container">
-			<h1 class="block-services-home__title-visible">
+			<h1 class="block-services-home__title-visible text-center">
 				<?= esc_html($title); ?>
 			</h1>
+			<?php if ($url) : ?>
+				<a
+					href="<?php echo esc_url($url); ?>"
+					target="<?php echo esc_attr($target); ?>">
+					<?php echo esc_html($url_title); ?>
+				</a>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 	<div class="container d-flex flex-column" data-stacking-cards>
 		<?php if ($visible) : ?>
-			<h1 class="block-services-home__title-visible">
-				<?= esc_html($title); ?>
-			</h1>
+			<div class="d-flex flex-row justify-content-between align-items-center text-uppercase">
+				<h1 class="block-services-home__title-visible">
+					<?= esc_html($title); ?>
+				</h1>
+
+				<?php if ($url) : ?>
+					<a
+						href="<?php echo esc_url($url); ?>"
+						target="<?php echo esc_attr($target); ?>">
+						<?php echo esc_html($url_title); ?>
+					</a>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 		<?php if ($services) : ?>
 			<?php foreach ($services as $index => $service) :

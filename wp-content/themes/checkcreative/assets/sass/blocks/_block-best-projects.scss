@@ -5,11 +5,16 @@
   &__content {
     will-change: transform;
   }
+
   &__card {
     width: 80%;
     @include media-breakpoint-up(md) {
       width: 500px !important;
     }
+  }
+  &__link {
+    margin-top: -10%;
+    z-index: 10;
   }
   //!! SI USO height: 100svh; QUITAR ESTE BEFORE Y AFTER Y CAMBIAR min-height a 100svh
   &__content::before,
@@ -55,7 +60,6 @@
     top: 0;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 50%;
 
     &-h2 {
       display: inline-block;

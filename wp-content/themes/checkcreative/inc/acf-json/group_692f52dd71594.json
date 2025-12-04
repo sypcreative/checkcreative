@@ -1,15 +1,35 @@
 {
-    "key": "group_692edccc5d41b",
-    "title": "Block Paragraphs",
+    "key": "group_692f52dd71594",
+    "title": "Block Testimonies",
     "fields": [
         {
-            "key": "field_6900a9cf6725e",
-            "label": "Párrafos",
-            "name": "block_history_repeater_texts",
+            "key": "field_692f669a7296b",
+            "label": "Título de la sección",
+            "name": "block_testimonies_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "PEOPLE TALK",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_692f52dd2323f",
+            "label": "Testimonios",
+            "name": "block_testimonies_repeater",
             "aria-label": "",
             "type": "repeater",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -25,9 +45,30 @@
             "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_6900a9e96725f",
-                    "label": "Párrafo",
-                    "name": "block_history_repeater_texts_text",
+                    "key": "field_692f52f323240",
+                    "label": "Testigo",
+                    "name": "block_testimonies_repeater_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Nombre\/Posición de la empresa\/persona que da el testimonio",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_692f52dd2323f"
+                },
+                {
+                    "key": "field_692f532123241",
+                    "label": "Testimonio",
+                    "name": "block_testimonies_repeater_text",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -43,34 +84,7 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_6900a9cf6725e"
-                },
-                {
-                    "key": "field_693093d13a0bb",
-                    "label": "Posición del texto",
-                    "name": "block_history_repeater_texts_pos",
-                    "aria-label": "",
-                    "type": "select",
-                    "instructions": "Elige si quieres poner el texto a la derecha o a la izquierda, lo pongo por que la imagen del about prefiero ponerla a la izquierda y que a la derecha vaya el texto",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "choices": {
-                        "right": "Derecha",
-                        "left": "Izquierda"
-                    },
-                    "default_value": false,
-                    "return_format": "value",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "ui": 1,
-                    "ajax": 0,
-                    "placeholder": "",
-                    "parent_repeater": "field_6900a9cf6725e"
+                    "parent_repeater": "field_692f52dd2323f"
                 }
             ]
         }
@@ -80,7 +94,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/block-paragraphs"
+                "value": "acf\/block-testimonies"
             }
         ]
     ],
@@ -93,5 +107,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1764791556
+    "modified": 1764714246
 }

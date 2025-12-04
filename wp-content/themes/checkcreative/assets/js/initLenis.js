@@ -13,21 +13,25 @@ export function initLenis(options = {}) {
 
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // 👉 Si quieres probar SIN Lenis en móvil, descomenta:
   //   if (isMobile) {
+  //     // Asegúrate de que ScrollTrigger use el scroll nativo
+  //     console.log("🚀 [Lenis] Modo móvil: uso scroll nativo");
+  //     ScrollTrigger.scrollerProxy(document.body, null);
+  //     ScrollTrigger.refresh();
   //     return null;
   //   }
 
   const lenis = new Lenis({
     // En móvil un poco menos “gomoso”
-    duration: isMobile ? 0.7 : 1.2,
-    lerp: isMobile ? 0.25 : 0.1,
+    duration: isMobile ? 0.6 : 1.2,
+    lerp: isMobile ? 0.18 : 0.1,
 
     smoothWheel: !isMobile, // rueda solo desktop
-    smoothTouch: false, // MUY importante para que el gesto táctil no se sienta raro
+    smoothTouch: true, // MUY importante para que el gesto táctil no se sienta raro
 
     ...options,
   });
+  console.log(lenis);
 
   // Conecta Lenis con ScrollTrigger
   lenis.on("scroll", ScrollTrigger.update);

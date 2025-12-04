@@ -1,11 +1,15 @@
 .block-services-home__service {
   /* Altura mínima común para todas las cards */
-  --service-min-height: 420px;
+  --service-min-height: 430px;
 
-  min-height: var(--service-min-height);
+  height: var(--service-min-height);
   display: flex; // ya lo tienes en el HTML, pero por si acaso
 }
 
 .block-services-home__service > .row {
   height: 100%;
+}
+
+.block-services-home__service-image {
+  height: 320px !important;
 }

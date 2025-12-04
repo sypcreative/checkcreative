@@ -14,14 +14,14 @@ $button_label       = get_field('button_label') ?: 'SEND';
 $trail              = get_field('opciones_sitio_cursor_images', 'option');
 
 // Imagen opcional para la columna derecha
-$contact_image      = get_field('block_contact_image');
+$images      = get_field('block_contact_images');
 
 $block_id = 'block-contact-';
 ?>
 <section id="<?php echo esc_attr($block_id); ?>" class="block-contact" data-trail="wrapper">
 	<div class="container h-100">
 
-		<div class="row g-5 align-items-start">
+		<div class="row g-5 align-items-start h-100">
 			<!-- COL IZQUIERDA: HEADER + FORM (col-8) -->
 			<div class="col-12 col-lg-8">
 				<div class="block-contact__header mb-4">
@@ -111,7 +111,7 @@ $block_id = 'block-contact-';
 							</span>
 						</label>
 
-						<button type="submit" class="block-contact__submit">
+						<button type="submit" class="block-contact__submit text-dark">
 							<?php echo esc_html($button_label); ?>
 						</button>
 					</div>
@@ -119,17 +119,17 @@ $block_id = 'block-contact-';
 			</div>
 
 			<!-- COL DERECHA: IMAGEN (col-4) -->
-			<div class="col-12 col-lg-4">
-				<div class="block-contact__image-wrapper h-100 d-flex align-items-center">
-					<?php if ($contact_image) :
-						$img_url = $contact_image['url'];
-						$img_alt = $contact_image['alt'] ?: 'Contact Image';
+			<div class="col-12 col-lg-4 h-100">
+				<div class="block-contact__image-wrapper h-100 d-flex align-items-center position-relative overflow-hidden" data-contact-gallery>
+					<?php foreach ($images as $image) :
+						$img_url = $image ? $image['block_contact_images_image']['url'] : '';
+						$img_alt = $image['block_contact_images_image']['alt'] ?: 'Contact Image';
 					?>
 						<img
 							src="<?php echo esc_url($img_url); ?>"
 							alt="<?php echo esc_attr($img_alt); ?>"
 							class="img-fluid block-contact__image">
-					<?php endif; ?>
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>

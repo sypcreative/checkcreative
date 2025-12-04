@@ -36,7 +36,7 @@
 /* Posiciones concretas (ajusta a ojo hasta que queden sobre la línea) */
 .process-step {
   position: absolute;
-  max-width: 50%;
+  max-width: 60%;
   font-family: system-ui, sans-serif; /* cambia por tus fuentes */
   &--1 {
     top: 18%;
@@ -52,13 +52,13 @@
     left: 15%; /* en el centro, parte baja de la curva */
   }
   &--4 {
-    top: 65%;
+    top: 63%;
     left: 35%; /* un poco más abajo, a la izquierda */
   }
   &--5 {
     text-align: end;
-    top: 89%;
-    left: 2%;
+    top: 82%;
+    left: 0%;
   }
   &__badge {
     display: inline-block;
@@ -68,11 +68,6 @@
     font-size: 0.95rem;
     line-height: 1.5;
     margin: 0;
-  }
-  &__title {
-    font-size: 1.75rem;
-    margin: 0 0 0.5rem;
-    font-weight: 700;
   }
 }
 
@@ -116,6 +111,10 @@
   &--1 {
     top: 120px;
     right: 120px;
+    @include media-breakpoint-down(md) {
+      top: 5%;
+      right: 16%;
+    }
   }
   //   &--2 {
   //     top: 30%;
