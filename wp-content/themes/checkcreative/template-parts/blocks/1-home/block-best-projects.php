@@ -3,6 +3,7 @@ $proyectos = get_field('block_best_projects_relation');
 $overlay = get_field('block_best_projects_overlay');
 $view = get_field('block_best_projects_vista');
 $title = get_field('block_best_projects_title');
+$btnText = get_field('block_best_projects_button_text');
 $link = get_field('block_best_projects_link');
 $url = $link ? $link['url'] : '';
 $target = $link ? $link['target'] : '_self';
@@ -73,7 +74,7 @@ if ($proyectos && is_array($proyectos)) : ?>
 									? get_the_post_thumbnail($post->ID, 'large', ['class' => 'block-best-projects__thumb w-30 h-100 d-block'])
 									: '';
 							?>
-								<div data-projects-cards-item-status="" data-projects-cards-project="" class="block-best-projects__item position-absolute">
+								<div data-projects-cards-item-status="" data-projects-cards-project="" data-cursor="Drag and drop" class="block-best-projects__item position-absolute">
 									<div class="block-best-projects__card-drag position-relative overflow-hidden d-flex align-items-center justify-content-center">
 										<?php if ($overlay) : ?>
 											<div class="block-best-projects__overlay"></div>
@@ -81,7 +82,7 @@ if ($proyectos && is_array($proyectos)) : ?>
 										<div class="block-best-projects__card-drag-before"></div>
 										<div class="block-best-projects__media d-flex position-absolute justify-content-center align-items-center top-0 start-0 w-100 h-100">
 											<?= $thumb_html ?>
-											<a href="<?= esc_url($permalink) ?>" class="block-best-projects__btn z-2"><span class="block-best-projects__btn-span">View Project</span></a>
+											<a href="<?= esc_url($permalink) ?>" class="block-best-projects__btn z-2"><span class="block-best-projects__btn-span"><?= esc_html($btnText) ?></span></a>
 											<h3 class="block-best-projects__h3 position-absolute text-center z-2"><?= esc_html($title) ?></h3>
 										</div>
 									</div>
@@ -91,6 +92,7 @@ if ($proyectos && is_array($proyectos)) : ?>
 						<?php if ($url) : ?>
 							<div class="block-best-projects__link d-flex justify-content-center position-relative">
 								<a
+									data-underline-link
 									href="<?php echo esc_url($url); ?>"
 									target="<?php echo esc_attr($target); ?>">
 									<?php echo esc_html($url_title); ?>

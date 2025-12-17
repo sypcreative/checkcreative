@@ -1,0 +1,87 @@
+.block-testimonies {
+  &__marquee {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    /* Si quieres mantener el fade lateral */
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+  &__marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 5.5rem;
+  }
+  &__marquee-list {
+    display: flex;
+    flex-shrink: 0;
+    gap: 5.5rem; /* espacio entre cards */
+    animation-name: blockTestimoniesMarquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+  }
+  &__item {
+    width: 450px;
+  }
+  &__quote {
+    position: relative;
+    height: 220px;
+    width: 450px;
+    margin: 0;
+  }
+  &__corner {
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-top-left-radius: 0.3em;
+    pointer-events: none;
+  }
+}
+
+/* Animación: la lista se desplaza su propio ancho */
+@keyframes blockTestimoniesMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Corner base */
+
+/* Posiciones */
+.block-testimonies__corner.top-left {
+  inset: 0 auto auto 0;
+}
+
+.block-testimonies__corner.top-right {
+  inset: 0 0 auto auto;
+  transform: rotate(90deg);
+}
+
+.block-testimonies__corner.bottom-right {
+  inset: auto 0 0 auto;
+  transform: rotate(180deg);
+}
+
+.block-testimonies__corner.bottom-left {
+  inset: auto auto 0 0;
+  transform: rotate(-90deg);
+}

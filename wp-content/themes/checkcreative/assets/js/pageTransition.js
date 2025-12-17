@@ -23,6 +23,18 @@ function inViewport(el, margin = 0) {
   );
 }
 
+function updateLanguageToggleFromNextHTML(nextHTML) {
+  if (!nextHTML) return;
+
+  const doc = new DOMParser().parseFromString(nextHTML, "text/html");
+  const nextToggle = doc.querySelector(".language-toggle");
+  const currentToggle = document.querySelector(".language-toggle");
+
+  if (nextToggle && currentToggle) {
+    currentToggle.innerHTML = nextToggle.innerHTML;
+  }
+}
+
 function getRevealItems(container, margin = 64) {
   return Array.from(container.querySelectorAll(REVEAL_SELECTORS))
     .filter((el) => el.getAttribute("data-reveal") !== "off")
@@ -177,6 +189,12 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
       const href = el?.getAttribute("href") || "";
       if (!href) return false;
 
+      if (el.closest("[data-barba-prevent]")) return true;
+
+      // Polylang suele usar .lang-item (y a veces .pll-parent-menu-item)
+      if (el.closest(".lang-item, .pll-parent-menu-item, .pll-switcher"))
+        return true;
+
       const norm = (p) => (p || "").replace(/\/+$/, "") || "/";
       return current && next && norm(current.url.path) === norm(next.url.path);
     },
@@ -283,7 +301,10 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
     ],
   });
 
-  barba.hooks.after(() => {
+  barba.hooks.after((data) => {
+    // ✅ actualiza el switcher con el HTML de la siguiente página
+    updateLanguageToggleFromNextHTML(data?.next?.html);
+
     try {
       window.gsap?.ScrollTrigger?.refresh?.(true);
     } catch {}
@@ -331,5 +352,81 @@ function kickstartVideoAutoplay(root = document) {
     };
     document.addEventListener("pointerdown", resumeAll, { once: true });
     document.addEventListener("keydown", resumeAll, { once: true });
+  }
+}
+
+export function initActiveNavBarba() {
+  const navRoots = document.querySelectorAll(".nav-rail, .fullscreen-menu");
+
+  const normalizePath = (href) => {
+    try {
+      const u = new URL(href, window.location.origin);
+      let p = u.pathname || "/";
+      // quitar trailing slash excepto home
+      if (p.length > 1) p = p.replace(/\/$/, "");
+      return p;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const setActive = () => {
+    const current = normalizePath(window.location.href);
+
+    navRoots.forEach((root) => {
+      // limpia
+      root
+        .querySelectorAll("li.is-active")
+        .forEach((li) => li.classList.remove("is-active"));
+
+      // encuentra mejor match por pathname
+      const links = [...root.querySelectorAll("a[href]")];
+
+      let best = null;
+      let bestLen = -1;
+
+      links.forEach((a) => {
+        const p = normalizePath(a.getAttribute("href"));
+        if (!p) return;
+
+        // match exacto
+        if (p === current) {
+          best = a;
+          bestLen = p.length;
+          return;
+        }
+
+        // match por prefijo para singles (ej /proyectos/slug -> /proyectos)
+        if (current.startsWith(p + "/") && p.length > bestLen) {
+          best = a;
+          bestLen = p.length;
+        }
+      });
+
+      if (best) {
+        const li = best.closest("li");
+        if (li) li.classList.add("is-active");
+      }
+    });
+
+    // HOME / logo (si quieres)
+    const brand = document.querySelector(".nav-rail__brand");
+    if (brand) {
+      brand.classList.toggle(
+        "is-active",
+        normalizePath(window.location.href) === "/"
+      );
+    }
+  };
+
+  // primera carga
+  setActive();
+
+  // con Barba: después de cada navegación
+  if (window.barba && window.barba.hooks) {
+    window.barba.hooks.after(() => setActive());
+  } else {
+    // fallback sin barba
+    window.addEventListener("popstate", setActive);
   }
 }

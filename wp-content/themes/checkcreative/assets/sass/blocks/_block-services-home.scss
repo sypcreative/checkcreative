@@ -1,9 +1,14 @@
 .block-services-home__service {
   /* Altura mínima común para todas las cards */
   --service-min-height: 430px;
+  --service-min-height-mob: 370px;
 
   height: var(--service-min-height);
   display: flex; // ya lo tienes en el HTML, pero por si acaso
+
+  @include media-breakpoint-down(md) {
+    height: var(--service-min-height-mob);
+  }
 }
 
 .block-services-home__service > .row {

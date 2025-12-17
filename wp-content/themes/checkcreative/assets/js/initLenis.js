@@ -13,13 +13,20 @@ export function initLenis(options = {}) {
 
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  //   if (isMobile) {
-  //     // Asegúrate de que ScrollTrigger use el scroll nativo
-  //     console.log("🚀 [Lenis] Modo móvil: uso scroll nativo");
-  //     ScrollTrigger.scrollerProxy(document.body, null);
-  //     ScrollTrigger.refresh();
-  //     return null;
-  //   }
+  // ==============================
+  // 🚫 MÓVIL: SIN LENIS, SCROLL NATIVO
+  // ==============================
+  if (isMobile) {
+    console.log("🚀 [Lenis] Modo móvil: scroll nativo, sin Lenis");
+
+    // MUY IMPORTANTE: no usar scrollerProxy aquí,
+    // así ScrollTrigger usa window/pageYOffset por defecto.
+    // (por si en algún build anterior se había configurado algo raro)
+    ScrollTrigger.scrollerProxy(document.body, {}); // noop “inofensivo”
+    ScrollTrigger.refresh();
+
+    return null;
+  }
 
   const lenis = new Lenis({
     // En móvil un poco menos “gomoso”

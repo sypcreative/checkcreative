@@ -34,6 +34,8 @@ export function initDescriptionPin() {
   const yShift = [-70, -80, 90, 130];
   const xShift = [-300, 200, -130, 150];
   const rot = [-6, 4, -3, 5];
+  const yShiftMob = [-80, -80, 90, 130];
+  const xShiftMob = [-120, 190, -120, 140];
 
   const SECTION_DURATION = 1; // Duración lógica de toda la animación
 
@@ -58,8 +60,8 @@ export function initDescriptionPin() {
     tl.to(
       img,
       {
-        x: `+=${xShift[idx]}`,
-        y: `+=${yShift[idx]}`,
+        x: isMobile ? `+=${xShiftMob[idx]}` : `+=${xShift[idx]}`,
+        y: isMobile ? `+=${yShiftMob[idx]}` : `+=${yShift[idx]}`,
         rotation: `+=${rot[idx]}`,
         scale: 1.06,
         opacity: 1,
@@ -378,24 +380,22 @@ export function initGallerySlider(root = document) {
   const container = root.querySelector(".block-single-gallery");
   const viewport = root.querySelector(".gallery-slider__viewport");
   const track = viewport?.querySelector("[data-slider-track]");
-  if (!viewport || !track) return;
+  if (!viewport || !track || !container) return;
 
   const slides = Array.from(track.children);
+
   const getGap = () => {
     const cs = getComputedStyle(track);
-    // Bootstrap gap -> usa "gap" o "columnGap"
     return parseFloat(cs.gap || cs.columnGap || 0);
   };
 
-  // Calcula límites y puntos de snap
   const measure = () => {
-    const vw = viewport.clientWidth;
     const gap = getGap();
-    const trackW = track.scrollWidth; // robusto con flex + gap
+    const trackW = track.scrollWidth;
     const contW = container.clientWidth;
-    const minX = Math.min(contW - trackW, 0); // hasta dónde puede arrastrar a la izquierda
+    const minX = Math.min(contW - trackW, 0);
     const maxX = 0;
-    // puntos de snap: alinear cada slide con el borde izquierdo del viewport
+
     let acc = 0;
     const snaps = slides.map((slide) => {
       const x = -acc;
@@ -408,15 +408,25 @@ export function initGallerySlider(root = document) {
   };
 
   let state = measure();
-  const clampX = gsap.utils.clamp(state.minX, state.maxX);
+  let clampX = gsap.utils.clamp(state.minX, state.maxX);
 
-  // Estilos base para rendimiento
   gsap.set(track, { x: 0, willChange: "transform" });
+
+  const snapToNearest = () => {
+    const currentX = clampX(gsap.getProperty(track, "x"));
+    const nearest = gsap.utils.snap(state.snaps, currentX);
+    gsap.to(track, {
+      x: nearest,
+      duration: 0.5,
+      ease: "power3.out",
+      onUpdate: () => draggable.update(),
+    });
+  };
 
   const draggable = Draggable.create(track, {
     type: "x",
     bounds: { minX: state.minX, maxX: state.maxX },
-    inertia: false, // (si quieres inercia, necesitas InertiaPlugin)
+    inertia: false,
     allowContextMenu: false,
     allowNativeTouchScrolling: true,
     dragResistance: 0.15,
@@ -424,30 +434,116 @@ export function initGallerySlider(root = document) {
     cursor: "grab",
     activeCursor: "grabbing",
     onDragEnd() {
-      // Snap al punto más cercano
-      const endX = clampX(this.x);
-      const nearest = gsap.utils.snap(state.snaps, endX);
-      gsap.to(track, { x: nearest, duration: 0.5, ease: "power3.out" });
+      snapToNearest();
     },
   })[0];
 
-  // Click en slide (si no estás arrastrando) -> centra esa slide
+  // Click -> snap a esa slide (si no estás arrastrando)
   slides.forEach((slide, i) => {
     slide.addEventListener("click", () => {
       if (draggable.isDragging || draggable.isPressed) return;
-      gsap.to(track, { x: state.snaps[i], duration: 0.5, ease: "power3.out" });
+      gsap.to(track, {
+        x: state.snaps[i],
+        duration: 0.5,
+        ease: "power3.out",
+        onUpdate: () => draggable.update(),
+      });
     });
   });
 
-  // Recalcular en resize (también útil si cambian fuentes o imágenes cargan)
+  // -------------------------
+  // WHEEL / TRACKPAD SCROLL
+  // -------------------------
+  let wheelSnapTimer = null;
+
+  const onWheel = (e) => {
+    if (draggable.isDragging || draggable.isPressed) return;
+
+    const ax = Math.abs(e.deltaX);
+    const ay = Math.abs(e.deltaY);
+
+    // 1) Deadzone: ignora micro movimientos
+    const DEAD = 2;
+    if (ax < DEAD && ay < DEAD) return;
+
+    // 2) Solo consideramos horizontal si:
+    //    - hay deltaX real (trackpad / wheel horizontal), y además domina al vertical
+    //    - o el usuario mantiene SHIFT (convierte wheel vertical a horizontal)
+    const hasRealHorizontal = ax > 0;
+    const intentHorizontal = hasRealHorizontal && ax > ay * 1.2; // ratio anti-amago
+    const shiftHorizontal = e.shiftKey && ay > 0;
+
+    // Si no hay intención horizontal, dejamos el scroll normal de la página
+    if (!intentHorizontal && !shiftHorizontal) return;
+
+    // Si vamos a mover el slider, consumimos el wheel
+    e.preventDefault();
+
+    // delta a aplicar
+    const delta = intentHorizontal ? e.deltaX : e.deltaY;
+
+    // 3) Sensibilidad: multiplica por un factor < 1
+    const SENS = 0.6; // baja a 0.4 si lo quieres aún menos sensible
+    const move = delta * SENS;
+
+    const current = gsap.getProperty(track, "x");
+    const next = clampX(current - move); // cambia signo si lo quieres al revés
+
+    gsap.killTweensOf(track);
+    gsap.set(track, { x: next });
+    draggable.update();
+
+    clearTimeout(wheelSnapTimer);
+    wheelSnapTimer = setTimeout(() => {
+      snapToNearest();
+    }, 140);
+  };
+
+  // --- Anti back/forward swipe del navegador (trackpad) ---
+  // capture:true para ganarle al gesto del browser
+  const stopHistorySwipe = (e) => {
+    if (draggable.isDragging || draggable.isPressed) return;
+
+    const ax = Math.abs(e.deltaX || 0);
+    const ay = Math.abs(e.deltaY || 0);
+
+    const DEAD = 2;
+    if (ax < DEAD && ay < DEAD) return;
+
+    const hasRealHorizontal = ax > 0;
+    const intentHorizontal = hasRealHorizontal && ax > ay * 1.2;
+    const shiftHorizontal = e.shiftKey && ay > 0;
+
+    // Importante: SOLO preventDefault (NO stopPropagation)
+    if (intentHorizontal || shiftHorizontal) {
+      e.preventDefault();
+    }
+  };
+
+  viewport.addEventListener("wheel", stopHistorySwipe, {
+    passive: false,
+    capture: true,
+  });
+
+  // tu handler que mueve el slider
+  viewport.addEventListener("wheel", onWheel, { passive: false });
+
+  // -------------------------
+  // RESIZE / IMAGES LOAD
+  // -------------------------
   const resize = () => {
     state = measure();
+    clampX = gsap.utils.clamp(state.minX, state.maxX);
+
     draggable.applyBounds({ minX: state.minX, maxX: state.maxX });
+
     const current = clampX(gsap.getProperty(track, "x"));
     gsap.set(track, { x: current });
+    draggable.update();
   };
+
   window.addEventListener("resize", resize);
-  // Si las imágenes se cargan más tarde, vuelve a medir
+
   const imgs = track.querySelectorAll("img");
   imgs.forEach((img) => img.addEventListener("load", resize));
 }
@@ -984,6 +1080,8 @@ export function initBestProjectCards() {
 }
 
 export function initStackingCards() {
+  const isMobile = window.innerWidth < 768;
+
   const container = document.querySelector("[data-stacking-cards]");
   if (!container) return;
 
@@ -999,7 +1097,14 @@ export function initStackingCards() {
   const cta = container.querySelector("[data-stacking-cards-cta]");
 
   const spacer = document.querySelector("[data-stacking-cards-spacer]");
-  const STEP = -65;
+  // desktop/base
+  const BASE_STEP = -65;
+  const BASE_HEIGHT = 430;
+  const MOBILE_HEIGHT = 420;
+
+  const STEP = isMobile
+    ? BASE_STEP * (BASE_HEIGHT / MOBILE_HEIGHT) // ≈ -75.5
+    : BASE_STEP;
   const SCROLL_PER_CARD = 0.9;
 
   const getScrollAmount = () =>
@@ -1025,7 +1130,7 @@ export function initStackingCards() {
         const naturalScroll = Math.max(containerHeight - viewport, 0);
 
         // solo el extra que queremos añadir por el efecto
-        const MAX_SPACER = 1000; // tú ajustas
+        const MAX_SPACER = 1100; // tú ajustas
 
         const extraScroll = Math.max(
           Math.min(amount - naturalScroll, MAX_SPACER),
@@ -1232,4 +1337,76 @@ export function initContactGallery() {
 
   // arrancamos tras dejar visible un rato la primera
   gsap.delayedCall(DISPLAY_TIME, goToNext);
+}
+
+export function initCSSMarqueeTestimonies() {
+  const pixelsPerSecond = 70;
+  const marquees = document.querySelectorAll("[data-css-marquee-testimonies]");
+
+  marquees.forEach((marquee) => {
+    const track = marquee.querySelector(".block-testimonies__marquee-track");
+    const list = marquee.querySelector("[data-css-marquee-list-testimonies]");
+    if (!track || !list) return;
+
+    // Evitar duplicados
+    if (
+      track.querySelectorAll("[data-css-marquee-list-testimonies]").length < 2
+    ) {
+      track.appendChild(list.cloneNode(true));
+    }
+
+    const lists = () =>
+      marquee.querySelectorAll("[data-css-marquee-list-testimonies]");
+
+    let isInViewport = false;
+    let isHovering = false;
+
+    const updatePlayState = () => {
+      const state = isInViewport && !isHovering ? "running" : "paused";
+      lists().forEach((l) => (l.style.animationPlayState = state));
+    };
+
+    const setDuration = () => {
+      const width = list.scrollWidth;
+      if (!width) {
+        requestAnimationFrame(setDuration);
+        return;
+      }
+
+      const duration = width / pixelsPerSecond;
+      lists().forEach((l) => {
+        l.style.animationDuration = `${duration}s`;
+      });
+    };
+
+    setDuration();
+    window.addEventListener("resize", setDuration, { passive: true });
+
+    // Hover
+    marquee.addEventListener("mouseenter", () => {
+      isHovering = true;
+      updatePlayState();
+    });
+
+    marquee.addEventListener("mouseleave", () => {
+      isHovering = false;
+      updatePlayState();
+    });
+
+    // Viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isInViewport = entry.isIntersecting;
+          updatePlayState();
+        });
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(marquee);
+
+    // Estado inicial
+    updatePlayState();
+  });
 }

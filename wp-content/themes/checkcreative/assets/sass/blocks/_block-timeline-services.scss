@@ -14,7 +14,16 @@
     transform: translateX(-50%);
 
     @include media-breakpoint-down(md) {
-      width: 110%;
+      width: 100%;
+      left: 0 !important;
+      transform: none !important;
+    }
+  }
+  &__svg {
+    @include media-breakpoint-down(md) {
+      width: 180%;
+      position: relative;
+      right: 50%;
     }
   }
 }
@@ -37,15 +46,26 @@
 .process-step {
   position: absolute;
   max-width: 60%;
-  font-family: system-ui, sans-serif; /* cambia por tus fuentes */
+  @include media-breakpoint-down(md) {
+    max-width: 70%;
+  }
   &--1 {
     top: 18%;
     left: -46%; /* bloque a la izquierda, parte alta de la curva */
     text-align: end;
+    @include media-breakpoint-down(md) {
+      left: 13%;
+      top: 15%;
+      text-align: start;
+    }
   }
   &--2 {
     top: 35%;
     right: -30%; /* un poco más abajo, a la derecha */
+    @include media-breakpoint-down(md) {
+      right: 0%;
+      top: 30%;
+    }
   }
   &--3 {
     top: 45%;
@@ -54,11 +74,17 @@
   &--4 {
     top: 63%;
     left: 35%; /* un poco más abajo, a la izquierda */
+    @include media-breakpoint-down(md) {
+      top: 66%;
+    }
   }
   &--5 {
     text-align: end;
     top: 82%;
     left: 0%;
+    @include media-breakpoint-down(md) {
+      right: 12%;
+    }
   }
   &__badge {
     display: inline-block;

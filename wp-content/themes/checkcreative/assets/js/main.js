@@ -11,6 +11,7 @@ import {
   initBestProjectsPin,
   initContactGallery,
   initCSSMarquee,
+  initCSSMarqueeTestimonies,
   initDescriptionPin,
   initDirectionalListHover,
   initFooterParallax,
@@ -22,15 +23,15 @@ import {
   initStackingCards,
   stampCC,
 } from "./gsap.js";
-import { setupBarba } from "./pageTransition.js";
+import { initActiveNavBarba, setupBarba } from "./pageTransition.js";
 import { initCookieDarkLight } from "./themeToggler.js";
 import { initDynamicCurrentTime } from "./timestamp.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   setupBarba({
     common: [
+      initActiveNavBarba,
       initBasicCustomCursor,
-      // initDynamicCustomTextCursor,
       initCookieDarkLight,
       imageParallax,
       initDynamicCurrentTime,
@@ -54,17 +55,19 @@ document.addEventListener("DOMContentLoaded", () => {
         initBestProjectCards,
         initStackingCards,
         initCSSMarquee,
+        initDynamicCustomTextCursor,
+        initCSSMarqueeTestimonies,
       ],
-      about: [initAboutHero, initDirectionalListHover],
       "single-proyecto": [initGallerySlider],
-      services: [initScrollLine],
+      about: [initAboutHero, initDirectionalListHover],
+      method: [initScrollLine],
       contact: [initContactGallery],
-      contacto: [],
       gallery: [initMasonryGrid],
       // ESPAÑOL
       "sobre-nosotros": [initAboutHero, initDirectionalListHover],
-      "single-proyecto-es": [initGallerySlider],
-      "contacto-es": [],
+      metodo: [initScrollLine],
+      contacto: [initContactGallery],
+      galeria: [initMasonryGrid],
     },
     initOnLoad: true, // <-- se ejecutan también al cargar sin transición
   });

@@ -13,10 +13,9 @@ export function initBasicCustomCursor() {
 }
 
 export function initDynamicCustomTextCursor() {
-  let cursorItem = document.querySelector(".cursor-work");
-  console.log(cursorItem);
+  let cursorItem = document.querySelector(".cursor-text");
   let cursorParagraph = cursorItem.querySelector("p");
-  let targets = document.querySelectorAll("[data-cursor-work]");
+  let targets = document.querySelectorAll("[data-cursor]");
   let xOffset = 6;
   let yOffset = 140;
   let cursorIsOnRight = false;
@@ -62,7 +61,7 @@ export function initDynamicCustomTextCursor() {
     }
 
     if (currentTarget) {
-      let newText = currentTarget.getAttribute("data-cursor-work");
+      let newText = currentTarget.getAttribute("data-cursor");
       if (newText !== lastText) {
         // Only update if the text is different
         cursorParagraph.innerHTML = newText;
@@ -87,8 +86,8 @@ export function initDynamicCustomTextCursor() {
   targets.forEach((target) => {
     target.addEventListener("mouseenter", () => {
       currentTarget = target; // Set the current target
-      console.log("enter", currentTarget);
-      let newText = target.getAttribute("data-cursor-work");
+
+      let newText = target.getAttribute("data-cursor");
 
       // Update only if the text changes
       if (newText !== lastText) {

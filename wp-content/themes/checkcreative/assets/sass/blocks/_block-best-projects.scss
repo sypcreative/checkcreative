@@ -1,9 +1,12 @@
 .block-best-projects {
   --card-h: 60svh;
   --pad: calc((100svh - var(--card-h)) / 2);
-
   &__content {
     will-change: transform;
+  }
+
+  &__collection {
+    inset: 0;
   }
 
   &__card {
@@ -13,8 +16,18 @@
     }
   }
   &__link {
-    margin-top: -10%;
-    z-index: 10;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    // separación fija del fondo en móvil
+    bottom: 4.5rem; // ajusta a gusto
+
+    @include media-breakpoint-up(md) {
+      // si quieres otro comportamiento en desktop
+      bottom: 7.5rem;
+    }
   }
   //!! SI USO height: 100svh; QUITAR ESTE BEFORE Y AFTER Y CAMBIAR min-height a 100svh
   &__content::before,
@@ -70,13 +83,18 @@
   }
 
   &__card-drag {
-    color: #fff;
+    color: $cor-light;
     -webkit-user-select: none;
     user-select: none;
-    background-color: #000;
+    background-color: $cor-primary;
     border-radius: 1em;
     width: 25.5em;
     height: 36.5em;
+
+    @include media-breakpoint-down(md) {
+      width: 20.5em;
+      height: 30.5em;
+    }
     &-before {
       padding-top: 150%;
     }
@@ -91,7 +109,7 @@
   }
 
   &__btn {
-    background-color: #000;
+    background-color: $cor-primary;
     border-radius: 0.375em;
     justify-content: center;
     align-items: center;
@@ -104,7 +122,7 @@
     left: 2em;
 
     &-span {
-      color: #fff;
+      color: $cor-light;
       font-size: 1em;
       font-weight: 500;
     }

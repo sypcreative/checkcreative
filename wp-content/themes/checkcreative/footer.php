@@ -28,10 +28,15 @@ if (isset($locations[$menu_name])) {
 $show_theme     = get_field('opciones_sitio_show_theme_toggle', 'option');
 $show_language  = get_field('opciones_sitio_show_language_toggle', 'option');
 $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
+$show_cta = get_field('opciones_sitio_show_cta_toggle', 'option');
+$url_cal = get_field('opciones_sitio_show_url_cal', 'option');
+$url_cal_url = $url_cal ? $url_cal['url'] : '';
+$url_cal_title = $url_cal ? $url_cal['title'] : '';
+$target_cal = $url_cal ? $url_cal['target'] : '_self';
 ?>
 
 </main>
-<aside class="position-fixed bottom-0 start-0 end-0 mb-3 px-5 z-3">
+<aside class="position-fixed bottom-0 start-0 end-0 mb-3 px-5 z-10">
 	<div class="d-flex justify-content-between align-items-center w-100">
 		<?php if ($show_theme): ?>
 			<button id="theme-toggle"
@@ -89,6 +94,7 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 						<?php $i++; ?>
 
 						<a href="<?php echo esc_url($lang['url']); ?>"
+							data-barba-prevent
 							class="lang-link text-primary <?php echo $lang['current_lang'] ? 'is-active' : ''; ?>">
 							<?php echo strtoupper($lang['slug']); ?>
 						</a>
@@ -99,6 +105,17 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
+		<?php endif; ?>
+
+		<?php if ($show_cta) : ?>
+			<div class="ms-3">
+				<a
+					href="<?php echo esc_url($url_cal_url); ?>"
+					class="btn btn-primary text-uppercase text-light"
+					target="_blank">
+					<?php echo esc_html($url_cal_title); ?>
+				</a>
+			</div>
 		<?php endif; ?>
 	</div>
 </aside>
@@ -142,7 +159,9 @@ $show_timestamp = get_field('opciones_sitio_show_timestamp', 'option');
 	</div>
 </footer>
 
-
+<div class="cursor-text">
+	<p class="cursor-paragraph fs-6 m-0">Learn more</p>
+</div>
 <?php wp_footer(); ?>
 
 </body>

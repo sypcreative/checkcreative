@@ -1,6 +1,8 @@
 .gallery-slider {
   &__viewport {
-    touch-action: pan-y; /* permite scroll vertical nativo, drag horizontal */
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y; /* ya lo tenías / recomendado */
   }
   &__track {
     will-change: transform;
