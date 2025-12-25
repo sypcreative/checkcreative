@@ -535,16 +535,38 @@ export function initGallerySlider(root = document) {
     state = measure();
     clampX = gsap.utils.clamp(state.minX, state.maxX);
 
-    draggable.applyBounds({ minX: state.minX, maxX: state.maxX });
+    draggable?.applyBounds({ minX: state.minX, maxX: state.maxX });
 
     const current = clampX(gsap.getProperty(track, "x"));
     gsap.set(track, { x: current });
-    draggable.update();
+    draggable?.update();
   };
 
-  window.addEventListener("resize", resize);
+  const imgs = Array.from(track.querySelectorAll("img"));
 
-  const imgs = track.querySelectorAll("img");
+  // 1) Recalcula en los próximos frames (por si Elementor/Fonts/layout tardan)
+  requestAnimationFrame(resize);
+  requestAnimationFrame(resize);
+  setTimeout(resize, 200);
+
+  // 2) Si ya están cargadas, también recalcula
+  if (imgs.some((img) => img.complete)) resize();
+
+  // 3) Espera a que todas carguen (incluye error para no colgarse)
+  const waitImgs = Promise.all(
+    imgs.map((img) =>
+      img.complete
+        ? Promise.resolve()
+        : new Promise((r) => {
+            img.addEventListener("load", r, { once: true });
+            img.addEventListener("error", r, { once: true });
+          })
+    )
+  );
+
+  waitImgs.then(resize);
+
+  // 4) Mantén listeners por si hay lazy-load tardío
   imgs.forEach((img) => img.addEventListener("load", resize));
 }
 
@@ -1203,6 +1225,108 @@ export function initStackingCards() {
   ScrollTrigger.refresh();
 }
 
+export function initTabSystem() {
+  const wrappers = document.querySelectorAll('[data-tabs="wrapper"]');
+
+  wrappers.forEach((wrapper) => {
+    const contentItems = wrapper.querySelectorAll('[data-tabs="content-item"]');
+
+    const autoplay = wrapper.dataset.tabsAutoplay === "true";
+    const autoplayDuration =
+      parseInt(wrapper.dataset.tabsAutoplayDuration) || 5000;
+
+    let activeContent = null; // keep track of active item/link
+    let isAnimating = false;
+    let progressBarTween = null; // to stop/start the progress bar
+
+    function startProgressBar(index) {
+      if (progressBarTween) progressBarTween.kill();
+      const bar = contentItems[index].querySelector(
+        '[data-tabs="item-progress"]'
+      );
+      if (!bar) return;
+
+      // In this function, you can basically do anything you want, that should happen as a tab is active
+      // Maybe you have a circle filling, some other element growing, you name it.
+      gsap.set(bar, { scaleX: 0, transformOrigin: "left center" });
+      progressBarTween = gsap.to(bar, {
+        scaleX: 1,
+        duration: autoplayDuration / 1000,
+        ease: "power1.inOut",
+        onComplete: () => {
+          if (!isAnimating) {
+            const nextIndex = (index + 1) % contentItems.length;
+            switchTab(nextIndex); // once bar is full, set next to active – this is important
+          }
+        },
+      });
+    }
+
+    function switchTab(index) {
+      if (isAnimating || contentItems[index] === activeContent) return;
+
+      isAnimating = true;
+      if (progressBarTween) progressBarTween.kill(); // Stop any running progress bar here
+
+      const outgoingContent = activeContent;
+      const outgoingBar = outgoingContent?.querySelector(
+        '[data-tabs="item-progress"]'
+      );
+
+      const incomingContent = contentItems[index];
+      const incomingBar = incomingContent.querySelector(
+        '[data-tabs="item-progress"]'
+      );
+
+      outgoingContent?.classList.remove("active");
+      incomingContent.classList.add("active");
+
+      const tl = gsap.timeline({
+        defaults: { duration: 0.65, ease: "power3" },
+        onComplete: () => {
+          activeContent = incomingContent;
+          isAnimating = false;
+          if (autoplay) startProgressBar(index); // Start autoplay bar here
+        },
+      });
+
+      // Wrap 'outgoing' in a check to prevent warnings on first run of the function
+      // Of course, during first run (on page load), there's no 'outgoing' tab yet!
+      if (outgoingContent) {
+        outgoingContent.classList.remove("active");
+        tl.set(outgoingBar, { transformOrigin: "right center" })
+          .to(outgoingBar, { scaleX: 0, duration: 0.3 }, 0)
+          .to(
+            outgoingContent.querySelector('[data-tabs="item-details"]'),
+            { height: 0 },
+            0
+          );
+      }
+
+      incomingContent.classList.add("active");
+      tl.fromTo(
+        incomingContent.querySelector('[data-tabs="item-details"]'),
+        { height: 0 },
+        { height: "auto" },
+        0
+      ).set(incomingBar, { scaleX: 0, transformOrigin: "left center" }, 0);
+    }
+
+    // on page load, set first to active
+    // idea: you could wrap this in a scrollTrigger
+    // so it will only start once a user reaches this section
+    switchTab(0);
+
+    // switch tabs on click
+    contentItems.forEach((item, i) =>
+      item.addEventListener("click", () => {
+        if (item === activeContent) return; // ignore click if current one is already active
+        switchTab(i);
+      })
+    );
+  });
+}
+
 export function initScrollLine() {
   const section = document.querySelector("[data-line-scroll]");
   console.log("initScrollLine");
@@ -1409,4 +1533,35 @@ export function initCSSMarqueeTestimonies() {
     // Estado inicial
     updatePlayState();
   });
+}
+
+export function initBoldFullScreenNavigation() {
+  // Toggle Navigation
+  document
+    .querySelectorAll('[data-navigation-toggle="toggle"]')
+    .forEach((toggleBtn) => {
+      toggleBtn.addEventListener("click", () => {
+        const navStatusEl = document.querySelector("[data-navigation-status]");
+        if (!navStatusEl) return;
+        if (
+          navStatusEl.getAttribute("data-navigation-status") === "not-active"
+        ) {
+          navStatusEl.setAttribute("data-navigation-status", "active");
+        } else {
+          navStatusEl.setAttribute("data-navigation-status", "not-active");
+        }
+      });
+    });
+
+  // Close Navigation
+  document
+    .querySelectorAll('[data-navigation-toggle="close"]')
+    .forEach((closeBtn) => {
+      closeBtn.addEventListener("click", () => {
+        const navStatusEl = document.querySelector("[data-navigation-status]");
+        if (!navStatusEl) return;
+        navStatusEl.setAttribute("data-navigation-status", "not-active");
+        // If you use Lenis you can 'start' Lenis here: Example Lenis.start();
+      });
+    });
 }

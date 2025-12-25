@@ -3,14 +3,16 @@
     overscroll-behavior-x: contain;
     overscroll-behavior-y: auto;
     touch-action: pan-y; /* ya lo tenías / recomendado */
+	 overflow: hidden;
   }
   &__track {
     will-change: transform;
     user-select: none;
     height: 80vh;
+    gap: 16px;
 
     @include media-breakpoint-down(md) {
-      height: 45vh;
+      height: 65vh;
     }
   }
   &__slide {
@@ -18,6 +20,9 @@
     flex: 0 0 auto;
     width: clamp(260px, 32vw, 520px);
     overflow: hidden;
+    @include media-breakpoint-down(md) {
+      width: clamp(365px, 70vw, 400px);
+    }
   }
   &__image,
   &__video {

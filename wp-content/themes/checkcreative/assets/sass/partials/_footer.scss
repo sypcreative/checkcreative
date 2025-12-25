@@ -2,10 +2,14 @@
   grid-column-gap: 7.5em;
   grid-row-gap: 7.5em;
   letter-spacing: -0.02em;
-  min-height: 50svh;
+  //   min-height: 50svh;
   font-weight: 600;
   padding-top: 6rem !important;
-
+  padding-bottom: 6rem !important;
+  @include media-breakpoint-down(md) {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
   &__logo-row {
     grid-column-gap: 1em;
     grid-row-gap: 1em;
@@ -88,5 +92,3 @@
     transform: scaleX(1) rotate(0.001deg);
   }
 }
-
-

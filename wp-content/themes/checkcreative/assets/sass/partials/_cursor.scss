@@ -39,6 +39,9 @@ body:has([data-cursor]:hover) .cursor {
   transition: opacity 0.2s;
   position: fixed;
   inset: 0% auto auto 0%;
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
 }
 
 body:has([data-cursor]:hover) .cursor-text {

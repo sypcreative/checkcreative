@@ -8,7 +8,7 @@ $repeater = get_field('block_videos_repeater');
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h2 class="block-videos__title w-100 text-center mb-5 display">
+					<h2 class="block-videos__title w-100 text-center mb-md-5 mb-0 display">
 						<?php echo esc_html($title); ?>
 					</h2>
 				</div>

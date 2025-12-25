@@ -13,6 +13,12 @@ export function initBasicCustomCursor() {
 }
 
 export function initDynamicCustomTextCursor() {
+  if (
+    window.matchMedia("(pointer: coarse)").matches ||
+    window.innerWidth < 1024
+  ) {
+    return;
+  }
   let cursorItem = document.querySelector(".cursor-text");
   let cursorParagraph = cursorItem.querySelector("p");
   let targets = document.querySelectorAll("[data-cursor]");

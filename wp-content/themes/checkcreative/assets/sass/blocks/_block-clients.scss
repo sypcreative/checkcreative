@@ -40,6 +40,9 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   height: 75px;
+  @include media-breakpoint-down(md) {
+    padding-right: clamp(52px, 6vw, 96px); // tu "gap"
+  }
 }
 
 .logo-item img {
@@ -47,6 +50,9 @@
   width: auto;
   opacity: 0.9;
   transition: opacity 0.2s ease;
+  @include media-breakpoint-down(md) {
+    max-height: clamp(40px, 6vw, 56px);
+  }
 }
 
 .logo-item img:hover {

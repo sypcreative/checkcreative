@@ -47,6 +47,7 @@ function checkcreative_setup()
 		'menu-izquierda' => esc_html__('Menú izquierdo', 'checkcreative'),
 		'menu-derecha'   => esc_html__('Menú derecho', 'checkcreative'),
 		'menu-footer'    => esc_html__('Menú footer', 'checkcreative'),
+		'menu-mobile'    => esc_html__('Menú Mobile', 'checkcreative'),
 	));
 }
 add_action('after_setup_theme', 'checkcreative_setup');
@@ -196,3 +197,17 @@ add_image_size(
 	875,                 // alto máximo (px) → 4:5 aprox
 	true                 // hard crop
 );
+
+add_filter('nav_menu_css_class', function ($classes, $item, $args) {
+	if ($args->theme_location === 'menu-mobile') {
+		$classes[] = 'bold-nav-full__li';
+	}
+	return $classes;
+}, 10, 3);
+
+add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {
+	if ($args->theme_location === 'menu-mobile') {
+		$atts['class'] = 'bold-nav-full__link';
+	}
+	return $atts;
+}, 10, 3);

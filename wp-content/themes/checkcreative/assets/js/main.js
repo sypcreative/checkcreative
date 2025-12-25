@@ -9,6 +9,7 @@ import {
   initAboutHero,
   initBestProjectCards,
   initBestProjectsPin,
+  initBoldFullScreenNavigation,
   initContactGallery,
   initCSSMarquee,
   initCSSMarqueeTestimonies,
@@ -21,6 +22,7 @@ import {
   initMasonryGrid,
   initScrollLine,
   initStackingCards,
+  initTabSystem,
   stampCC,
 } from "./gsap.js";
 import { initActiveNavBarba, setupBarba } from "./pageTransition.js";
@@ -38,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       initHighlightText,
       stampCC,
       initFooterParallax,
+      initBoldFullScreenNavigation,
       () =>
         initImageTrail({
           minWidth: 992,
@@ -57,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         initCSSMarquee,
         initDynamicCustomTextCursor,
         initCSSMarqueeTestimonies,
+        initTabSystem,
       ],
       "single-proyecto": [initGallerySlider],
       about: [initAboutHero, initDirectionalListHover],

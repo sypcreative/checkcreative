@@ -6,16 +6,16 @@ $show = get_field('block_description_show');
 // Ejemplo: si estás en la página “about”
 $extra_class = '';
 
-if (is_page('about')) {
+if (is_page('about') || is_page('sobre-nosotros')) {
 	$extra_class = 'block-description--about py-12';
 } elseif (is_page('servicios')) {
 	$extra_class = 'block-description--services';
 } elseif (is_front_page()) {
-	$extra_class = 'block-description vh-100';
+	$extra_class = 'block-description vh-70 vh-md-100';
 }
 ?>
 
-<section class=" <?= esc_attr($extra_class) ?>  vw-100 overflow-clip position-relative">
+<section class="<?= esc_attr($extra_class) ?> vw-100 overflow-clip position-relative">
 	<div class="container h-100">
 		<div class="block-description__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
 			<h1 class="fs-3 w-80 text-center" data-highlight-text><?php echo esc_html($desc) ?></h1>

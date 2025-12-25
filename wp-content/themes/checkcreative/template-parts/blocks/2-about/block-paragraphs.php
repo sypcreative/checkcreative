@@ -1,7 +1,7 @@
 <?php
 $txt_repeater = get_field('block_history_repeater_texts');
 ?>
-<div class="block-history__texts container position-relative h-100 z-1 pt-5" data-highlight-text>
+<div class="block-history__texts container position-relative h-100 z-1 pt-md-5" data-highlight-text>
 	<?php foreach ($txt_repeater as $index => $item) {
 		$paragraph = $item['block_history_repeater_texts_text'] ?? '';
 		$pos = $item['block_history_repeater_texts_pos'] ?? '';

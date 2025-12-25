@@ -122,35 +122,34 @@ $target_cal = $url_cal ? $url_cal['target'] : '_self';
 
 <footer id="site-footer" class="bg-primary text-dark z-0">
 	<div data-footer-parallax="" class="footer-wrap position-relative overflow-hidden">
-		<footer data-footer-parallax-inner="" class="block-check-footer container position-relative  d-flex flex-column justify-content-between ls-3 p-4">
+		<footer data-footer-parallax-inner="" class="block-check-footer container position-relative d-flex flex-column justify-content-between ls-3 px-4">
 			<div class="block-check-footer__links-row d-flex text-light row">
-				<div class="block-check-footer__col d-flex flex-column col-4">
+				<div class="block-check-footer__col d-flex flex-column col-12 col-md-4 pb-4 pb-md-0 gap-3">
 					<p class="demo-eyebrow">( Pages )</p>
-					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
+					<div class="block-check-footer__links d-flex align-items-start flex-column">
 						<?php if (!empty($menu_items)) :
 							foreach ($menu_items as $item) : ?>
 								<a data-underline-link
 									href="<?php echo esc_url($item->url); ?>"
-									class="block-check-footer__a text-capitalize h4 m-0">
+									class="block-check-footer__a text-capitalize fs-4 m-0">
 									<?php echo esc_html($item->title); ?>
 								</a>
 						<?php endforeach;
 						endif; ?>
 					</div>
 				</div>
-				<div class="block-check-footer__col d-flex flex-column col-4">
+				<div class="block-check-footer__col d-flex flex-column col-12 col-md-4 gap-3 pb-4 pb-md-0">
 					<p class="demo-eyebrow">( Socials )</p>
-					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
-						<a data-underline-link="" href="#" class="block-check-footer__a">LinkedIn</a>
-						<a data-underline-link="" href="#" class="block-check-footer__a">Instagram</a>
-						<a data-underline-link="" href="#" class="block-check-footer__a">X/Twitter</a>
+					<div class="block-check-footer__links d-flex align-items-start flex-column">
+						<!-- <a data-underline-link="" href="#" class="block-check-footer__a fs-4 m-0">LinkedIn</a> -->
+						<a data-underline-link="" href="https://www.instagram.com/checkcreative_/" class="block-check-footer__a fs-4 m-0">Instagram</a>
 					</div>
 				</div>
-				<div class="block-check-footer__col d-flex flex-column col-4">
+				<div class="block-check-footer__col d-flex flex-column col-12 col-md-4 gap-3">
 					<p class="demo-eyebrow">( Contact )</p>
-					<div class="block-check-footer__links d-flex align-items-start flex-column gap-1">
-						<a data-underline-link="" href="mailto:<?= get_field('opciones_sitio_mail', 'option') ?>" class="block-check-footer__a"><?= get_field('opciones_sitio_mail', 'option') ?></a>
-						<a data-underline-link="" href="tel:<?= get_field('opciones_sitio_phone', 'option') ?>" class="block-check-footer__a"><?= get_field('opciones_sitio_phone', 'option') ?></a>
+					<div class="block-check-footer__links d-flex align-items-start flex-column">
+						<a data-underline-link="" href="mailto:<?= get_field('opciones_sitio_mail', 'option') ?>" class="block-check-footer__a fs-4 m-0"><?= get_field('opciones_sitio_mail', 'option') ?></a>
+						<a data-underline-link="" href="tel:<?= get_field('opciones_sitio_phone', 'option') ?>" class="block-check-footer__a fs-4 m-0"><?= get_field('opciones_sitio_phone', 'option') ?></a>
 					</div>
 				</div>
 			</div>

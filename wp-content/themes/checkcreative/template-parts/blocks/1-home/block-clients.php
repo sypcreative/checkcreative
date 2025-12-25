@@ -2,7 +2,7 @@
 $logos = get_field('block_clientes_repeater') ?: [];
 if ($logos):
 ?>
-	<section class="block-clients position-relative py-10 md-12">
+	<section class="block-clients position-relative py-5 py-md-12">
 		<div class="container">
 			<div class="logo-marquee overflow-hidden position-relative" data-css-marquee>
 				<div class="logo-track d-flex align-items-center" data-css-marquee-list>

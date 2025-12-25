@@ -8,7 +8,7 @@ $url_title = $link ? $link['title'] : '';
 $target = $link ? $link['target'] : '_self';
 ?>
 
-<section class="block-services-home w-100 pt-9">
+<section class="block-services-home w-100 pt-md-9 pt-0">
 	<?php if (!$visible) : ?>
 		<div class="container">
 			<h1 class="block-services-home__title-visible text-center">
@@ -24,7 +24,7 @@ $target = $link ? $link['target'] : '_self';
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
-	<div class="container d-flex flex-column" data-stacking-cards>
+	<div class="container d-none d-md-flex flex-column" data-stacking-cards>
 		<?php if ($visible) : ?>
 			<div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-uppercase mb-2">
 				<h1 class="block-services-home__title-visible h-md-1 h2">
@@ -106,5 +106,45 @@ $target = $link ? $link['target'] : '_self';
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
+	<div class="container d-md-none d-flex">
+		<div data-tabs-autoplay-duration="5000" data-tabs="wrapper" data-tabs-autoplay="true" class="block-services-home__tab-wrap z-1 flex-wrap d-flex position-relative py-3">
+			<div class="block-services-home__tab-col w-100 py-2">
+				<div class="block-services-home__tab-content-wrap w-100 h-100 ms-auto me-0">
+					<div class="block-services-home__tab-content-inner d-flex flex-column justify-content-between align-items-start">
+						<div class="block-services-home__tab-content-top d-flex flex-column justify-content-start align-items-start">
+							<h1 class="tab-heading m-0 "> <?= esc_html($title); ?></h1>
+						</div>
+						<div role="tablist" class="block-services-home__tab-content-bottom d-flex flex-column justify-content-between align-items-stretch w-100 my-0 ps-0">
+							<?php foreach ($services as $index => $service) :
+								$num         = $index + 1;
+								$shownum     = $service['block_services_home_service_number'];
+								$name        = $service['block_services_home_service_name'];
+								$description = $service['block_services_home_service_description'];
+								$image       = $service['block_services_home_service_image'];
+								$keywords    = $service['block_services_home_service_keywords'];
+								$image_url   = $image ? $image['url'] : '';
+							?>
+								<div role="tab" data-tabs="content-item" class="block-services-home__tab-content-item w-100 py-3 text-decoration-none position-relative text-black w-inline-block">
+									<div class="block-services-home__tab-content-item-main d-flex justify-content-start align-items-center w-100 d-flextab-content__item-main">
+										<div class="block-services-home__tab-content-item-nr text-black d-flex ">
+											<span class="m-0 h5">0<?= $num ?></span>
+										</div>
+										<h2 class="content-item__heading h4 m-0"><?= esc_html($name); ?></h2>
+									</div>
+									<div data-tabs="item-details" class="block-services-home__tab-content-item-detail w-100 overflow-hidden pt-3">
+										<div class="tab-description__spacer"></div>
+										<p class="tab-description fs-6"><?= esc_html($description) ?></p>
+										<div class="tab-description__spacer pt-3"></div>
+									</div>
+									<div class="block-services-home__tab-content-item-bottom w-100 position-absolute">
+										<div data-tabs="item-progress" class="block-services-home__tab-progress"></div>
+									</div>
+								</div>
+							<?php endforeach ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </section>
-<div data-stacking-cards-spacer></div>
+<div class="d-none d-md-block" data-stacking-cards-spacer></div>
