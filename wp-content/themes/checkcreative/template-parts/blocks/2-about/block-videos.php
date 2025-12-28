@@ -8,7 +8,7 @@ $repeater = get_field('block_videos_repeater');
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h2 class="block-videos__title w-100 text-center mb-md-5 mb-0 display">
+					<h2 class="block-videos__title w-100 text-center mb-0 display">
 						<?php echo esc_html($title); ?>
 					</h2>
 				</div>
@@ -24,7 +24,7 @@ $repeater = get_field('block_videos_repeater');
 					$img_alt = $image['alt'] ?? '';
 				?>
 
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-6 m-0" data-play-hover>
 						<a
 							href="<?php echo esc_url($video_url); ?>" target="_blank" rel="noopener noreferrer"
 							class="block-videos__video-item d-block">
@@ -38,6 +38,6 @@ $repeater = get_field('block_videos_repeater');
 				<?php } ?>
 			</div>
 		</div>
-
 	</div>
+	<?php get_template_part('template-parts/components/cursor-play'); ?>
 </section>

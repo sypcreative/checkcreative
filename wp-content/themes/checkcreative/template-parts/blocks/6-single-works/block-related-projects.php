@@ -6,12 +6,23 @@ $label = $cta['title'] ?? '';
 $relation = get_field('block_related_projects_projects');
 ?>
 
-<section class="block-related-projects h-100 vw-100 position-relative pt-8 pb-5">
-	<div class="container pb-5">
-		<div class="row">
-			<div class="col-12 d-flex flex-column flex-md-row justify-content-between pb-2">
-				<h3 class="h4 h-md-3" title-anim><?php echo esc_html($title); ?></h3>
-				<a class="btn" href='<?php echo esc_url($url); ?>'><?php echo esc_html($label); ?></a>
+<section class="block-related-projects h-100 vw-100 position-relative pt-4 pt-md-8 pb-5">
+	<div class="container pb-0 pb-md-5">
+		<div class="row align-items-center mb-4">
+			<div class="col-6 text-uppercase mb-0 mb-md-2">
+				<h3 class="h4 h-md-3 lh-1 mb-0" title-anim><?php echo esc_html($title); ?></h3>
+			</div>
+			<div class="col-6">
+				<div class="btn-group justify-content-end d-flex">
+					<a href="<?php echo esc_url($url); ?>" target="<?php echo esc_attr($target); ?>" class="btn-icon-link d-flex text-primary text-decoration-none w-inline-block">
+						<div class="btn-icon-content bg-dark justify-content-start d-flex position-relative overflow-hidden align-items-center text-light">
+							<div class="btn-icon-content__mask z-1 justify-content-start d-flex align-items-center position-relative overflow-hidden">
+								<span data-button-anim-target="" class="btn-icon-content__text"><?php echo esc_html($label); ?></span>
+							</div>
+							<div data-button-anim-target="" class="btn-icon-content__bg bg-primary position-absolute bottom-0"></div>
+						</div>
+					</a>
+				</div>
 			</div>
 		</div>
 		<div class="block-related-projects__content row">

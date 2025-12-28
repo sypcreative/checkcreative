@@ -56,7 +56,7 @@ if ($proyectos && is_array($proyectos)) : ?>
 					</div>
 					<div data-projects-cards-collection="" class="block-best-projects__collection w-100 h-100 position-absolute top-0 start-0">
 						<div class="block-best-projects__card-title">
-							<h2 class="block-best-projects__card-title-h2 text-center w-100 text-uppercase display text-center"><?= ($title) ?></h2>
+							<h2 class="block-best-projects__card-title-h2 text-center w-100 text-uppercase display-md h2 text-center"><?= ($title) ?></h2>
 						</div>
 						<div data-projects-cards-list="" class="block-best-projects__list justify-content-center align-items-center d-flex h-100 w-100 position-relative">
 
@@ -91,12 +91,16 @@ if ($proyectos && is_array($proyectos)) : ?>
 						</div>
 						<?php if ($url) : ?>
 							<div class="block-best-projects__link d-flex justify-content-center position-relative">
-								<a
-									data-underline-link
-									href="<?php echo esc_url($url); ?>"
-									target="<?php echo esc_attr($target); ?>">
-									<?php echo esc_html($url_title); ?>
-								</a>
+								<div class="btn-group justify-content-center d-flex">
+									<a href="<?php echo esc_url($url); ?>" target="<?php echo esc_attr($target); ?>" class="btn-icon-link d-flex text-primary text-decoration-none w-inline-block">
+										<div class="btn-icon-content bg-dark justify-content-start d-flex position-relative overflow-hidden align-items-center text-light">
+											<div class="btn-icon-content__mask z-1 justify-content-start d-flex align-items-center position-relative overflow-hidden">
+												<span data-button-anim-target="" class="btn-icon-content__text"><?php echo esc_html($url_title); ?></span>
+											</div>
+											<div data-button-anim-target="" class="btn-icon-content__bg bg-primary position-absolute bottom-0"></div>
+										</div>
+									</a>
+								</div>
 							</div>
 						<?php endif; ?>
 					</div>

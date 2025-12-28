@@ -21,22 +21,23 @@
 						<div class="<?php echo esc_attr($visual_classes); ?>">
 
 							<?php if ($media_type === 'image') : ?>
-
 								<?php
 								$image = get_sub_field('block_gallery_content_image');
 								if ($image) :
-									// Usa wp_get_attachment_image para mejor control
 									echo wp_get_attachment_image(
 										$image['ID'],
-										'full',
+										'large', // ✅ NO 'full' en grids; usa 'large' o un tamaño custom
 										false,
 										[
 											'class' => 'masonry-item__visual-img',
 											'loading' => 'lazy',
+											'decoding' => 'async',
+											'fetchpriority' => 'low',
 										]
 									);
 								endif;
 								?>
+
 
 							<?php elseif ($media_type === 'video') : ?>
 
@@ -45,10 +46,14 @@
 								$video_url = is_array($video_file) ? ($video_file['url'] ?? '') : $video_file;
 								if ($video_url) :
 								?>
-									<video class="masonry-item__visual-video" autoplay muted loop playsinline>
-										<source src="<?php echo esc_url($video_url); ?>" type="video/mp4">
-										Your browser does not support the video tag.
-									</video>
+									<video
+										class="masonry-item__visual-video"
+										muted
+										loop
+										playsinline
+										preload="none"
+										data-autoplay="1"
+										data-src="<?php echo esc_url($video_url); ?>"></video>
 								<?php endif; ?>
 
 							<?php endif; ?>

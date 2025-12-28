@@ -17,7 +17,7 @@
 
   &__tab-content-inner {
     grid-column-gap: 3em;
-    grid-row-gap: 3em;
+    //  grid-row-gap: 3em;
     min-height: 100%;
   }
   &__tab-content-top {
@@ -113,19 +113,56 @@
   height: 320px !important;
 }
 
-// .content-item__nr {
-//   color: #fff;
-//   background-color: #131313;
-//   border: 1px solid #131313;
-//   border-radius: 100em;
-//   justify-content: center;
-//   align-items: center;
-//   width: 2.5em;
-//   height: 2.5em;
-//   margin-top: 0.2em;
-//   font-family: RM Mono, Arial, sans-serif;
-//   font-size: 0.75em;
-//   font-weight: 400;
-//   transition: transform 0.4s cubic-bezier(0.625, 0.05, 0, 1);
-//   display: flex;
-// }
+.btn {
+  &-group {
+    grid-column-gap: 3em;
+    grid-row-gap: 3em;
+  }
+  &-icon-link {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    font-size: 1em;
+    line-height: 1.2;
+  }
+  &-icon-content {
+    grid-column-gap: 0.5em;
+    grid-row-gap: 0.5em;
+    border-radius: 0.2em;
+    padding: 0.6125em 0.75em;
+  }
+  &-icon-content__text {
+    font-size: 0.875em;
+  }
+  &-icon-content__mask {
+    flex: none;
+  }
+  &-icon-content__bg {
+    z-index: 0;
+    width: 120%;
+    height: 100%;
+    left: -10%;
+    transform: translate(0, 175%) rotate(15deg);
+  }
+  /* Fake a duplicate text element using text shadow without blur  */
+  /* We save the distance in a variable for easy use in the CSS animation */
+  &-icon-content__text {
+    --text-duplicate-distance: 1.5em;
+    text-shadow: 0px var(--text-duplicate-distance) currentColor;
+  }
+}
+
+/* Global attribute to easily control easing and timing of all targetted elements */
+[data-button-anim-target] {
+  transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+/* Only apply hover animations if they are actually not supported */
+@media (hover: hover) and (pointer: fine) {
+  .btn-icon-link:hover .btn-icon-content__text {
+    transform: translate(0px, calc(-1 * var(--text-duplicate-distance)));
+  }
+
+  .btn-icon-link:hover .btn-icon-content__bg {
+    transform: translate(0px, 0%) rotate(0deg);
+  }
+}

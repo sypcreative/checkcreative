@@ -28,7 +28,7 @@ get_header();
 				<!-- Título -->
 				<div class="col-12 text-center pb-5">
 					<?php if ($proyecto_title) : ?>
-						<h1 class="project-header__title fw-bold text-uppercase m-0 display">
+						<h1 class="project-header__title fw-bold text-uppercase m-0 display-md h1">
 							<?php echo esc_html($proyecto_title); ?>
 						</h1>
 					<?php endif; ?>

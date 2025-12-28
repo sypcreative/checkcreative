@@ -106,3 +106,105 @@ export function initDynamicCustomTextCursor() {
     });
   });
 }
+
+export function initPlayHoverCursor(scope = document) {
+  const isTouch =
+    window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+  if (isTouch) return () => {};
+
+  const cursor = document.querySelector(".play-hover-cursor");
+  if (!cursor) return () => {};
+
+  const targets = Array.from(scope.querySelectorAll("[data-play-hover]"));
+  if (!targets.length) return () => {};
+
+  let active = false;
+  let rafId = null;
+
+  const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const pos = { x: mouse.x, y: mouse.y };
+
+  const lerp = (a, b, n) => a + (b - a) * n;
+
+  // 🎛️ Tuning
+  const EASE = 0.03; // cuanto persigue (0.12 más lento / 0.25 más pegado)
+  const FREEZE_DIST = 0.1; // px: si estamos ya muy cerca, paramos SIN snap
+
+  const setTransform = (x, y) => {
+    cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(1)`;
+  };
+
+  const render = () => {
+    if (!active) {
+      rafId = null;
+      return;
+    }
+
+    const dx = mouse.x - pos.x;
+    const dy = mouse.y - pos.y;
+    const dist = Math.hypot(dx, dy);
+
+    // ✅ Si está casi en el sitio, congelamos (NO snap al ratón)
+    if (dist < FREEZE_DIST) {
+      rafId = null;
+      return;
+    }
+
+    pos.x = lerp(pos.x, mouse.x, EASE);
+    pos.y = lerp(pos.y, mouse.y, EASE);
+
+    setTransform(pos.x, pos.y);
+    rafId = requestAnimationFrame(render);
+  };
+
+  const kick = () => {
+    if (!rafId && active) rafId = requestAnimationFrame(render);
+  };
+
+  const onMove = (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    kick();
+  };
+
+  const enter = (e) => {
+    active = true;
+    cursor.classList.add("is-active");
+
+    // opcional: empieza cerca del ratón al entrar para que no “salte”
+    if (e?.clientX != null) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      pos.x = mouse.x;
+      pos.y = mouse.y;
+      setTransform(pos.x, pos.y);
+    }
+
+    kick();
+  };
+
+  const leave = () => {
+    active = false;
+    cursor.classList.remove("is-active");
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  };
+
+  targets.forEach((el) => {
+    el.addEventListener("mouseenter", enter);
+    el.addEventListener("mouseleave", leave);
+  });
+
+  window.addEventListener("mousemove", onMove);
+
+  return () => {
+    window.removeEventListener("mousemove", onMove);
+    targets.forEach((el) => {
+      el.removeEventListener("mouseenter", enter);
+      el.removeEventListener("mouseleave", leave);
+    });
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    cursor.classList.remove("is-active");
+  };
+}

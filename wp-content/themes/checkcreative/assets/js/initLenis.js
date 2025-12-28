@@ -17,8 +17,6 @@ export function initLenis(options = {}) {
   // 🚫 MÓVIL: SIN LENIS, SCROLL NATIVO
   // ==============================
   if (isMobile) {
-    console.log("🚀 [Lenis] Modo móvil: scroll nativo, sin Lenis");
-
     // MUY IMPORTANTE: no usar scrollerProxy aquí,
     // así ScrollTrigger usa window/pageYOffset por defecto.
     // (por si en algún build anterior se había configurado algo raro)
@@ -38,7 +36,6 @@ export function initLenis(options = {}) {
 
     ...options,
   });
-  console.log(lenis);
 
   // Conecta Lenis con ScrollTrigger
   lenis.on("scroll", ScrollTrigger.update);

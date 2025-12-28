@@ -109,12 +109,16 @@ $target_cal = $url_cal ? $url_cal['target'] : '_self';
 
 		<?php if ($show_cta) : ?>
 			<div class="ms-3">
-				<a
-					href="<?php echo esc_url($url_cal_url); ?>"
-					class="btn btn-primary text-uppercase text-light"
-					target="_blank">
-					<?php echo esc_html($url_cal_title); ?>
-				</a>
+				<div class="btn-group justify-content-center d-flex">
+					<a href="<?php echo esc_url($url_cal_url); ?>" target="<?php echo esc_attr($target); ?>" class="btn-icon-link d-flex text-primary text-decoration-none w-inline-block">
+						<div class="btn-icon-content bg-primary justify-content-start d-flex position-relative overflow-hidden align-items-center text-light">
+							<div class="btn-icon-content__mask z-1 justify-content-start d-flex align-items-center position-relative overflow-hidden">
+								<span data-button-anim-target="" class="btn-icon-content__text"><?php echo esc_html($url_cal_title); ?></span>
+							</div>
+							<div data-button-anim-target="" class="btn-icon-content__bg bg-dark position-absolute bottom-0"></div>
+						</div>
+					</a>
+				</div>
 			</div>
 		<?php endif; ?>
 	</div>

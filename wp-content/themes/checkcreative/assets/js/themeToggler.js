@@ -29,7 +29,6 @@ export function initCookieDarkLight() {
     const currentTheme = el.getAttribute("data-theme-status") || "light";
     const newTheme = currentTheme === "light" ? "dark" : "light";
 
-    console.log("Toggle theme:", currentTheme, "→", newTheme);
     setTheme(newTheme);
   }
 

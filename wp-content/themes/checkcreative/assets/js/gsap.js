@@ -832,16 +832,37 @@ export function initFooterParallax() {
   // Nada de refresh aquí: Barba ya refresca.
 }
 
-export function initMasonryGrid() {
-  document.querySelectorAll("[data-masonry-list]").forEach((container) => {
+export function initMasonryGrid(scope = document) {
+  const containers = scope.querySelectorAll("[data-masonry-list]");
+
+  // 🛑 Guard: no hay masonry en esta vista
+  if (!containers.length) {
+    if (process.env.NODE_ENV !== "production") {
+      console.debug("[Masonry] No data-masonry-list found, skipping");
+    }
+    return;
+  }
+
+  containers.forEach((container) => {
     const shuffle = container.dataset.masonryShuffle !== "false";
     let cols, gapPx, colHeights;
 
-    // Take columns and gaps from CSS
+    /* ------------------------------
+       Read CSS vars safely
+    ------------------------------ */
     const getVars = () => {
       const cs = getComputedStyle(container);
+
       cols = parseInt(cs.getPropertyValue("--masonry-col"));
+
+      // 🛑 Guard crítico
+      if (!cols || Number.isNaN(cols)) {
+        console.warn("[Masonry] Invalid --masonry-col on element:", container);
+        return false;
+      }
+
       const rawGap = cs.getPropertyValue("--masonry-gap").trim();
+
       if (rawGap.endsWith("px")) {
         gapPx = parseFloat(rawGap);
       } else if (rawGap.endsWith("em")) {
@@ -851,16 +872,23 @@ export function initMasonryGrid() {
           parseFloat(rawGap) *
           parseFloat(getComputedStyle(document.documentElement).fontSize);
       } else {
-        gapPx = parseFloat(rawGap);
+        gapPx = parseFloat(rawGap) || 0;
       }
+
+      return true;
     };
 
-    // Set the layout
+    /* ------------------------------
+       Layout
+    ------------------------------ */
     const layout = () => {
-      getVars();
+      if (!getVars()) return;
+
       const wCalc = `(100% - ${cols - 1}*var(--masonry-gap)) / ${cols}`;
       colHeights = Array(cols).fill(0);
+
       container.style.position = "relative";
+
       const items = Array.from(container.children);
 
       items.forEach((el) => {
@@ -873,6 +901,7 @@ export function initMasonryGrid() {
         const idx = shuffle
           ? colHeights.indexOf(Math.min(...colHeights))
           : i % cols;
+
         el.style.top = `${colHeights[idx]}px`;
         el.style.left = `calc(${wCalc}*${idx} + var(--masonry-gap)*${idx})`;
         colHeights[idx] += h + gapPx;
@@ -881,7 +910,9 @@ export function initMasonryGrid() {
       container.style.height = `${Math.max(...colHeights)}px`;
     };
 
-    // Debounce function to use on resize
+    /* ------------------------------
+       Debounce helpers
+    ------------------------------ */
     const debounce = (fn, delay) => {
       let t;
       return () => {
@@ -893,35 +924,46 @@ export function initMasonryGrid() {
     const onResize = debounce(layout, 100);
     window.addEventListener("resize", onResize);
 
-    // Return promise if images are loaded
+    /* ------------------------------
+       Image load watcher
+    ------------------------------ */
+    const debouncedLayout = debounce(layout, 50);
     const imgLoad = () => {
-      const imgs = container.querySelectorAll("img");
-      return Promise.all(
-        Array.from(imgs).map((img) =>
-          img.complete
-            ? Promise.resolve()
-            : new Promise((r) => img.addEventListener("load", r))
-        )
-      );
+      container.querySelectorAll("img").forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener("load", debouncedLayout, { once: true });
+          img.addEventListener("error", debouncedLayout, { once: true });
+        }
+      });
     };
 
-    // When images are ready, set the layout
-    imgLoad().then(layout);
+    /* ------------------------------
+       Init
+    ------------------------------ */
+    layout();
+    imgLoad();
 
-    // Constructor with destroy and recalc function
+    /* ------------------------------
+       Public API (cleanup friendly)
+    ------------------------------ */
     container._masonry = {
-      recalc: () => imgLoad().then(layout),
+      recalc: () => {
+        layout();
+        imgLoad();
+      },
       destroy: () => {
         window.removeEventListener("resize", onResize);
-        const items = Array.from(container.children);
-        items.forEach((el) => {
+
+        Array.from(container.children).forEach((el) => {
           el.style.position =
             el.style.width =
             el.style.top =
             el.style.left =
               "";
         });
-        container.style.position = container.style.height = "";
+
+        container.style.position = "";
+        container.style.height = "";
       },
     };
   });
@@ -1005,7 +1047,6 @@ export function initBestProjectCards() {
     renderCards(activeIndex);
 
     if (total < 2) {
-      console.log("Not minimum of 7 cards");
       return;
     }
 
@@ -1329,15 +1370,12 @@ export function initTabSystem() {
 
 export function initScrollLine() {
   const section = document.querySelector("[data-line-scroll]");
-  console.log("initScrollLine");
   if (!section) return;
 
   const path = section.querySelector("#linea-trazo");
   if (!path) return;
-  console.log("path", path);
   const length = path.getTotalLength();
 
-  console.log("path", path, "length", length);
   // Estado inicial “oculto”
   path.style.strokeDasharray = length;
   path.style.strokeDashoffset = length;

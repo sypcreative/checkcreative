@@ -21,7 +21,7 @@ $trail = get_field('opciones_sitio_cursor_images', 'option');
 	<?php endif; ?>
 	<?php if ($selector == 'image') : ?>
 		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-			<h1 class="block-hero-home__title text-<?= $color ?> display">
+			<h1 class="block-hero-home__title text-<?= $color ?> display-md h1">
 				<?php echo esc_html($title); ?>
 			</h1>
 		</div>

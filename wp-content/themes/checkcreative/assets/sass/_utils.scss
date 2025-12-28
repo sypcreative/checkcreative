@@ -178,8 +178,8 @@ $headings-sizes-md: (
   letter-spacing: $cor-h1-letter-spacing;
 }
 @include media-breakpoint-up(md) {
-  .display,
-  .display-body {
+  .display-md,
+  .display-md-body {
     font-size: $cor-display-font-size-md;
   }
 }

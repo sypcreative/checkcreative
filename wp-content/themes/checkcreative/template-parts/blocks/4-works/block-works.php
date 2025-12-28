@@ -16,7 +16,7 @@ $query = new WP_Query($args);
 	<div class="block-works__content container position-relative z-1 py-5">
 		<div class="row">
 			<div class="col-12 col-md-10 offset-md-1">
-				<h3 class="block-works__title w-100 text-uppercase text-center pb-md-0 pb-3 display">
+				<h3 class="block-works__title w-100 text-uppercase text-center pb-md-0 pb-3 display-md h1">
 					<?php echo esc_html($title); ?>
 				</h3>
 

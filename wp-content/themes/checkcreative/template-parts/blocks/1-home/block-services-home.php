@@ -32,12 +32,16 @@ $target = $link ? $link['target'] : '_self';
 				</h1>
 
 				<?php if ($url) : ?>
-					<a
-						data-underline-link
-						href="<?php echo esc_url($url); ?>"
-						target="<?php echo esc_attr($target); ?>">
-						<?php echo esc_html($url_title); ?>
-					</a>
+					<div class="btn-group justify-content-center d-flex">
+						<a href="<?php echo esc_url($url); ?>" target="<?php echo esc_attr($target); ?>" class="btn-icon-link d-flex text-primary text-decoration-none w-inline-block">
+							<div class="btn-icon-content bg-dark justify-content-start d-flex position-relative overflow-hidden align-items-center text-light">
+								<div class="btn-icon-content__mask z-1 justify-content-start d-flex align-items-center position-relative overflow-hidden">
+									<span data-button-anim-target="" class="btn-icon-content__text"><?php echo esc_html($url_title); ?></span>
+								</div>
+								<div data-button-anim-target="" class="btn-icon-content__bg bg-primary position-absolute bottom-0"></div>
+							</div>
+						</a>
+					</div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -112,7 +116,7 @@ $target = $link ? $link['target'] : '_self';
 				<div class="block-services-home__tab-content-wrap w-100 h-100 ms-auto me-0">
 					<div class="block-services-home__tab-content-inner d-flex flex-column justify-content-between align-items-start">
 						<div class="block-services-home__tab-content-top d-flex flex-column justify-content-start align-items-start">
-							<h1 class="tab-heading m-0 "> <?= esc_html($title); ?></h1>
+							<h1 class="tab-heading m-0 display-md h2 text-center"> <?= esc_html($title); ?></h1>
 						</div>
 						<div role="tablist" class="block-services-home__tab-content-bottom d-flex flex-column justify-content-between align-items-stretch w-100 my-0 ps-0">
 							<?php foreach ($services as $index => $service) :

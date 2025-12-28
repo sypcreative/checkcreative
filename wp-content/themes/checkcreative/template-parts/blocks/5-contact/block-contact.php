@@ -25,7 +25,7 @@ $block_id = 'block-contact-';
 			<!-- COL IZQUIERDA: HEADER + FORM (col-8) -->
 			<div class="col-12 col-lg-8">
 				<div class="block-contact__header mb-4">
-					<h1 class="block-contact__title display">
+					<h1 class="block-contact__title display-md h1">
 						<?php echo esc_html($heading); ?>
 					</h1>
 				</div>

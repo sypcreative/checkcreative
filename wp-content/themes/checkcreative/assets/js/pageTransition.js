@@ -109,6 +109,38 @@ function prepEnter(el) {
   gsap.set(el, { autoAlpha: 0 });
 }
 
+function storageGet(key) {
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch {}
+  try {
+    return window.localStorage.getItem(key);
+  } catch {}
+  return null;
+}
+
+function storageSet(key, val) {
+  let ok = false;
+  try {
+    window.sessionStorage.setItem(key, val);
+    ok = true;
+  } catch {}
+  try {
+    window.localStorage.setItem(key, val);
+    ok = true;
+  } catch {}
+  return ok;
+}
+
+function getNamespace(next) {
+  return (
+    next?.namespace ||
+    next?.container?.getAttribute("data-barba-namespace") ||
+    next?.container?.dataset?.barbaNamespace ||
+    ""
+  );
+}
+
 export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
   if (window.__BARBA_MINIMAL__) return;
   window.__BARBA_MINIMAL__ = true;
@@ -152,10 +184,6 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
     }
 
     const ns = container.getAttribute("data-barba-namespace") || "default";
-    console.log(
-      "%c[Barba] runInitsFor namespace: " + ns,
-      "color:#00eaff;font-weight:bold"
-    );
 
     const nsFns = byNs[ns] || [];
     run([...nsFns, ...common], container);
@@ -204,36 +232,83 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
         name: "minimal-fade",
 
         once({ next }) {
-          const isFirstVisit = !sessionStorage.getItem("preloaderShown");
-          const isHome =
-            next?.container?.getAttribute("data-barba-namespace") === "home";
+          // ✅ pre-hide SIEMPRE el container en once (evita flash al quitar el overlay)
+          prepEnter(next.container); // pone autoAlpha:0 :contentReference[oaicite:2]{index=2}
+          next.__revealItems = prepRevealEnter(next.container); // prepara clip/y/opacity :contentReference[oaicite:3]{index=3}
 
-          console.log("isFirstVisit:", isFirstVisit, "isHome:", isHome);
-          if (isFirstVisit && isHome) {
-            return new Promise((resolve) => {
-              console.log("Showing preloader on first visit to home");
-              initLogoRevealLoader({
-                onComplete: () => {
-                  sessionStorage.setItem("preloaderShown", "true");
-                  resolve();
-                },
+          const ns = getNamespace(next);
+          const isHome = ns === "home";
+          const isFirstVisit = !storageGet("preloaderShown");
+
+          const runReveal = () =>
+            new Promise((resolve) => {
+              // ✅ ahora sí: mostramos el container cuando ya está todo preparado
+              gsap.set(next.container, { autoAlpha: 1 });
+
+              const items =
+                next.__revealItems || prepRevealEnter(next.container);
+              const tl = gsap.timeline({ delay: 0.0, onComplete: resolve });
+
+              tl.to(items, {
+                clipPath: "inset(0% 0% 0% 0%)",
+                y: 0,
+                opacity: 1,
+                duration: 0.9,
+                ease: "power2.out",
+                stagger: { each: 0.06, from: "start" },
               });
+            });
+
+          // ✅ Preloader solo 1ª visita en HOME
+          if (isFirstVisit && isHome) {
+            // 🔥 marca el flag ANTES (si el loader peta, no quedas en loop)
+            storageSet("preloaderShown", "true");
+
+            return new Promise((resolve) => {
+              let done = false;
+              const finish = async () => {
+                if (done) return;
+                done = true;
+                await runReveal();
+                resolve();
+              };
+
+              // ✅ safety: evita quedarte colgada si algo falla
+              const safety = setTimeout(() => {
+                console.warn("[Preloader] safety timeout → continue");
+                finish();
+              }, 8500);
+
+              try {
+                initLogoRevealLoader({
+                  onHideStart: () => {
+                    // ⏱ pequeño delay antes de mostrar el contenido
+                    revealTimeout = gsap.delayedCall(0.18, () => {
+                      runReveal();
+                    });
+                  },
+                  onComplete: () => {
+                    clearTimeout(safety);
+                    resolve();
+                  },
+                  onSkip: () => {
+                    clearTimeout(safety);
+                    // si el usuario skipea, entra ya (sin delay)
+                    revealTimeout?.kill?.();
+                    runReveal();
+                    resolve();
+                  },
+                });
+              } catch (e) {
+                console.error("[Preloader] init error:", e);
+                clearTimeout(safety);
+                finish();
+              }
             });
           }
 
-          return new Promise((resolve) => {
-            const items = prepRevealEnter(next.container);
-            const tl = gsap.timeline({ delay: 0.5, onComplete: resolve });
-
-            tl.to(items, {
-              clipPath: "inset(0% 0% 0% 0%)",
-              y: 0,
-              opacity: 1,
-              duration: 0.9,
-              ease: "power2.out",
-              stagger: { each: 0.06, from: "start" },
-            });
-          });
+          // ✅ Si no hay preloader, tu reveal normal
+          return runReveal();
         },
 
         async leave({ current }) {
@@ -283,13 +358,16 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
 
           prepEnter(container);
           next.__revealItems = prepRevealEnter(container);
-          gsap.set(container, { autoAlpha: 1 });
+          //  gsap.set(container, { autoAlpha: 1 });
+          console.log("HOla??");
 
           // 👇 aquí ya hacemos el cleanup de la página anterior y luego inits nuevos
           runInitsFor(container);
         },
 
         async enter({ next }) {
+          gsap.set(next.container, { autoAlpha: 1 });
+
           await animateRevealEnter(next.__revealItems, next.container, {
             duration: 0.9,
             ease: "power2.out",

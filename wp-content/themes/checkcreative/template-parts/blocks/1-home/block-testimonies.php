@@ -7,7 +7,7 @@ $repeater = get_field('block_testimonies_repeater');
 	<div class="block-testimonies__content container position-relative z-1">
 		<div class="row">
 			<div class="col-12">
-				<h1 class="display text-center pb-5"><?php echo esc_html($title); ?></h1>
+				<h1 class="display-md h2 text-center pb-5"><?php echo esc_html($title); ?></h1>
 			</div>
 
 			<div class="col-12">

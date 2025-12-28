@@ -43,6 +43,11 @@ function barba_namespace()
 	<meta name="format-detection" content="telephone=no">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/assets/img/favicon.png" sizes="150x50">
+	<meta property="og:title" content="Check Creative Content – Creative Front-End Development">
+	<meta property="og:description" content="Creative front-end development with a strong focus on UX, performance and motion.">
+	<meta property="og:image" content="https://checkcreativecontent.com/og-image.jpg">
+	<meta property="og:url" content="https://checkcreativecontent.com/">
+	<meta property="og:type" content="website">
 	<?php wp_head(); ?>
 </head>
 
@@ -90,7 +95,7 @@ function barba_namespace()
 				<!-- Menú fullscreen móvil -->
 				<nav data-navigation-status="not-active" class="bold-nav-full d-md-none d-flex" aria-label="Toggle navigation">
 					<div class="bold-nav-full__bar">
-						<a href="#" class="bold-nav-full__logo w-inline-block">
+						<!-- <a href="#" class="bold-nav-full__logo w-inline-block">
 							<svg id="Capa_2" width="100%" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1221.44 277.36" fill="none">
 								<g id="Capa_1-2" data-name="Capa 1">
 									<path class="cls-2" d="M187.95,70.43c-7-9.1-15.87-16.1-26.6-21-10.73-4.9-21.82-7.35-33.25-7.35-14,0-26.66,2.62-37.97,7.88-11.32,5.25-21,12.42-29.05,21.52-8.05,9.1-14.3,19.78-18.73,32.03-4.44,12.25-6.65,25.38-6.65,39.37,0,13.07,2.1,25.43,6.3,37.1,4.2,11.67,10.26,21.94,18.2,30.8,7.93,8.87,17.61,15.87,29.05,21,11.43,5.14,24.38,7.7,38.85,7.7s26.71-2.92,37.45-8.75c10.73-5.83,19.83-14,27.3-24.5l28.35,21.35c-1.87,2.57-5.14,6.25-9.8,11.02-4.67,4.79-10.85,9.57-18.55,14.35-7.7,4.79-16.97,8.98-27.82,12.6s-23.4,5.42-37.62,5.42c-19.6,0-37.27-3.74-53.02-11.2s-29.17-17.26-40.25-29.4c-11.09-12.13-19.55-25.84-25.38-41.12-5.84-15.28-8.75-30.74-8.75-46.38,0-19.13,3.15-36.8,9.45-53.03,6.3-16.21,15.1-30.21,26.43-42,11.31-11.78,24.9-20.94,40.77-27.47,15.86-6.53,33.36-9.8,52.5-9.8,16.33,0,32.38,3.15,48.12,9.45,15.75,6.3,28.64,15.99,38.67,29.05l-28,21.35Z" />
@@ -100,9 +105,11 @@ function barba_namespace()
 									<path class="cls-1" d="M1220.15,26.52l-267.95,249.5c-2.05,1.91-5.27,1.75-7.13-.35l-85.65-97.14v86.1h-31.5V.03h31.5v170.8l71.4-71.75h43.75l-77.35,75.25,53.66,59.4L1196.14,1.11c1.62-1.53,4.17-1.47,5.71.15l18.49,19.54c1.54,1.63,1.46,4.2-.18,5.72Z" />
 								</g>
 							</svg>
-						</a>
-						<button data-navigation-toggle="toggle" type="button" class="navbar-toggler bold-nav-full__hamburger" aria-expanded="false">
-							<span class="">MENU</span>
+						</a> -->
+						<button data-navigation-toggle="toggle" class="bold-nav-full__hamburger">
+							<div class="bold-nav-full__hamburger-bar"></div>
+							<div class="bold-nav-full__hamburger-bar"></div>
+							<div class="bold-nav-full__hamburger-bar"></div>
 						</button>
 					</div>
 					<div class="bold-nav-full__tile">

@@ -1,13 +1,62 @@
+// preloader.js
 import gsap from "gsap";
-import { CustomEase } from "gsap/CustomEase";
-import { SplitText } from "gsap/SplitText";
+import CustomEase from "gsap/CustomEase";
+import SplitText from "gsap/SplitText";
 
-export function initLogoRevealLoader() {
-  gsap.registerPlugin(CustomEase, SplitText);
-  console.log("initLogoRevealLoader called");
-  CustomEase.create("loader", "0.65, 0.01, 0.05, 0.99");
+gsap.registerPlugin(CustomEase, SplitText);
+CustomEase.create("loader", "0.65, 0.01, 0.05, 0.99");
 
-  const wrap = document.querySelector("[data-load-wrap]");
+function ensurePreloaderDOM() {
+  let el = document.querySelector(".preloader");
+  if (el) return el;
+
+  el = document.createElement("div");
+  el.className = "preloader";
+
+  // ✅ tu markup actual (loader)
+  el.innerHTML = `
+    <div data-load-wrap class="loader w-100 position-fixed">
+  <div data-load-bg class="loader__bg bg-light w-100 h-100 position-absolute">
+    <div data-load-progress class="loader__bg-bar z-1 bg-primary w-100 position-absolute start-0 bottom-0 end-0"></div>
+  </div>
+  <div data-load-container class="loader__container z-2 d-flex flex-column justify-content-center align-items-center w-100 h-100 position-relative">
+    <div class="loader__logo-wrap position-relative d-flex justify-content-between align-items-center">
+      <div class="loader__logo-item is--base w-100 position-absolute">
+			<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1221.44 277.36"  class="loader__logo-img w-100 d-block">
+				<path d="M187.95,70.43c-7-9.1-15.87-16.1-26.6-21-10.73-4.9-21.82-7.35-33.25-7.35-14,0-26.66,2.62-37.97,7.88-11.32,5.25-21,12.42-29.05,21.52-8.05,9.1-14.3,19.78-18.73,32.03-4.44,12.25-6.65,25.38-6.65,39.37,0,13.07,2.1,25.43,6.3,37.1,4.2,11.67,10.26,21.94,18.2,30.8,7.93,8.87,17.61,15.87,29.05,21,11.43,5.14,24.38,7.7,38.85,7.7s26.71-2.92,37.45-8.75c10.73-5.83,19.83-14,27.3-24.5l28.35,21.35c-1.87,2.57-5.14,6.25-9.8,11.02-4.67,4.79-10.85,9.57-18.55,14.35-7.7,4.79-16.97,8.98-27.82,12.6s-23.4,5.42-37.62,5.42c-19.6,0-37.27-3.74-53.02-11.2s-29.17-17.26-40.25-29.4c-11.09-12.13-19.55-25.84-25.38-41.12-5.84-15.28-8.75-30.74-8.75-46.38,0-19.13,3.15-36.8,9.45-53.03,6.3-16.21,15.1-30.21,26.43-42,11.31-11.78,24.9-20.94,40.77-27.47,15.86-6.53,33.36-9.8,52.5-9.8,16.33,0,32.38,3.15,48.12,9.45,15.75,6.3,28.64,15.99,38.67,29.05l-28,21.35Z"/>
+				<path d="M257.75.08h31.5v124.25h.7c3.96-8.87,10.85-16.04,20.65-21.53,9.8-5.48,21.11-8.22,33.95-8.22,7.93,0,15.57,1.22,22.92,3.67s13.77,6.25,19.25,11.38c5.48,5.13,9.85,11.72,13.12,19.77,3.27,8.05,4.9,17.56,4.9,28.53v106.75h-31.5v-98c0-7.7-1.05-14.29-3.15-19.78-2.1-5.48-4.9-9.91-8.4-13.3-3.5-3.38-7.52-5.83-12.08-7.35-4.55-1.51-9.27-2.28-14.17-2.28-6.54,0-12.6,1.05-18.2,3.15-5.6,2.1-10.5,5.42-14.7,9.97-4.2,4.55-7.47,10.33-9.8,17.33-2.33,7-3.5,15.29-3.5,24.85v85.4h-31.5V.08Z"/>
+				<path d="M480.15,193.28c0,7.24,1.57,13.83,4.73,19.78,3.15,5.95,7.29,11.03,12.42,15.22,5.13,4.2,11.08,7.47,17.85,9.8,6.76,2.33,13.76,3.5,21,3.5,9.8,0,18.31-2.28,25.55-6.83,7.23-4.55,13.88-10.55,19.95-18.03l23.8,18.2c-17.5,22.63-42,33.95-73.5,33.95-13.07,0-24.91-2.22-35.52-6.65-10.62-4.43-19.6-10.55-26.95-18.38-7.35-7.81-13.01-17.03-16.97-27.65-3.97-10.62-5.95-22.11-5.95-34.48s2.15-23.85,6.48-34.47c4.31-10.62,10.26-19.83,17.85-27.65,7.58-7.81,16.62-13.94,27.12-18.38,10.5-4.43,21.93-6.65,34.3-6.65,14.7,0,27.12,2.57,37.28,7.7,10.15,5.14,18.49,11.85,25.02,20.12,6.53,8.29,11.25,17.62,14.17,28,2.92,10.39,4.38,20.95,4.38,31.68v11.2h-133ZM579.55,168.08c-.24-7-1.35-13.42-3.33-19.25-1.99-5.83-4.96-10.91-8.92-15.23-3.97-4.31-8.92-7.7-14.88-10.15-5.95-2.45-12.9-3.68-20.83-3.68s-14.76,1.46-21.17,4.38c-6.42,2.92-11.85,6.71-16.27,11.37-4.44,4.67-7.88,9.86-10.33,15.58-2.45,5.72-3.67,11.38-3.67,16.98h99.4Z"/>
+				<path d="M773.6,142.88c-5.83-6.07-11.96-10.67-18.38-13.83-6.42-3.15-14.06-4.72-22.92-4.72s-16.16,1.57-22.58,4.72c-6.42,3.15-11.79,7.47-16.1,12.95-4.32,5.49-7.58,11.79-9.8,18.9-2.22,7.12-3.33,14.53-3.33,22.23s1.28,15,3.85,21.88c2.56,6.88,6.18,12.9,10.85,18.02,4.67,5.14,10.26,9.16,16.8,12.08,6.53,2.92,13.88,4.38,22.05,4.38,8.86,0,16.45-1.58,22.75-4.72,6.3-3.15,12.13-7.75,17.5-13.83l22.4,22.4c-8.17,9.1-17.67,15.63-28.52,19.6-10.85,3.96-22.35,5.95-34.48,5.95-12.83,0-24.56-2.1-35.17-6.3-10.62-4.2-19.78-10.09-27.47-17.68-7.7-7.58-13.65-16.68-17.85-27.3-4.2-10.61-6.3-22.34-6.3-35.17s2.1-24.62,6.3-35.35c4.2-10.73,10.09-19.95,17.67-27.65,7.58-7.7,16.68-13.71,27.3-18.03,10.61-4.31,22.45-6.47,35.52-6.47,12.13,0,23.74,2.16,34.83,6.47,11.08,4.32,20.71,10.91,28.88,19.78l-23.8,21.7Z"/>
+				<path d="M1220.15,26.52l-267.95,249.5c-2.05,1.91-5.27,1.75-7.13-.35l-85.65-97.14v86.1h-31.5V.03h31.5v170.8l71.4-71.75h43.75l-77.35,75.25,53.66,59.4L1196.14,1.11c1.62-1.53,4.17-1.47,5.71.15l18.49,19.54c1.54,1.63,1.46,4.2-.18,5.72Z"/>
+			</svg>
+      </div>
+      <div data-load-logo class="loader__logo-item is--top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" fill="#558992" viewBox="0 0 1221.44 277.36"  class="loader__logo-img w-100 d-block">
+				<path d="M187.95,70.43c-7-9.1-15.87-16.1-26.6-21-10.73-4.9-21.82-7.35-33.25-7.35-14,0-26.66,2.62-37.97,7.88-11.32,5.25-21,12.42-29.05,21.52-8.05,9.1-14.3,19.78-18.73,32.03-4.44,12.25-6.65,25.38-6.65,39.37,0,13.07,2.1,25.43,6.3,37.1,4.2,11.67,10.26,21.94,18.2,30.8,7.93,8.87,17.61,15.87,29.05,21,11.43,5.14,24.38,7.7,38.85,7.7s26.71-2.92,37.45-8.75c10.73-5.83,19.83-14,27.3-24.5l28.35,21.35c-1.87,2.57-5.14,6.25-9.8,11.02-4.67,4.79-10.85,9.57-18.55,14.35-7.7,4.79-16.97,8.98-27.82,12.6s-23.4,5.42-37.62,5.42c-19.6,0-37.27-3.74-53.02-11.2s-29.17-17.26-40.25-29.4c-11.09-12.13-19.55-25.84-25.38-41.12-5.84-15.28-8.75-30.74-8.75-46.38,0-19.13,3.15-36.8,9.45-53.03,6.3-16.21,15.1-30.21,26.43-42,11.31-11.78,24.9-20.94,40.77-27.47,15.86-6.53,33.36-9.8,52.5-9.8,16.33,0,32.38,3.15,48.12,9.45,15.75,6.3,28.64,15.99,38.67,29.05l-28,21.35Z"/>
+				<path d="M257.75.08h31.5v124.25h.7c3.96-8.87,10.85-16.04,20.65-21.53,9.8-5.48,21.11-8.22,33.95-8.22,7.93,0,15.57,1.22,22.92,3.67s13.77,6.25,19.25,11.38c5.48,5.13,9.85,11.72,13.12,19.77,3.27,8.05,4.9,17.56,4.9,28.53v106.75h-31.5v-98c0-7.7-1.05-14.29-3.15-19.78-2.1-5.48-4.9-9.91-8.4-13.3-3.5-3.38-7.52-5.83-12.08-7.35-4.55-1.51-9.27-2.28-14.17-2.28-6.54,0-12.6,1.05-18.2,3.15-5.6,2.1-10.5,5.42-14.7,9.97-4.2,4.55-7.47,10.33-9.8,17.33-2.33,7-3.5,15.29-3.5,24.85v85.4h-31.5V.08Z"/>
+				<path d="M480.15,193.28c0,7.24,1.57,13.83,4.73,19.78,3.15,5.95,7.29,11.03,12.42,15.22,5.13,4.2,11.08,7.47,17.85,9.8,6.76,2.33,13.76,3.5,21,3.5,9.8,0,18.31-2.28,25.55-6.83,7.23-4.55,13.88-10.55,19.95-18.03l23.8,18.2c-17.5,22.63-42,33.95-73.5,33.95-13.07,0-24.91-2.22-35.52-6.65-10.62-4.43-19.6-10.55-26.95-18.38-7.35-7.81-13.01-17.03-16.97-27.65-3.97-10.62-5.95-22.11-5.95-34.48s2.15-23.85,6.48-34.47c4.31-10.62,10.26-19.83,17.85-27.65,7.58-7.81,16.62-13.94,27.12-18.38,10.5-4.43,21.93-6.65,34.3-6.65,14.7,0,27.12,2.57,37.28,7.7,10.15,5.14,18.49,11.85,25.02,20.12,6.53,8.29,11.25,17.62,14.17,28,2.92,10.39,4.38,20.95,4.38,31.68v11.2h-133ZM579.55,168.08c-.24-7-1.35-13.42-3.33-19.25-1.99-5.83-4.96-10.91-8.92-15.23-3.97-4.31-8.92-7.7-14.88-10.15-5.95-2.45-12.9-3.68-20.83-3.68s-14.76,1.46-21.17,4.38c-6.42,2.92-11.85,6.71-16.27,11.37-4.44,4.67-7.88,9.86-10.33,15.58-2.45,5.72-3.67,11.38-3.67,16.98h99.4Z"/>
+				<path d="M773.6,142.88c-5.83-6.07-11.96-10.67-18.38-13.83-6.42-3.15-14.06-4.72-22.92-4.72s-16.16,1.57-22.58,4.72c-6.42,3.15-11.79,7.47-16.1,12.95-4.32,5.49-7.58,11.79-9.8,18.9-2.22,7.12-3.33,14.53-3.33,22.23s1.28,15,3.85,21.88c2.56,6.88,6.18,12.9,10.85,18.02,4.67,5.14,10.26,9.16,16.8,12.08,6.53,2.92,13.88,4.38,22.05,4.38,8.86,0,16.45-1.58,22.75-4.72,6.3-3.15,12.13-7.75,17.5-13.83l22.4,22.4c-8.17,9.1-17.67,15.63-28.52,19.6-10.85,3.96-22.35,5.95-34.48,5.95-12.83,0-24.56-2.1-35.17-6.3-10.62-4.2-19.78-10.09-27.47-17.68-7.7-7.58-13.65-16.68-17.85-27.3-4.2-10.61-6.3-22.34-6.3-35.17s2.1-24.62,6.3-35.35c4.2-10.73,10.09-19.95,17.67-27.65,7.58-7.7,16.68-13.71,27.3-18.03,10.61-4.31,22.45-6.47,35.52-6.47,12.13,0,23.74,2.16,34.83,6.47,11.08,4.32,20.71,10.91,28.88,19.78l-23.8,21.7Z"/>
+				<path d="M1220.15,26.52l-267.95,249.5c-2.05,1.91-5.27,1.75-7.13-.35l-85.65-97.14v86.1h-31.5V.03h31.5v170.8l71.4-71.75h43.75l-77.35,75.25,53.66,59.4L1196.14,1.11c1.62-1.53,4.17-1.47,5.71.15l18.49,19.54c1.54,1.63,1.46,4.2-.18,5.72Z"/>
+			</svg>
+      </div>
+    </div>
+  </div>
+</div>
+  `;
+
+  document.body.appendChild(el);
+  return el;
+}
+
+export function initLogoRevealLoader({
+  onComplete,
+  onSkip,
+  onHideStart,
+  once = true,
+} = {}) {
+  const root = ensurePreloaderDOM();
+
+  const wrap = root.querySelector("[data-load-wrap]");
   if (!wrap) return;
 
   const container = wrap.querySelector("[data-load-container]");
@@ -16,12 +65,14 @@ export function initLogoRevealLoader() {
   const logo = wrap.querySelector("[data-load-logo]");
   const textElements = Array.from(wrap.querySelectorAll("[data-load-text]"));
 
-  // Reset targets that are * not * split text targets
   const resetTargets = Array.from(
     wrap.querySelectorAll("[data-load-reset]:not([data-load-text])")
   );
 
-  // Main loader timeline
+  // ✅ estado inicial (importante con tu CSS scale3d)
+  gsap.set(progressBar, { transformOrigin: "0% 50%", scaleX: 0 });
+
+  // Main loader timeline (idéntico al tuyo)
   const loadTimeline = gsap
     .timeline({
       defaults: {
@@ -29,26 +80,28 @@ export function initLogoRevealLoader() {
         duration: 3,
       },
     })
-    .set(wrap, { display: "block" })
+    .set(wrap, { display: "block", yPercent: 0 })
     .to(progressBar, { scaleX: 1 })
     .to(logo, { clipPath: "inset(0% 0% 0% 0%)" }, "<")
     .to(container, { autoAlpha: 0, duration: 0.5 })
     .to(
       progressBar,
-      { scaleX: 0, transformOrigin: "right center", duration: 0.5 },
+      { scaleX: 0, transformOrigin: "100% 50%", duration: 0.5 },
       "<"
     )
     .add("hideContent", "<")
-    .to(bg, { yPercent: -101, duration: 1 }, "hideContent")
-    .set(wrap, { display: "none" });
+    .call(() => onHideStart && onHideStart(), null, "hideContent")
+    .to(wrap, { yPercent: -101, duration: 1 }, "hideContent") // ✅ sube TODO el loader
+    .set(wrap, { display: "none", clearProps: "transform" });
 
-  // If there are items to hide FOUC for, reset them at the start
   if (resetTargets.length) {
     loadTimeline.set(resetTargets, { autoAlpha: 1 }, 0);
   }
 
-  // If there's text items, split them, and add to load timeline
-  if (textElements.length >= 2) {
+  // ✅ SplitText EXACTO, pero esperando fonts para que no salte
+  const addSplitTextToTimeline = () => {
+    if (textElements.length < 2) return;
+
     const firstWord = new SplitText(textElements[0], {
       type: "lines,chars",
       mask: "lines",
@@ -58,14 +111,12 @@ export function initLogoRevealLoader() {
       mask: "lines",
     });
 
-    // Set initial states of the text elements and letters
     gsap.set([firstWord.chars, secondWord.chars], {
       autoAlpha: 0,
       yPercent: 125,
     });
     gsap.set(textElements, { autoAlpha: 1 });
 
-    // first text in
     loadTimeline.to(
       firstWord.chars,
       {
@@ -77,7 +128,6 @@ export function initLogoRevealLoader() {
       0
     );
 
-    // first text out while second text in
     loadTimeline.to(
       firstWord.chars,
       {
@@ -100,7 +150,6 @@ export function initLogoRevealLoader() {
       "<"
     );
 
-    // second text out
     loadTimeline.to(
       secondWord.chars,
       {
@@ -111,5 +160,19 @@ export function initLogoRevealLoader() {
       },
       "hideContent-=0.5"
     );
+
+    // ✅ cleanup para que no “rompa” el DOM tras acabar
+    loadTimeline.eventCallback("onComplete", () => {
+      try {
+        firstWord.revert();
+        secondWord.revert();
+      } catch {}
+    });
+  };
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(addSplitTextToTimeline);
+  } else {
+    addSplitTextToTimeline();
   }
 }

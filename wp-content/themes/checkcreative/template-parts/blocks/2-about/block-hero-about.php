@@ -7,7 +7,7 @@ $trail = get_field('opciones_sitio_cursor_images', 'option');
 <!-- <div data-trail="wrapper" class="trail-section"> -->
 <section class="block-hero-about vh-100 vw-100 position-relative" <?= in_array('about', $trail) ? 'data-trail="wrapper"' : ''; ?>>
 	<div class="block-hero-about__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-		<h1 class="block-hero-about__title text-uppercase display w-100">
+		<h1 class="block-hero-about__title text-uppercase h3 display-md w-100">
 			<?php echo esc_html($title); ?>
 		</h1>
 	</div>

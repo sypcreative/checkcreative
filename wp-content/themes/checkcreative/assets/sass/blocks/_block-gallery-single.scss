@@ -3,7 +3,7 @@
     overscroll-behavior-x: contain;
     overscroll-behavior-y: auto;
     touch-action: pan-y; /* ya lo tenías / recomendado */
-	 overflow: hidden;
+    overflow: hidden;
   }
   &__track {
     will-change: transform;
