@@ -28,13 +28,6 @@ get_header();
 				<div class="position-relative">
 					<h2 class="text-center text-lg-start jumbo-contact fw-bold lh-1 mb-4 "><?php echo nl2br(esc_html($copy)); ?></h2>
 
-					<?php if ($email) : ?>
-						<a href="mailto:<?= $email ?>"
-							class="text-primary century fs-6 position-absolute badge rounded-pill px-4 py-2 bg-pink text-decoration-none magnetic-badge">
-							<?php echo esc_html($email); ?>
-						</a>
-					<?php endif; ?>
-
 					<?php if ($phone) : ?>
 						<a href="tel:<?= $phone ?>"
 							class="text-primary century fs-6 position-absolute badge rounded-pill px-4 py-2 bg-pink text-decoration-none magnetic-badge">

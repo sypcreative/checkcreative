@@ -152,9 +152,18 @@ $target_cal = $url_cal ? $url_cal['target'] : '_self';
 				<div class="block-check-footer__col d-flex flex-column col-12 col-md-4 gap-3">
 					<p class="demo-eyebrow">( Contact )</p>
 					<div class="block-check-footer__links d-flex align-items-start flex-column">
-						<a data-underline-link="" href="mailto:<?= get_field('opciones_sitio_mail', 'option') ?>" class="block-check-footer__a fs-4 m-0"><?= get_field('opciones_sitio_mail', 'option') ?></a>
-						<a data-underline-link="" href="tel:<?= get_field('opciones_sitio_phone', 'option') ?>" class="block-check-footer__a fs-4 m-0"><?= get_field('opciones_sitio_phone', 'option') ?></a>
+						<?php if ($phone = get_field('opciones_sitio_phone', 'option')) : ?>
+							<a
+								data-underline-link
+								href="tel:<?= esc_attr($phone); ?>"
+								class="block-check-footer__a fs-4 m-0">
+								<?= esc_html($phone); ?>
+							</a>
+						<?php endif; ?>
 					</div>
+					<img class="object-fit-contain"
+						src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/dist/img/kit-digital.png"
+						alt="Kit Digital Logo" />
 				</div>
 			</div>
 		</footer>

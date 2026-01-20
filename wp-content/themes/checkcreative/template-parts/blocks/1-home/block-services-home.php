@@ -11,9 +11,9 @@ $target = $link ? $link['target'] : '_self';
 <section class="block-services-home w-100 pt-md-9 pt-0">
 	<?php if (!$visible) : ?>
 		<div class="container">
-			<h1 class="block-services-home__title-visible text-center">
+			<h2 class="block-services-home__title-visible text-center h1">
 				<?= esc_html($title); ?>
-			</h1>
+			</h2>
 			<?php if ($url) : ?>
 				<a
 					data-underline-link
@@ -27,9 +27,9 @@ $target = $link ? $link['target'] : '_self';
 	<div class="container d-none d-md-flex flex-column" data-stacking-cards>
 		<?php if ($visible) : ?>
 			<div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-uppercase mb-2">
-				<h1 class="block-services-home__title-visible h-md-1 h2">
+				<h2 class="block-services-home__title-visible h-md-1 h2">
 					<?= esc_html($title); ?>
-				</h1>
+				</h2>
 
 				<?php if ($url) : ?>
 					<div class="btn-group justify-content-center d-flex">
@@ -116,7 +116,7 @@ $target = $link ? $link['target'] : '_self';
 				<div class="block-services-home__tab-content-wrap w-100 h-100 ms-auto me-0">
 					<div class="block-services-home__tab-content-inner d-flex flex-column justify-content-between align-items-start">
 						<div class="block-services-home__tab-content-top d-flex flex-column justify-content-start align-items-start">
-							<h1 class="tab-heading m-0 display-md h2 text-center"> <?= esc_html($title); ?></h1>
+							<h2 class="tab-heading m-0 display-md h2 text-center"> <?= esc_html($title); ?></h2>
 						</div>
 						<div role="tablist" class="block-services-home__tab-content-bottom d-flex flex-column justify-content-between align-items-stretch w-100 my-0 ps-0">
 							<?php foreach ($services as $index => $service) :

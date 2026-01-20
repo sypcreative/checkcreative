@@ -67,7 +67,7 @@ export function initDescriptionPin() {
         opacity: 1,
         duration: SECTION_DURATION,
       },
-      0 // todas empiezan desde el inicio del timeline
+      0, // todas empiezan desde el inicio del timeline
     );
   });
 
@@ -96,7 +96,7 @@ export function initDescriptionPin() {
           amount: SECTION_DURATION,
         },
       },
-      0
+      0,
     );
   }
 
@@ -284,14 +284,14 @@ export function initAboutHero() {
       height: "50vh",
       ease: "power1.out",
     },
-    0
+    0,
   );
 
   tl.fromTo(
     image,
     { yPercent: -5, scale: 1.05 },
     { yPercent: 0, scale: 1, ease: "power2.out", duration: 1 },
-    0
+    0,
   );
 }
 
@@ -560,8 +560,8 @@ export function initGallerySlider(root = document) {
         : new Promise((r) => {
             img.addEventListener("load", r, { once: true });
             img.addEventListener("error", r, { once: true });
-          })
-    )
+          }),
+    ),
   );
 
   waitImgs.then(resize);
@@ -609,10 +609,10 @@ export function initHighlightText() {
 
 export function stampCC() {
   const text = document.querySelector(
-    ".block-single-objective__circle-stamp__text"
+    ".block-single-objective__circle-stamp__text",
   );
   const circle = document.querySelector(
-    ".block-single-objective__circle-stamp"
+    ".block-single-objective__circle-stamp",
   );
 
   if (!text || !circle) return;
@@ -703,7 +703,7 @@ export function initDirectionalListHover() {
                   scale: 1,
                   duration: 0.3,
                   ease: "power2.out",
-                }
+                },
               );
             }
           }
@@ -753,7 +753,7 @@ export function initDirectionalListHover() {
       };
 
       return Object.entries(distances).reduce((a, b) =>
-        a[1] < b[1] ? a : b
+        a[1] < b[1] ? a : b,
       )[0];
     }
   });
@@ -783,7 +783,7 @@ export function initFooterParallax() {
 
     if (!inner && !dark) {
       console.warn(
-        "[FooterParallax] No inner/dark found. Skipping this element."
+        "[FooterParallax] No inner/dark found. Skipping this element.",
       );
       return;
     }
@@ -811,7 +811,7 @@ export function initFooterParallax() {
           yPercent: 0,
           ease: "linear",
           overwrite: "auto",
-        }
+        },
       );
     }
 
@@ -824,7 +824,7 @@ export function initFooterParallax() {
           ease: "linear",
           overwrite: "auto",
         },
-        "<"
+        "<",
       );
     }
   });
@@ -975,7 +975,7 @@ export function initBestProjectCards() {
   sliders.forEach((slider) => {
     const list = slider.querySelector("[data-projects-cards-list]");
     const cards = Array.from(
-      list.querySelectorAll("[data-projects-cards-project]")
+      list.querySelectorAll("[data-projects-cards-project]"),
     );
     const total = cards.length;
     let activeIndex = 0;
@@ -1093,7 +1093,7 @@ export function initBestProjectCards() {
         const releaseClientY = this.pointerEvent.clientY;
         const dragDistance = Math.hypot(
           releaseClientX - pressClientX,
-          releaseClientY - pressClientY
+          releaseClientY - pressClientY,
         );
 
         const raw = this.x / sliderWidth;
@@ -1121,7 +1121,7 @@ export function initBestProjectCards() {
             requestAnimationFrame(() => {
               const el = document.elementFromPoint(
                 releaseClientX,
-                releaseClientY
+                releaseClientY,
               );
               if (el) {
                 const evt = new MouseEvent("click", {
@@ -1197,7 +1197,7 @@ export function initStackingCards() {
 
         const extraScroll = Math.max(
           Math.min(amount - naturalScroll, MAX_SPACER),
-          0
+          0,
         );
 
         if (spacer) {
@@ -1213,6 +1213,8 @@ export function initStackingCards() {
   cards.forEach((card, i) => {
     const desc = descs[i];
     const img = imgs[i];
+
+    desc.setAttribute("aria-hidden", "true");
 
     if (desc) {
       const fadedValue =
@@ -1240,7 +1242,7 @@ export function initStackingCards() {
         duration: 0.8,
         ease: "power4.inOut",
       },
-      "<"
+      "<",
     );
 
     const nextCard = cards[i + 1];
@@ -1259,7 +1261,7 @@ export function initStackingCards() {
       {
         yPercent: STEP * lastIndex,
       },
-      0 // para que se vaya recolocando durante toda la animación
+      0, // para que se vaya recolocando durante toda la animación
     );
   }
 
@@ -1283,7 +1285,7 @@ export function initTabSystem() {
     function startProgressBar(index) {
       if (progressBarTween) progressBarTween.kill();
       const bar = contentItems[index].querySelector(
-        '[data-tabs="item-progress"]'
+        '[data-tabs="item-progress"]',
       );
       if (!bar) return;
 
@@ -1311,12 +1313,12 @@ export function initTabSystem() {
 
       const outgoingContent = activeContent;
       const outgoingBar = outgoingContent?.querySelector(
-        '[data-tabs="item-progress"]'
+        '[data-tabs="item-progress"]',
       );
 
       const incomingContent = contentItems[index];
       const incomingBar = incomingContent.querySelector(
-        '[data-tabs="item-progress"]'
+        '[data-tabs="item-progress"]',
       );
 
       outgoingContent?.classList.remove("active");
@@ -1340,7 +1342,7 @@ export function initTabSystem() {
           .to(
             outgoingContent.querySelector('[data-tabs="item-details"]'),
             { height: 0 },
-            0
+            0,
           );
       }
 
@@ -1349,7 +1351,7 @@ export function initTabSystem() {
         incomingContent.querySelector('[data-tabs="item-details"]'),
         { height: 0 },
         { height: "auto" },
-        0
+        0,
       ).set(incomingBar, { scaleX: 0, transformOrigin: "left center" }, 0);
     }
 
@@ -1363,7 +1365,7 @@ export function initTabSystem() {
       item.addEventListener("click", () => {
         if (item === activeContent) return; // ignore click if current one is already active
         switchTab(i);
-      })
+      }),
     );
   });
 }
@@ -1418,7 +1420,7 @@ export function initCSSMarquee() {
           });
       });
     },
-    { threshold: 0 }
+    { threshold: 0 },
   );
 
   // Calcular ancho y fijar duración en función de la velocidad
@@ -1563,7 +1565,7 @@ export function initCSSMarqueeTestimonies() {
           updatePlayState();
         });
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     observer.observe(marquee);

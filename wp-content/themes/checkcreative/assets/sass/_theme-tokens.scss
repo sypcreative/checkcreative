@@ -6,7 +6,8 @@
 :root,
 [data-theme-status="light"] {
   /* ----------- COLORES CORPORATIVOS ----------- */
-  --cor-primary: #558992;
+  //   --cor-primary: #558992;
+  --cor-primary: #006374;
   --cor-secondary: #eff0f2;
 
   /* Colores oscuros */
@@ -22,7 +23,7 @@
 
   /* ----------- BOOTSTRAP VARIABLES ----------- */
   --bs-primary: var(--cor-primary);
-  --bs-primary-rgb: 85, 137, 146;
+  --bs-primary-rgb: 0, 99, 116;
 
   --bs-secondary: var(--cor-secondary);
   --bs-secondary-rgb: 239, 240, 242;
@@ -52,7 +53,8 @@
 
 [data-theme-status="dark"] {
   /* ----------- COLORES CORPORATIVOS ----------- */
-  --cor-primary: #88c5cd;
+  //   --cor-primary: #88c5cd;
+  --cor-primary: #006374;
   --cor-secondary: #121212;
 
   /* Colores oscuros */
@@ -68,7 +70,7 @@
 
   /* ----------- BOOTSTRAP VARIABLES ----------- */
   --bs-primary: var(--cor-primary);
-  --bs-primary-rgb: 136, 197, 205;
+  --bs-primary-rgb: 0, 99, 116;
 
   --bs-secondary: var(--cor-secondary);
   --bs-secondary-rgb: 18, 18, 18;
