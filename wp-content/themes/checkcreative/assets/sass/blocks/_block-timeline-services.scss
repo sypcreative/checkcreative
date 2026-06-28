@@ -1,7 +1,8 @@
 #linea-trazo {
   fill: none;
-  stroke: var(--cor-primary);
+  stroke: $cor-primary;
   stroke-width: 6px;
+  opacity: 0.4;
 }
 
 .block-line {

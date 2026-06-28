@@ -358,8 +358,6 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
 
           prepEnter(container);
           next.__revealItems = prepRevealEnter(container);
-          //  gsap.set(container, { autoAlpha: 1 });
-          console.log("HOla??");
 
           // 👇 aquí ya hacemos el cleanup de la página anterior y luego inits nuevos
           runInitsFor(container);

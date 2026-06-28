@@ -13,15 +13,17 @@ $trail = get_field('opciones_sitio_cursor_images', 'option');
 		<video class="block-hero-home__video position-absolute top-0 start-0 w-100 h-100 object-fit-cover z-0" autoplay muted loop playsinline>
 			<source src="<?= $video ?>" type="video/mp4" />
 		</video>
-		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
+		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1 px-5 ">
 			<h1 class="block-hero-home__title text-<?= $color ?> display">
-				<?php echo esc_html($title); ?>
+				
+				<?php echo esc_html($title) ?>
 			</h1>
 		</div>
 	<?php endif; ?>
 	<?php if ($selector == 'image') : ?>
-		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
+		<div class="block-hero-home__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1 px-5 ">
 			<h1 class="block-hero-home__title text-<?= $color ?> display-md h1">
+				
 				<?php echo esc_html($title); ?>
 			</h1>
 		</div>

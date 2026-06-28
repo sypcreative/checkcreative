@@ -1,7 +1,7 @@
 .cursor {
   z-index: 100;
-  background-color: var(--cor-primary);
-  border: 1px solid var(--cor-primary);
+  background-color: $cor-primary;
+  border: 1px solid $cor-primary;
   border-radius: 100em;
   width: 1em;
   height: 1em;

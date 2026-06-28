@@ -5,8 +5,12 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(ScrollTrigger, Draggable, SplitText);
 
-export function initDescriptionPin() {
-  const section = document.querySelector(".block-description");
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+export function initDescriptionPin(scope = document) {
+  if (prefersReducedMotion()) return;
+  const section = scope.querySelector(".block-description");
   if (!section) return;
 
   const allImages = section.querySelectorAll(".block-description__img");
@@ -14,7 +18,7 @@ export function initDescriptionPin() {
 
   const heading = section.querySelector("[data-highlight-text]");
 
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   // 👉 En móvil animamos menos imágenes
   const images = isMobile
@@ -105,8 +109,9 @@ export function initDescriptionPin() {
   window.addEventListener("load", onLoadRefresh, { once: true });
 }
 
-export function initHeroParallax() {
-  const section = document.querySelector(".block-hero-home");
+export function initHeroParallax(scope = document) {
+  if (prefersReducedMotion()) return;
+  const section = scope.querySelector(".block-hero-home");
   if (!section) return;
 
   const video = section.querySelector(".block-hero-home__video");
@@ -149,23 +154,17 @@ export function initHeroParallax() {
   const refresh = () => ScrollTrigger.refresh();
   video.addEventListener("loadeddata", refresh, { once: true });
   window.addEventListener("load", refresh, { once: true });
-
-  // Respeta 'reduce motion' del usuario
-  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (mq.matches) {
-    ScrollTrigger.getAll().forEach((st) => st.disable());
-    gsap.set([video, title], { clearProps: "transform" });
-  }
 }
 
-export function initBestProjectsPin() {
-  const section = document.querySelector(".block-best-projects");
+export function initBestProjectsPin(scope = document) {
+  if (prefersReducedMotion()) return;
+  const section = scope.querySelector(".block-best-projects");
   if (!section) return;
 
   const content = section.querySelector(".block-best-projects__content");
   if (!content) return;
 
-  const items = gsap.utils.toArray(".block-best-projects__item");
+  const items = gsap.utils.toArray(".block-best-projects__item", section);
   if (!items.length) return;
 
   const maxScrollY = () =>
@@ -237,8 +236,8 @@ export function initBestProjectsPin() {
   ScrollTrigger.refresh();
 }
 
-export function initAboutHero() {
-  const section = document.querySelector(".block-hero-about");
+export function initAboutHero(scope = document) {
+  const section = scope.querySelector(".block-hero-about");
   if (!section) return;
 
   const imageWrap = section.querySelector(".block-hero-about__image-wrap");
@@ -295,7 +294,8 @@ export function initAboutHero() {
   );
 }
 
-export function imageParallax(options = {}) {
+export function imageParallax(scope = document, options = {}) {
+  if (prefersReducedMotion()) return;
   const {
     selector = '[data-parallax], [data-image="parallax"]',
     defaultAmount = 340, // px de desplazamiento total (mitad arriba, mitad abajo)
@@ -306,7 +306,7 @@ export function imageParallax(options = {}) {
     scroller = null, // si usas un scroller custom (Lenis), pásalo aquí
   } = options;
 
-  const $els = Array.from(document.querySelectorAll(selector));
+  const $els = Array.from(scope.querySelectorAll(selector));
   if (!$els.length) return [];
 
   // Integración opcional con Lenis u otro scroller
@@ -570,8 +570,8 @@ export function initGallerySlider(root = document) {
   imgs.forEach((img) => img.addEventListener("load", resize));
 }
 
-export function initHighlightText() {
-  let splitHeadingTargets = document.querySelectorAll("[data-highlight-text]");
+export function initHighlightText(scope = document) {
+  let splitHeadingTargets = scope.querySelectorAll("[data-highlight-text]");
   splitHeadingTargets.forEach((heading) => {
     if (heading.closest(".block-description")) return;
 
@@ -607,11 +607,11 @@ export function initHighlightText() {
   });
 }
 
-export function stampCC() {
-  const text = document.querySelector(
+export function stampCC(scope = document) {
+  const text = scope.querySelector(
     ".block-single-objective__circle-stamp__text",
   );
-  const circle = document.querySelector(
+  const circle = scope.querySelector(
     ".block-single-objective__circle-stamp",
   );
 
@@ -639,7 +639,7 @@ export function stampCC() {
   });
 }
 
-export function initDirectionalListHover() {
+export function initDirectionalListHover(scope = document) {
   const directionMap = {
     top: "translateY(-100%)",
     bottom: "translateY(100%)",
@@ -647,7 +647,7 @@ export function initDirectionalListHover() {
     right: "translateX(100%)",
   };
 
-  document.querySelectorAll("[data-directional-hover]").forEach((container) => {
+  scope.querySelectorAll("[data-directional-hover]").forEach((container) => {
     const type = container.getAttribute("data-type") || "all";
 
     // 👇 preview fijo dentro del container
@@ -967,10 +967,14 @@ export function initMasonryGrid(scope = document) {
       },
     };
   });
+
+  return () => {
+    containers.forEach((c) => c._masonry?.destroy());
+  };
 }
 
-export function initBestProjectCards() {
-  const sliders = document.querySelectorAll("[data-init-projects-cards]");
+export function initBestProjectCards(scope = document) {
+  const sliders = scope.querySelectorAll("[data-init-projects-cards]");
 
   sliders.forEach((slider) => {
     const list = slider.querySelector("[data-projects-cards-list]");
@@ -1142,10 +1146,10 @@ export function initBestProjectCards() {
   });
 }
 
-export function initStackingCards() {
-  const isMobile = window.innerWidth < 768;
+export function initStackingCards(scope = document) {
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-  const container = document.querySelector("[data-stacking-cards]");
+  const container = scope.querySelector("[data-stacking-cards]");
   if (!container) return;
 
   const cards = container.querySelectorAll("[data-stacking-cards-item]");
@@ -1159,7 +1163,7 @@ export function initStackingCards() {
 
   const cta = container.querySelector("[data-stacking-cards-cta]");
 
-  const spacer = document.querySelector("[data-stacking-cards-spacer]");
+  const spacer = scope.querySelector("[data-stacking-cards-spacer]");
   // desktop/base
   const BASE_STEP = -65;
   const BASE_HEIGHT = 430;
@@ -1268,8 +1272,8 @@ export function initStackingCards() {
   ScrollTrigger.refresh();
 }
 
-export function initTabSystem() {
-  const wrappers = document.querySelectorAll('[data-tabs="wrapper"]');
+export function initTabSystem(scope = document) {
+  const wrappers = scope.querySelectorAll('[data-tabs="wrapper"]');
 
   wrappers.forEach((wrapper) => {
     const contentItems = wrapper.querySelectorAll('[data-tabs="content-item"]');
@@ -1355,10 +1359,18 @@ export function initTabSystem() {
       ).set(incomingBar, { scaleX: 0, transformOrigin: "left center" }, 0);
     }
 
-    // on page load, set first to active
-    // idea: you could wrap this in a scrollTrigger
-    // so it will only start once a user reaches this section
-    switchTab(0);
+    // Activate first tab when section enters viewport (only if autoplay, to avoid
+    // the progress bar ticking while the section is offscreen)
+    if (autoplay) {
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: "top 85%",
+        once: true,
+        onEnter: () => switchTab(0),
+      });
+    } else {
+      switchTab(0);
+    }
 
     // switch tabs on click
     contentItems.forEach((item, i) =>
@@ -1370,8 +1382,8 @@ export function initTabSystem() {
   });
 }
 
-export function initScrollLine() {
-  const section = document.querySelector("[data-line-scroll]");
+export function initScrollLine(scope = document) {
+  const section = scope.querySelector("[data-line-scroll]");
   if (!section) return;
 
   const path = section.querySelector("#linea-trazo");
@@ -1395,16 +1407,17 @@ export function initScrollLine() {
   });
 }
 
-export function initCSSMarquee() {
+export function initCSSMarquee(scope = document) {
   const pixelsPerSecond = 20; // velocidad en px/s
-  const marquees = document.querySelectorAll("[data-css-marquee]");
+  const marquees = scope.querySelectorAll("[data-css-marquee]");
 
-  // Duplicar cada [data-css-marquee-list] dentro de su contenedor
+  // Duplicar cada [data-css-marquee-list] — guard para evitar clones al re-navegar
   marquees.forEach((marquee) => {
-    marquee.querySelectorAll("[data-css-marquee-list]").forEach((list) => {
-      const duplicate = list.cloneNode(true);
-      marquee.appendChild(duplicate);
-    });
+    if (marquee.querySelectorAll("[data-css-marquee-list]").length < 2) {
+      marquee.querySelectorAll("[data-css-marquee-list]").forEach((list) => {
+        marquee.appendChild(list.cloneNode(true));
+      });
+    }
   });
 
   // IntersectionObserver para pausar si no está en viewport
@@ -1433,10 +1446,12 @@ export function initCSSMarquee() {
 
     observer.observe(marquee);
   });
+
+  return () => observer.disconnect();
 }
 
-export function initContactGallery() {
-  const wrapper = document.querySelector("[data-contact-gallery]");
+export function initContactGallery(scope = document) {
+  const wrapper = scope.querySelector("[data-contact-gallery]");
   if (!wrapper) return;
 
   const images = wrapper.querySelectorAll(".block-contact__image");
@@ -1462,6 +1477,7 @@ export function initContactGallery() {
   });
 
   let currentIndex = 0;
+  let currentCall = null;
 
   function goToNext() {
     const current = images[currentIndex];
@@ -1494,18 +1510,24 @@ export function initContactGallery() {
         currentIndex = nextIndex;
 
         // siguiente cambio tras DISPLAY_TIME
-        gsap.delayedCall(DISPLAY_TIME, goToNext);
+        currentCall = gsap.delayedCall(DISPLAY_TIME, goToNext);
       },
     });
   }
 
   // arrancamos tras dejar visible un rato la primera
-  gsap.delayedCall(DISPLAY_TIME, goToNext);
+  currentCall = gsap.delayedCall(DISPLAY_TIME, goToNext);
+
+  return () => {
+    if (currentCall) currentCall.kill();
+    gsap.killTweensOf(images);
+  };
 }
 
-export function initCSSMarqueeTestimonies() {
+export function initCSSMarqueeTestimonies(scope = document) {
   const pixelsPerSecond = 70;
-  const marquees = document.querySelectorAll("[data-css-marquee-testimonies]");
+  const marquees = scope.querySelectorAll("[data-css-marquee-testimonies]");
+  const cleanups = [];
 
   marquees.forEach((marquee) => {
     const track = marquee.querySelector(".block-testimonies__marquee-track");
@@ -1572,20 +1594,27 @@ export function initCSSMarqueeTestimonies() {
 
     // Estado inicial
     updatePlayState();
+
+    cleanups.push(() => {
+      window.removeEventListener("resize", setDuration);
+      observer.disconnect();
+    });
   });
+
+  return () => cleanups.forEach((fn) => fn());
 }
 
 export function initBoldFullScreenNavigation() {
-  // Toggle Navigation
+  // Guard: el header persiste entre páginas, evitar acumulación de listeners
   document
     .querySelectorAll('[data-navigation-toggle="toggle"]')
     .forEach((toggleBtn) => {
+      if (toggleBtn._navToggleAttached) return;
+      toggleBtn._navToggleAttached = true;
       toggleBtn.addEventListener("click", () => {
         const navStatusEl = document.querySelector("[data-navigation-status]");
         if (!navStatusEl) return;
-        if (
-          navStatusEl.getAttribute("data-navigation-status") === "not-active"
-        ) {
+        if (navStatusEl.getAttribute("data-navigation-status") === "not-active") {
           navStatusEl.setAttribute("data-navigation-status", "active");
         } else {
           navStatusEl.setAttribute("data-navigation-status", "not-active");
@@ -1593,15 +1622,21 @@ export function initBoldFullScreenNavigation() {
       });
     });
 
-  // Close Navigation
   document
     .querySelectorAll('[data-navigation-toggle="close"]')
     .forEach((closeBtn) => {
+      if (closeBtn._navCloseAttached) return;
+      closeBtn._navCloseAttached = true;
       closeBtn.addEventListener("click", () => {
         const navStatusEl = document.querySelector("[data-navigation-status]");
         if (!navStatusEl) return;
         navStatusEl.setAttribute("data-navigation-status", "not-active");
-        // If you use Lenis you can 'start' Lenis here: Example Lenis.start();
       });
     });
+
+  // Cleanup: cerrar nav al navegar con Barba
+  return () => {
+    const navStatusEl = document.querySelector("[data-navigation-status]");
+    if (navStatusEl) navStatusEl.setAttribute("data-navigation-status", "not-active");
+  };
 }

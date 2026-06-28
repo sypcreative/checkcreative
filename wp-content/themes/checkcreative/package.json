@@ -19,7 +19,7 @@
   "devDependencies": {
     "bootstrap": "^5.3.3",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.25.5",
+    "esbuild": "^0.25.12",
     "font-awesome": "^4.7.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",

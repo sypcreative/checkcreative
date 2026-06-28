@@ -116,11 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
           initBestProjectsPin(scope);
           initBestProjectCards(scope);
           initStackingCards(scope);
-          initCSSMarquee(scope);
-          initCSSMarqueeTestimonies(scope);
+          const marqCleanup = initCSSMarquee(scope);
+          const marqTestCleanup = initCSSMarqueeTestimonies(scope);
           initTabSystem(scope);
 
           if (!isMobile()) initDynamicCustomTextCursor(scope);
+
+          return () => {
+            marqCleanup?.();
+            marqTestCleanup?.();
+          };
         },
       ],
 
@@ -146,8 +151,11 @@ document.addEventListener("DOMContentLoaded", () => {
       gallery: [
         (scope) => {
           const lazyCleanup = initLazyMedia(scope);
-          initMasonryGrid(scope);
-          return lazyCleanup;
+          const masonryCleanup = initMasonryGrid(scope);
+          return () => {
+            lazyCleanup?.();
+            masonryCleanup?.();
+          };
         },
       ],
 
@@ -163,8 +171,11 @@ document.addEventListener("DOMContentLoaded", () => {
       galeria: [
         (scope) => {
           const lazyCleanup = initLazyMedia(scope);
-          initMasonryGrid(scope);
-          return lazyCleanup;
+          const masonryCleanup = initMasonryGrid(scope);
+          return () => {
+            lazyCleanup?.();
+            masonryCleanup?.();
+          };
         },
       ],
     },

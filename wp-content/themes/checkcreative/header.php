@@ -71,7 +71,7 @@ function barba_namespace()
 							'depth'          => 1,
 							'fallback_cb'    => false,
 							'menu_class'     => '',
-							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
+							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none fw-bold',
 						]);
 						?>
 						<li class="nav-rail__brand">
@@ -87,7 +87,7 @@ function barba_namespace()
 							'depth'          => 1,
 							'fallback_cb'    => false,
 							'menu_class'     => '',
-							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none',
+							'link_class'     => 'ls-3 text-primary d-inline-block text-uppercase text-decoration-none fw-bold',
 						]);
 						?>
 					</ul>

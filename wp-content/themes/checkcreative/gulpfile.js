@@ -74,6 +74,7 @@ function css() {
     .pipe(
       sass({
         includePaths: ["node_modules"],
+        silenceDeprecations: ["import", "mixed-decls", "global-builtin", "color-functions"],
       }).on("error", sass.logError)
     )
     .pipe(concat("all.css"))
@@ -91,6 +92,7 @@ function adminCss() {
     .pipe(
       sass({
         includePaths: ["node_modules"],
+        silenceDeprecations: ["import", "mixed-decls", "global-builtin", "color-functions"],
       }).on("error", sass.logError)
     )
     .pipe(concat("admin.css"))

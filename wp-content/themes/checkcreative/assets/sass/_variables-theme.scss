@@ -2,10 +2,10 @@
 // Las variables que se definan aquí hay que aplicarlas en las variables de bootstrap definidas a continuación
 
 // Configuración fuentes generales
-$cor-font-family-sans-serif: "avenirBlack" !default;
+$cor-font-family-sans-serif: "CottorwayPro" !default;
 
 // Configuración fuentes Headings añadidas en _mixins.scss
-$cor-font-family-headings: "avenirBlack" !default;
+$cor-font-family-headings: "CottorwayPro" !default;
 
 // Espacio para los bloques
 $cor-spacer: 1rem !default;
@@ -15,15 +15,15 @@ $cor-spacer: 1rem !default;
 // Define colores alternativos y añádelos en la configuración de bootstrap
 
 // Color corporativo
-$cor-primary: #006374 !default;
+$cor-primary: #0a1839 !default;
 // $cor-primary: #558992 !default;
-$cor-secondary: #eff0f2 !default;
+$cor-secondary: #f0ede4 !default;
 
 //Colores oscuros
-$cor-dark: #080807 !default;
+$cor-dark: #0a1839 !default;
 $cor-gray: #d9d9d9 !default; //d6d1ca
 $cor-warm-gray: #d6d1ca !default;
-$cor-light: #eff0f2 !default;
+$cor-light: #f0ede4 !default;
 
 // Define la paleta de colores básica
 $cor-black: #000000 !default;
