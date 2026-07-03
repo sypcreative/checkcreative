@@ -1,4 +1,39 @@
 .block-hero-home {
+  &__video-toggle {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($cor-white, 0.15);
+    color: $cor-white;
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.625, 0.05, 0, 1);
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba($cor-white, 0.3);
+    }
+
+    &-icon--play {
+      display: none;
+    }
+
+    &[data-video-status="paused"] &-icon--pause {
+      display: none;
+    }
+
+    &[data-video-status="paused"] &-icon--play {
+      display: block;
+    }
+  }
+
   &__media {
     & > :first-child {
       height: 30%;

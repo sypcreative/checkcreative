@@ -1,6 +1,11 @@
 import { gsap } from "gsap";
 
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 export function initBasicCustomCursor() {
+  if (prefersReducedMotion()) return;
+
   gsap.set(".cursor", { xPercent: -50, yPercent: -50 });
 
   let xTo = gsap.quickTo(".cursor", "x", { duration: 0.6, ease: "power3" });
@@ -14,6 +19,7 @@ export function initBasicCustomCursor() {
 
 export function initDynamicCustomTextCursor() {
   if (
+    prefersReducedMotion() ||
     window.matchMedia("(pointer: coarse)").matches ||
     window.innerWidth < 1024
   ) {
@@ -110,7 +116,7 @@ export function initDynamicCustomTextCursor() {
 export function initPlayHoverCursor(scope = document) {
   const isTouch =
     window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
-  if (isTouch) return () => {};
+  if (isTouch || prefersReducedMotion()) return () => {};
 
   const cursor = document.querySelector(".play-hover-cursor");
   if (!cursor) return () => {};

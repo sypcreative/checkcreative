@@ -100,12 +100,18 @@ checkcreative_require('/inc/navs/custom-nav-menu.php');
 // GTM / scripts de cabecera personalizados
 checkcreative_require('/inc/gtm-functions.php');
 
+// Endurecimiento de seguridad (REST API, etc.)
+checkcreative_require('/inc/security-hardening.php');
+
 // -----------------------------------------------------------------------------
 // Utilidades de depuración
 // -----------------------------------------------------------------------------
 if (! function_exists('dump')) {
 	function dump($data)
 	{
+		if (!defined('WP_DEBUG') || !WP_DEBUG) {
+			return;
+		}
 		echo '<pre class="text-white bg-black w-max fs-7 py-5" style="white-space:pre-wrap;">';
 		var_dump($data);
 		echo '</pre>';
@@ -118,16 +124,48 @@ add_action('admin_post_block_contact_submit', 'handle_block_contact_submit');
 
 function handle_block_contact_submit()
 {
-	error_log('CONTACT FORM: handler ejecutado ✅');
-
 	// 1. Comprobar nonce
 	if (
 		!isset($_POST['block_contact_nonce']) ||
 		!wp_verify_nonce($_POST['block_contact_nonce'], 'block_contact_submit')
 	) {
-		error_log('CONTACT FORM: nonce fallo ❌');
 		wp_die('Security check failed', 'Error', ['response' => 403]);
 	}
+
+	$redirect_ok = function () {
+		$redirect_url = wp_get_referer() ?: home_url('/');
+		wp_safe_redirect(add_query_arg('contact_status', 'ok', $redirect_url));
+		exit;
+	};
+
+	$redirect_error = function () {
+		$redirect_url = wp_get_referer() ?: home_url('/');
+		wp_safe_redirect(add_query_arg('contact_status', 'error', $redirect_url));
+		exit;
+	};
+
+	// 1b. Honeypot: campo invisible para personas. Si viene relleno, es un bot.
+	// Respondemos como si hubiera ido bien para no darle pistas al bot.
+	if (!empty($_POST['website'])) {
+		$redirect_ok();
+	}
+
+	// 1c. Time-trap: nadie rellena este formulario en menos de 3 segundos.
+	$form_ts = isset($_POST['form_ts']) ? (int) $_POST['form_ts'] : 0;
+	if (!$form_ts || (time() - $form_ts) < 3) {
+		$redirect_ok();
+	}
+
+	// 1d. Rate limit por IP: máximo 5 envíos cada 10 minutos.
+	$ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : 'unknown';
+	$rate_key = 'block_contact_rl_' . md5($ip);
+	$attempts = (int) get_transient($rate_key);
+
+	if ($attempts >= 5) {
+		$redirect_error();
+	}
+
+	set_transient($rate_key, $attempts + 1, 10 * MINUTE_IN_SECONDS);
 
 	// 2. Recoger y sanear campos
 	$name        = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
@@ -140,10 +178,7 @@ function handle_block_contact_submit()
 
 	// 3. Validaciones mínimas (por si quieres)
 	if (empty($name) || empty($email) || !is_email($email)) {
-		$redirect_url = wp_get_referer() ?: home_url('/');
-		$redirect_url = add_query_arg('contact_status', 'error', $redirect_url);
-		wp_safe_redirect($redirect_url);
-		exit;
+		$redirect_error();
 	}
 
 	// 4. Configurar destinatario
@@ -171,23 +206,8 @@ function handle_block_contact_submit()
 	// 7. Enviar
 	$sent = wp_mail($to, $subject, $body, $headers);
 
-	if ($sent) {
-		error_log('CONTACT FORM: wp_mail enviado correctamente ✅');
-	} else {
-		error_log('CONTACT FORM: wp_mail FALLÓ ❌');
-	}
-
-
 	// 8. Redirigir con estado
-	$redirect_url = wp_get_referer() ?: home_url('/');
-	$redirect_url = add_query_arg(
-		'contact_status',
-		$sent ? 'ok' : 'error',
-		$redirect_url
-	);
-
-	wp_safe_redirect($redirect_url);
-	exit;
+	$sent ? $redirect_ok() : $redirect_error();
 }
 
 // Tamaño específico para las imágenes del bloque description

@@ -1,8 +1,9 @@
 <?php
 $title = get_field('block_hero_about_title');
-$image = get_field('block_hero_about_image') ? get_field('block_hero_about_image')['url'] : '';
-$repeater = get_field('block_hero_about_repeater');
-$trail = get_field('opciones_sitio_cursor_images', 'option');
+$image_field = get_field('block_hero_about_image');
+$image_id = $image_field['ID'] ?? 0;
+$repeater = get_field('block_hero_about_repeater') ?: [];
+$trail = get_field('opciones_sitio_cursor_images', 'option') ?: [];
 ?>
 <!-- <div data-trail="wrapper" class="trail-section"> -->
 <section class="block-hero-about vh-100 vw-100 position-relative" <?= in_array('about', $trail) ? 'data-trail="wrapper"' : ''; ?>>
@@ -11,9 +12,22 @@ $trail = get_field('opciones_sitio_cursor_images', 'option');
 			<?php echo esc_html($title); ?>
 		</h1>
 	</div>
-	<?php if ($image) : ?>
+	<?php if ($image_id) : ?>
 		<div class="block-hero-about__image-wrap position-absolute z-0 overflow-hidden">
-			<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>" class="block-hero-about__image d-block" loading="lazy">
+			<?php
+			echo wp_get_attachment_image(
+				$image_id,
+				'full', // el JS lo anima hasta 100vw en scroll (initAboutHero)
+				false,
+				[
+					'class' => 'block-hero-about__image d-block',
+					'alt' => $title,
+					'loading' => 'eager', // above the fold: es probable candidato a LCP
+					'fetchpriority' => 'high',
+					'sizes' => '100vw',
+				]
+			);
+			?>
 		</div>
 	<?php endif; ?>
 	<div class="position-absolute bottom-0 start-0 end-0 d-flex justify-content-between align-items-end pb-5 z-1 pe-none">
@@ -22,7 +36,7 @@ $trail = get_field('opciones_sitio_cursor_images', 'option');
 				$text = $item['block_hero_about_repeater_text'] ?? '';
 			?>
 				<p class="m-0 pe-auto small-body">
-					<?= $text ?>
+					<?= esc_html($text) ?>
 				</p>
 			<?php } ?>
 		</div>

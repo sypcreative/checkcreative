@@ -1,6 +1,6 @@
 <?php
 $title = get_field('block_team_title');
-$repeater = get_field('block_team_repeater');
+$repeater = get_field('block_team_repeater') ?: [];
 ?>
 
 <section class="block-team h-100 vw-100 position-relative py-5">
@@ -12,10 +12,13 @@ $repeater = get_field('block_team_repeater');
 			<?php foreach ($repeater as $item) {
 				$name = $item['block_team_repeater_name'] ?? '';
 				$role = $item['block_team_repeater_charge'] ?? '';
-				$image = $item['block_team_repeater_image'] ?? '';
-				$image_url = $image ? $image['url'] : '';
+				$image = $item['block_team_repeater_image'] ?? null;
+				$image_id = is_array($image) ? ($image['ID'] ?? 0) : 0;
+				// data-attribute, no <img> con srcset: usamos 'large' para que se vea bien en retina
+				// sin servir la imagen "full"/escalada completa (260px de ancho real en pantalla).
+				$image_url = $image_id ? wp_get_attachment_image_url($image_id, 'large') : '';
 			?>
-				<div data-directional-hover-item="" data-hover-image="<?= $image_url ?>" class="block-team-list__item position-relative d-flex flex-row align-items-center justify-content-between overflow-hidden text-decoration-none">
+				<div data-directional-hover-item="" data-hover-image="<?= esc_url($image_url) ?>" class="block-team-list__item position-relative d-flex flex-row align-items-center justify-content-between overflow-hidden text-decoration-none">
 					<div data-directional-hover-tile="" class="block-team-list__hover-tile"></div>
 					<div class="block-team-list__border is--item"></div>
 					<div class="block-team__members_member_info d-flex flex-row justify-content-between align-items-center position-relative w-100">

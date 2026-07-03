@@ -2,13 +2,18 @@ import pkg from "gulp";
 import gulpIf from "gulp-if";
 import gulpSass from "gulp-sass";
 import dartSass from "sass";
-import cssmin from "gulp-cssmin";
+import cleanCSS from "gulp-clean-css";
 import uglify from "gulp-uglify";
 import imagemin from "gulp-imagemin";
 import concat from "gulp-concat";
 import sourcemaps from "gulp-sourcemaps";
 import replace from "gulp-replace";
 import esbuild from "gulp-esbuild";
+import sharp from "sharp";
+import through2 from "through2";
+import fancyLog from "fancy-log";
+import path from "path";
+import fs from "fs";
 
 const { src, dest, parallel, series, watch } = pkg;
 const sass = gulpSass(dartSass);
@@ -82,7 +87,7 @@ function css() {
     .pipe(replace("../../../", "../"))
     .pipe(replace("../../", "../"))
     .pipe(gulpIf(!isProd, sourcemaps.write()))
-    .pipe(gulpIf(isProd, cssmin()))
+    .pipe(gulpIf(isProd, cleanCSS()))
     .pipe(dest("assets/dist/css/"));
 }
 
@@ -100,11 +105,17 @@ function adminCss() {
     .pipe(replace("../../../", "../"))
     .pipe(replace("../../", "../"))
     .pipe(gulpIf(!isProd, sourcemaps.write()))
-    .pipe(gulpIf(isProd, cssmin()))
+    .pipe(gulpIf(isProd, cleanCSS()))
     .pipe(dest("assets/dist/css/"));
 }
 
 function js() {
+  if (isProd) {
+    // Evita un bundle.js.map obsoleto de un build de desarrollo anterior:
+    // esbuild no lo genera en prod, pero tampoco borra uno ya existente.
+    fs.rmSync("assets/dist/js/bundle.js.map", { force: true });
+  }
+
   return src("assets/js/main.js") // Tu archivo principal con imports
     .pipe(esbuild({
       bundle: true,
@@ -118,9 +129,66 @@ function js() {
 
 
 
-function img() {
-  return src("assets/img/**/*").pipe(gulpIf(isProd, imagemin())).pipe(dest("assets/dist/img/"));
+/**
+ * Compresión de JPG/PNG/WEBP/AVIF con sharp (libvips vía binarios nativos
+ * precompilados por plataforma, no CLIs externos como gulp-imagemin).
+ *
+ * gulp-imagemin usaba por defecto mozjpeg/optipng, cuyos binarios vendored
+ * son x86_64-only y no ejecutan en Apple Silicon sin Rosetta instalada
+ * (spawn "Unknown system error -86"). sharp evita ese problema por completo.
+ */
+function compressRaster() {
+  return through2.obj(function (file, enc, cb) {
+    if (file.isNull() || file.isStream()) {
+      return cb(null, file);
+    }
+
+    const ext = path.extname(file.path).toLowerCase();
+    const pipeline = sharp(file.contents);
+
+    let output;
+    if (ext === ".png") {
+      output = pipeline.png({ quality: 82, compressionLevel: 9, palette: true });
+    } else if (ext === ".webp") {
+      output = pipeline.webp({ quality: 82 });
+    } else if (ext === ".avif") {
+      output = pipeline.avif({ quality: 60 });
+    } else {
+      output = pipeline.jpeg({ quality: 82, mozjpeg: true });
+    }
+
+    output
+      .toBuffer()
+      .then((buf) => {
+        // Solo sustituye si de verdad hemos reducido el peso
+        file.contents = buf.length < file.contents.length ? buf : file.contents;
+        cb(null, file);
+      })
+      .catch((err) => {
+        // Si sharp no puede procesar el archivo, lo dejamos pasar tal cual
+        // en vez de romper todo el build por una imagen suelta.
+        fancyLog(`[img] no se pudo comprimir ${file.relative}: ${err.message}`);
+        cb(null, file);
+      });
+  });
 }
+
+function imgRaster() {
+  return src("assets/img/**/*.{jpg,jpeg,png,webp,avif}")
+    .pipe(gulpIf(isProd, compressRaster()))
+    .pipe(dest("assets/dist/img/"));
+}
+
+function imgVector() {
+  // SVG y GIF: svgo es JS puro y gifsicle sí trae binario universal
+  // (arm64 + x86_64), así que estos dos plugins de gulp-imagemin son seguros.
+  // mozjpeg/optipng quedan excluidos a propósito (ver compressRaster).
+  return src(["assets/img/**/*", "!assets/img/**/*.{jpg,jpeg,png,webp,avif}"])
+    .pipe(gulpIf(isProd, imagemin([imagemin.gifsicle(), imagemin.svgo()])))
+    .pipe(dest("assets/dist/img/"));
+}
+
+const img = parallel(imgRaster, imgVector);
 
 function models() {
   return src('assets/models/**/*').pipe(dest('assets/dist/models'));

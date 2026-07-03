@@ -375,7 +375,8 @@
 }
 
 .bold-nav__word {
-  opacity: 0.5;
+  /* opacity: 0.5 daba ~3.3:1 de contraste, por debajo de WCAG AA (4.5:1) */
+  opacity: 0.7;
   margin-bottom: 0;
   font-size: 1.125em;
   position: relative;

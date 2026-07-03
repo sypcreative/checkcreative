@@ -156,6 +156,45 @@ export function initHeroParallax(scope = document) {
   window.addEventListener("load", refresh, { once: true });
 }
 
+export function initHeroVideoToggle(scope = document) {
+  const button = scope.querySelector("[data-hero-video-toggle]");
+  const video = scope.querySelector(".block-hero-home__video");
+  if (!button || !video) return;
+
+  const labels = {
+    playing: button.dataset.labelPause || "Pausar vídeo de fondo",
+    paused: button.dataset.labelPlay || "Reproducir vídeo de fondo",
+  };
+
+  const setStatus = (status) => {
+    button.setAttribute("data-video-status", status);
+    button.setAttribute(
+      "aria-pressed",
+      status === "playing" ? "true" : "false",
+    );
+    button.setAttribute("aria-label", labels[status]);
+  };
+
+  button.addEventListener("click", () => {
+    if (video.paused) {
+      video.play();
+      setStatus("playing");
+    } else {
+      video.pause();
+      setStatus("paused");
+    }
+  });
+
+  // Quien prefiere menos movimiento arranca con el vídeo ya pausado,
+  // sin tener que interactuar primero.
+  if (prefersReducedMotion()) {
+    video.pause();
+    setStatus("paused");
+  } else {
+    setStatus("playing");
+  }
+}
+
 export function initBestProjectsPin(scope = document) {
   if (prefersReducedMotion()) return;
   const section = scope.querySelector(".block-best-projects");
@@ -438,17 +477,53 @@ export function initGallerySlider(root = document) {
     },
   })[0];
 
+  const goToIndex = (i) => {
+    const clampedIndex = Math.max(0, Math.min(slides.length - 1, i));
+    gsap.to(track, {
+      x: state.snaps[clampedIndex],
+      duration: 0.5,
+      ease: "power3.out",
+      onUpdate: () => draggable.update(),
+    });
+    return clampedIndex;
+  };
+
+  const getCurrentIndex = () => {
+    const currentX = clampX(gsap.getProperty(track, "x"));
+    const nearest = gsap.utils.snap(state.snaps, currentX);
+    return state.snaps.indexOf(nearest);
+  };
+
   // Click -> snap a esa slide (si no estás arrastrando)
   slides.forEach((slide, i) => {
     slide.addEventListener("click", () => {
       if (draggable.isDragging || draggable.isPressed) return;
-      gsap.to(track, {
-        x: state.snaps[i],
-        duration: 0.5,
-        ease: "power3.out",
-        onUpdate: () => draggable.update(),
-      });
+      goToIndex(i);
     });
+  });
+
+  // -------------------------
+  // TECLADO: flechas para navegar sin arrastrar
+  // -------------------------
+  if (!viewport.hasAttribute("tabindex")) {
+    viewport.setAttribute("tabindex", "0");
+  }
+  if (!viewport.hasAttribute("role")) {
+    viewport.setAttribute("role", "region");
+  }
+  if (!viewport.hasAttribute("aria-label")) {
+    viewport.setAttribute("aria-label", "Galería de imágenes del proyecto");
+  }
+
+  viewport.addEventListener("keydown", (e) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+
+    const current = getCurrentIndex();
+    if (e.key === "ArrowLeft") goToIndex(current - 1);
+    else if (e.key === "ArrowRight") goToIndex(current + 1);
+    else if (e.key === "Home") goToIndex(0);
+    else if (e.key === "End") goToIndex(slides.length - 1);
   });
 
   // -------------------------
@@ -611,9 +686,7 @@ export function stampCC(scope = document) {
   const text = scope.querySelector(
     ".block-single-objective__circle-stamp__text",
   );
-  const circle = scope.querySelector(
-    ".block-single-objective__circle-stamp",
-  );
+  const circle = scope.querySelector(".block-single-objective__circle-stamp");
 
   if (!text || !circle) return;
 
@@ -1053,6 +1126,28 @@ export function initBestProjectCards(scope = document) {
     if (total < 2) {
       return;
     }
+
+    // -------------------------
+    // TECLADO: flechas para navegar sin arrastrar
+    // -------------------------
+    if (!slider.hasAttribute("tabindex")) {
+      slider.setAttribute("tabindex", "0");
+    }
+    if (!slider.hasAttribute("role")) {
+      slider.setAttribute("role", "region");
+    }
+    if (!slider.hasAttribute("aria-label")) {
+      slider.setAttribute("aria-label", "Proyectos destacados");
+    }
+
+    slider.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+
+      const dir = e.key === "ArrowRight" ? 1 : -1;
+      activeIndex = (activeIndex + dir + total) % total;
+      renderCards(activeIndex);
+    });
 
     let pressClientX = 0;
     let pressClientY = 0;
@@ -1604,39 +1699,215 @@ export function initCSSMarqueeTestimonies(scope = document) {
   return () => cleanups.forEach((fn) => fn());
 }
 
-export function initBoldFullScreenNavigation() {
-  // Guard: el header persiste entre páginas, evitar acumulación de listeners
-  document
-    .querySelectorAll('[data-navigation-toggle="toggle"]')
-    .forEach((toggleBtn) => {
-      if (toggleBtn._navToggleAttached) return;
-      toggleBtn._navToggleAttached = true;
-      toggleBtn.addEventListener("click", () => {
-        const navStatusEl = document.querySelector("[data-navigation-status]");
-        if (!navStatusEl) return;
-        if (navStatusEl.getAttribute("data-navigation-status") === "not-active") {
-          navStatusEl.setAttribute("data-navigation-status", "active");
-        } else {
-          navStatusEl.setAttribute("data-navigation-status", "not-active");
-        }
-      });
+export function initNumbersCounter(scope = document) {
+  const section = scope.querySelector(".block-numbers");
+  if (!section) return;
+
+  const items = gsap.utils.toArray(".block-numbers__item", section);
+  if (!items.length) return;
+
+  const dividers = gsap.utils.toArray(".block-numbers__divider", section);
+
+  const counters = items.map((item) => {
+    const el = item.querySelector(".block-numbers__count");
+    if (!el) return null;
+
+    const raw = el.getAttribute("data-count-to") || "0";
+    const target = parseFloat(raw) || 0;
+    const decimals = (raw.split(".")[1] || "").length;
+
+    return { el, target, decimals };
+  });
+
+  const formatCount = (value, decimals) =>
+    decimals > 0
+      ? value.toFixed(decimals).replace(".", ",")
+      : Math.round(value).toLocaleString("es-ES");
+
+  if (prefersReducedMotion()) {
+    counters.forEach((c) => {
+      if (c) c.el.textContent = formatCount(c.target, c.decimals);
     });
+    return;
+  }
+
+  gsap.set(items, { autoAlpha: 0, y: 40 });
+  if (dividers.length) gsap.set(dividers, { scaleY: 0 });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 80%",
+      once: true,
+    },
+  });
+
+  tl.to(items, {
+    autoAlpha: 1,
+    y: 0,
+    duration: 0.9,
+    ease: "power3.out",
+    stagger: 0.15,
+  });
+
+  if (dividers.length) {
+    tl.to(
+      dividers,
+      {
+        scaleY: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.15,
+      },
+      "<",
+    );
+  }
+
+  counters.forEach((c, i) => {
+    if (!c) return;
+    const counterObj = { val: 0 };
+
+    tl.to(
+      counterObj,
+      {
+        val: c.target,
+        duration: 1.3,
+        ease: "power2.out",
+        onUpdate: () => {
+          c.el.textContent = formatCount(counterObj.val, c.decimals);
+        },
+      },
+      i === 0 ? "-=0.5" : "<0.1",
+    );
+  });
+}
+
+export function init404Counter(scope = document) {
+  const el = scope.querySelector(".block-404__count");
+  if (!el) return;
+
+  const target = parseInt(el.getAttribute("data-count-to"), 10) || 0;
+
+  if (prefersReducedMotion()) {
+    el.textContent = target;
+    return;
+  }
+
+  const counter = { val: 0 };
+  gsap.to(counter, {
+    val: target,
+    duration: 1.4,
+    delay: 0.3, // deja hueco al reveal de entrada de Barba
+    ease: "power2.out",
+    onUpdate: () => {
+      el.textContent = Math.round(counter.val);
+    },
+  });
+}
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+export function initBoldFullScreenNavigation() {
+  const navStatusEl = document.querySelector("[data-navigation-status]");
+  const toggleBtns = document.querySelectorAll(
+    '[data-navigation-toggle="toggle"]',
+  );
+  if (!navStatusEl) return;
+
+  const isOpen = () =>
+    navStatusEl.getAttribute("data-navigation-status") === "active";
+
+  const syncToggleBtns = (open) => {
+    toggleBtns.forEach((btn) => {
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute(
+        "aria-label",
+        open
+          ? btn.dataset.labelClose || "Cerrar menú"
+          : btn.dataset.labelOpen || "Abrir menú",
+      );
+    });
+  };
+
+  const openNav = (opener) => {
+    navStatusEl.setAttribute("data-navigation-status", "active");
+    syncToggleBtns(true);
+    navStatusEl._navOpener = opener || null;
+
+    const focusable = navStatusEl.querySelectorAll(FOCUSABLE_SELECTOR);
+    focusable[0]?.focus();
+  };
+
+  const closeNav = () => {
+    navStatusEl.setAttribute("data-navigation-status", "not-active");
+    syncToggleBtns(false);
+    navStatusEl._navOpener?.focus?.();
+    navStatusEl._navOpener = null;
+  };
+
+  // Guard: el header persiste entre páginas, evitar acumulación de listeners
+  toggleBtns.forEach((toggleBtn) => {
+    if (toggleBtn._navToggleAttached) return;
+    toggleBtn._navToggleAttached = true;
+
+    toggleBtn.dataset.labelOpen =
+      toggleBtn.getAttribute("aria-label") || "Abrir menú";
+
+    toggleBtn.addEventListener("click", () => {
+      if (isOpen()) {
+        closeNav();
+      } else {
+        openNav(toggleBtn);
+      }
+    });
+  });
 
   document
     .querySelectorAll('[data-navigation-toggle="close"]')
     .forEach((closeBtn) => {
       if (closeBtn._navCloseAttached) return;
       closeBtn._navCloseAttached = true;
-      closeBtn.addEventListener("click", () => {
-        const navStatusEl = document.querySelector("[data-navigation-status]");
-        if (!navStatusEl) return;
-        navStatusEl.setAttribute("data-navigation-status", "not-active");
-      });
+      closeBtn.addEventListener("click", () => closeNav());
     });
+
+  // Escape cierra el menú y devuelve el foco a quien lo abrió;
+  // Tab/Shift+Tab quedan atrapados dentro del menú mientras está abierto.
+  if (!navStatusEl._navKeyboardAttached) {
+    navStatusEl._navKeyboardAttached = true;
+
+    document.addEventListener("keydown", (e) => {
+      if (!isOpen()) return;
+
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeNav();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+
+      const focusable = Array.from(
+        navStatusEl.querySelectorAll(FOCUSABLE_SELECTOR),
+      );
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+  }
 
   // Cleanup: cerrar nav al navegar con Barba
   return () => {
-    const navStatusEl = document.querySelector("[data-navigation-status]");
-    if (navStatusEl) navStatusEl.setAttribute("data-navigation-status", "not-active");
+    navStatusEl.setAttribute("data-navigation-status", "not-active");
+    syncToggleBtns(false);
   };
 }

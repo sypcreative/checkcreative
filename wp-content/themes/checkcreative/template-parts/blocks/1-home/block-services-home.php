@@ -51,9 +51,9 @@ $target = $link ? $link['target'] : '_self';
 				$shownum     = $service['block_services_home_service_number'];
 				$name        = $service['block_services_home_service_name'];
 				$description = $service['block_services_home_service_description'];
-				$image       = $service['block_services_home_service_image'];
+				$image       = $service['block_services_home_service_image'] ?? null;
 				$keywords    = $service['block_services_home_service_keywords'];
-				$image_url   = $image ? $image['url'] : '';
+				$image_id    = is_array($image) ? ($image['ID'] ?? 0) : 0;
 			?>
 				<article
 					class="block-services-home__service d-flex flex-column position-relative bg-light"
@@ -99,10 +99,20 @@ $target = $link ? $link['target'] : '_self';
 
 						<div class="col-12 col-lg-4 d-flex justify-content-lg-end mt-4 mt-lg-0 d-none d-md-block" data-stacking-cards-image>
 							<div class="block-services-home__service-image ratio ratio-3x4 bg-secondary d-flex align-items-center justify-content-center w-100">
-								<img
-									src="<?php echo esc_url($image_url); ?>"
-									alt="<?php echo esc_attr($name); ?>"
-									class="img-fluid w-100 h-100 object-fit-cover">
+								<?php if ($image_id) : ?>
+									<?php
+									echo wp_get_attachment_image(
+										$image_id,
+										'large', // col-lg-4: ~33vw en desktop
+										false,
+										[
+											'class' => 'img-fluid w-100 h-100 object-fit-cover',
+											'alt' => $name,
+											'loading' => 'lazy',
+										]
+									);
+									?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

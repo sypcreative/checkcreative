@@ -109,7 +109,7 @@ $headings-sizes-md: (
 }
 
 /* ==============================
-   HEADINGS (Avenir Black via title())
+   HEADINGS (CottorwayPro via title())
    ============================== */
 
 /* Elementos h1–h6 + utilidades .h-1… .h-6 con base */
@@ -133,7 +133,7 @@ $headings-sizes-md: (
 }
 
 /* ==============================
-   BODY SCALES .fs-1 … .fs-6 (Avenir)
+   BODY SCALES .fs-1 … .fs-6 (CottorwayPro)
    mismos tamaños que h1–h6, pero familia de body
    ============================== */
 
@@ -160,7 +160,7 @@ $headings-sizes-md: (
 /* ==============================
    DISPLAY + SMALL (doble variante)
    - Black (headings)  : .display, .small
-   - Body (Avenir reg) : .display-body, .small-body
+   - Body (CottorwayPro reg) : .display-body, .small-body
    ============================== */
 
 .display {
@@ -440,13 +440,13 @@ body {
 // 	<h2 class="h-2">H2 por utilidad</h2>
 // 	<h3 class="h-3 h-md-2">H3 base, H2 en md</h3>
 
-// 	<!-- Escalas de texto (Avenir regular) -->
-// 	<p class="fs-4">Texto con tamaño de H4 pero en Avenir.</p>
+// 	<!-- Escalas de texto (CottorwayPro regular) -->
+// 	<p class="fs-4">Texto con tamaño de H4 pero en CottorwayPro.</p>
 // 	<p class="fs-2 fs-md-1">Sube a tamaño H1 en md.</p>
 
 // 	<!-- Display y Small en ambas familias -->
 // 	<div class="display">Display en Black</div>
-// 	<div class="display-body">Display en Avenir</div>
+// 	<div class="display-body">Display en CottorwayPro</div>
 // 	<small class="small">Pequeño Black</small>
-// 	<small class="small-body h-md-2">Pequeño Avenir</small>
+// 	<small class="small-body h-md-2">Pequeño CottorwayPro</small>
 // </section>

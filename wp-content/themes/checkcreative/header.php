@@ -35,19 +35,55 @@ function barba_namespace()
 }
 ?>
 <!doctype html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="no-js">
 
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="format-detection" content="telephone=no">
+	<script>document.documentElement.classList.replace('no-js', 'js');</script>
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/assets/img/favicon.png" sizes="150x50">
-	<meta property="og:title" content="Check Creative Content – Creative Front-End Development">
-	<meta property="og:description" content="Creative front-end development with a strong focus on UX, performance and motion.">
-	<meta property="og:image" content="https://checkcreativecontent.com/og-image.jpg">
-	<meta property="og:url" content="https://checkcreativecontent.com/">
-	<meta property="og:type" content="website">
+	<?php
+	/**
+	 * Open Graph / Twitter Card por página.
+	 * Si Yoast SEO (u otro plugin SEO que ya pinte OG tags) está activo,
+	 * no imprimimos nada aquí para no duplicar/competir con el suyo.
+	 */
+	if (!defined('WPSEO_VERSION')) :
+		if (is_singular()) {
+			$og_title       = get_the_title();
+			$og_description = get_the_excerpt() ?: wp_trim_words(wp_strip_all_tags(get_the_content()), 30);
+			$og_image       = get_the_post_thumbnail_url(get_the_ID(), 'large');
+			$og_url         = get_permalink();
+			$og_type        = 'article';
+		} else {
+			$og_title       = wp_get_document_title();
+			$og_description = get_bloginfo('description');
+			$og_image       = '';
+			$og_url         = is_front_page() ? home_url('/') : home_url(add_query_arg(null, null));
+			$og_type        = 'website';
+		}
+
+		if (!$og_image) {
+			$og_image = get_field('opciones_sitio_logo_principal', 'option') ?: '';
+		}
+	?>
+		<meta property="og:site_name" content="<?php bloginfo('name'); ?>">
+		<meta property="og:type" content="<?php echo esc_attr($og_type); ?>">
+		<meta property="og:title" content="<?php echo esc_attr($og_title); ?>">
+		<meta property="og:description" content="<?php echo esc_attr(wp_strip_all_tags($og_description)); ?>">
+		<meta property="og:url" content="<?php echo esc_url($og_url); ?>">
+		<?php if ($og_image) : ?>
+			<meta property="og:image" content="<?php echo esc_url($og_image); ?>">
+		<?php endif; ?>
+		<meta name="twitter:card" content="<?php echo $og_image ? 'summary_large_image' : 'summary'; ?>">
+		<meta name="twitter:title" content="<?php echo esc_attr($og_title); ?>">
+		<meta name="twitter:description" content="<?php echo esc_attr(wp_strip_all_tags($og_description)); ?>">
+		<?php if ($og_image) : ?>
+			<meta name="twitter:image" content="<?php echo esc_url($og_image); ?>">
+		<?php endif; ?>
+	<?php endif; ?>
 	<?php wp_head(); ?>
 </head>
 
@@ -93,7 +129,7 @@ function barba_namespace()
 					</ul>
 				</nav>
 				<!-- Menú fullscreen móvil -->
-				<nav data-navigation-status="not-active" class="bold-nav-full d-md-none d-flex" aria-label="Toggle navigation">
+				<nav id="bold-nav-full" data-navigation-status="not-active" class="bold-nav-full d-md-none d-flex" aria-label="Menú de navegación">
 					<div class="bold-nav-full__bar">
 						<!-- <a href="#" class="bold-nav-full__logo w-inline-block">
 							<svg id="Capa_2" width="100%" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1221.44 277.36" fill="none">
@@ -106,7 +142,12 @@ function barba_namespace()
 								</g>
 							</svg>
 						</a> -->
-						<button data-navigation-toggle="toggle" class="bold-nav-full__hamburger">
+						<button
+							data-navigation-toggle="toggle"
+							class="bold-nav-full__hamburger"
+							aria-expanded="false"
+							aria-controls="bold-nav-full"
+							aria-label="<?php esc_attr_e('Abrir menú', 'checkcreative'); ?>">
 							<div class="bold-nav-full__hamburger-bar"></div>
 							<div class="bold-nav-full__hamburger-bar"></div>
 							<div class="bold-nav-full__hamburger-bar"></div>

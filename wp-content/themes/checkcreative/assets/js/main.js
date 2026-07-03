@@ -19,10 +19,13 @@ import {
   initDescriptionPin,
   initDirectionalListHover,
   initFooterParallax,
+  init404Counter,
   initGallerySlider,
   initHeroParallax,
+  initHeroVideoToggle,
   initHighlightText,
   initMasonryGrid,
+  initNumbersCounter,
   initScrollLine,
   initStackingCards,
   initTabSystem,
@@ -63,6 +66,7 @@ function initCommonHeavy(scope) {
         // cosas del container/vista
         imageParallax(scope);
         initHighlightText(scope);
+        initNumbersCounter(scope);
         stampCC(scope);
 
         // 🔥 footer persistente pero triggers mueren -> re-init en cada navegación
@@ -112,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       home: [
         (scope) => {
           initHeroParallax(scope);
+          initHeroVideoToggle(scope);
           initDescriptionPin(scope);
           initBestProjectsPin(scope);
           initBestProjectCards(scope);
@@ -147,6 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       method: [(scope) => initScrollLine(scope)],
       contact: [(scope) => initContactGallery(scope)],
+      404: [(scope) => init404Counter(scope)],
 
       gallery: [
         (scope) => {

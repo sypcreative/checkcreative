@@ -126,7 +126,7 @@ $target_cal = $url_cal ? $url_cal['target'] : '_self';
 
 <footer id="site-footer" class="bg-primary text-dark z-0">
 	<div data-footer-parallax="" class="footer-wrap position-relative overflow-hidden">
-		<footer data-footer-parallax-inner="" class="block-check-footer container position-relative d-flex flex-column justify-content-between ls-3 px-4">
+		<div data-footer-parallax-inner="" class="block-check-footer container position-relative d-flex flex-column justify-content-between ls-3 px-4">
 			<div class="block-check-footer__links-row d-flex text-light row">
 				<div class="block-check-footer__col d-flex flex-column col-12 col-md-4 pb-4 pb-md-0 gap-3">
 					<p class="demo-eyebrow">( Pages )</p>
@@ -166,7 +166,7 @@ $target_cal = $url_cal ? $url_cal['target'] : '_self';
 						alt="Kit Digital Logo" />
 				</div>
 			</div>
-		</footer>
+		</div>
 		<div data-footer-parallax-dark="" class="footer-wrap__dark"></div>
 	</div>
 </footer>

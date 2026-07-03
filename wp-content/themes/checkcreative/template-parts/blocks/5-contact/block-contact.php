@@ -14,9 +14,11 @@ $button_label       = get_field('button_label') ?: 'SEND';
 $trail              = get_field('opciones_sitio_cursor_images', 'option');
 
 // Imagen opcional para la columna derecha
-$images      = get_field('block_contact_images');
+$images      = get_field('block_contact_images') ?: [];
 
 $block_id = 'block-contact-';
+
+$contact_status = isset($_GET['contact_status']) ? sanitize_key($_GET['contact_status']) : '';
 ?>
 <section id="<?php echo esc_attr($block_id); ?>" class="block-contact" data-trail="wrapper">
 	<div class="container h-100">
@@ -30,12 +32,34 @@ $block_id = 'block-contact-';
 					</h1>
 				</div>
 
+				<?php if ($contact_status === 'ok') : ?>
+					<div class="block-contact__notice block-contact__notice--ok mb-4" role="status" aria-live="polite">
+						<?php esc_html_e('¡Gracias! Tu mensaje se ha enviado correctamente, te responderemos lo antes posible.', 'checkcreative'); ?>
+					</div>
+				<?php elseif ($contact_status === 'error') : ?>
+					<div class="block-contact__notice block-contact__notice--error mb-4" role="alert" aria-live="assertive">
+						<?php esc_html_e('No hemos podido enviar tu mensaje. Revisa el email introducido e inténtalo de nuevo.', 'checkcreative'); ?>
+					</div>
+				<?php endif; ?>
+
 				<form class="block-contact__form"
 					method="post"
 					action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
 
 					<input type="hidden" name="action" value="block_contact_submit">
 					<?php wp_nonce_field('block_contact_submit', 'block_contact_nonce'); ?>
+					<input type="hidden" name="form_ts" value="<?php echo esc_attr(time()); ?>">
+
+					<!-- Honeypot antispam: invisible para personas, casi todos los bots lo rellenan igual -->
+					<div class="block-contact__hp" aria-hidden="true">
+						<label for="<?php echo esc_attr($block_id); ?>-website">Website</label>
+						<input
+							type="text"
+							id="<?php echo esc_attr($block_id); ?>-website"
+							name="website"
+							tabindex="-1"
+							autocomplete="off">
+					</div>
 
 					<div class="block-contact__grid">
 						<div class="block-contact__field">
@@ -102,7 +126,7 @@ $block_id = 'block-contact-';
 								<?php echo esc_html($privacy_text);
 								?>
 								<?php if ($privacy_link) : ?>
-									<a href="<?php echo ($privacy_url); ?>" target="_blank" rel="noopener">
+									<a href="<?php echo esc_url($privacy_url); ?>" target="_blank" rel="noopener">
 										<?php echo esc_html($privacy_label); ?>
 									</a>
 								<?php else : ?>
@@ -122,13 +146,23 @@ $block_id = 'block-contact-';
 			<div class="col-12 col-lg-4 h-100">
 				<div class="block-contact__image-wrapper h-100 d-flex align-items-center position-relative overflow-hidden" data-contact-gallery>
 					<?php foreach ($images as $image) :
-						$img_url = $image ? $image['block_contact_images_image']['url'] : '';
-						$img_alt = $image['block_contact_images_image']['alt'] ?: 'Contact Image';
+						$img_field = $image['block_contact_images_image'] ?? null;
+						$img_id = is_array($img_field) ? ($img_field['ID'] ?? 0) : 0;
+						$img_alt = (is_array($img_field) ? ($img_field['alt'] ?? '') : '') ?: 'Contact Image';
+						if (!$img_id) continue;
 					?>
-						<img
-							src="<?php echo esc_url($img_url); ?>"
-							alt="<?php echo esc_attr($img_alt); ?>"
-							class="img-fluid block-contact__image">
+						<?php
+						echo wp_get_attachment_image(
+							$img_id,
+							'large', // col-lg-4: ~33vw en desktop
+							false,
+							[
+								'class' => 'img-fluid block-contact__image',
+								'alt' => $img_alt,
+								'loading' => 'lazy',
+							]
+						);
+						?>
 					<?php endforeach; ?>
 				</div>
 			</div>

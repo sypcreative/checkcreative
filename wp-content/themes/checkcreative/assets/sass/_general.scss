@@ -3,6 +3,19 @@
   z-index: 1;
 }
 
+/* Indicador de foco visible para navegación por teclado.
+   :focus-visible no se dispara en clicks de ratón, así que no añade
+   ruido visual salvo para quien realmente navega con Tab. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid $cor-primary;
+  outline-offset: 3px;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -54,12 +67,20 @@ footer {
   z-index: 10000;
 }
 
-[data-cursor="basic"] {
-  cursor: none;
+/* Si el usuario prefiere menos movimiento, no ocultamos el cursor nativo:
+   el JS (cursor.js) tampoco inicializa el cursor custom en ese caso,
+   así que sin esto el usuario se quedaría sin ningún cursor visible. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-cursor="basic"] {
+    cursor: none;
+  }
 }
 
-[data-anim="lines"],
-[data-anim="nav-links"] {
+/* Solo se ocultan si confirmamos que el JS que las revela (SplitText/GSAP)
+   se ha cargado; así un fallo de JS o un usuario sin JS ven el contenido
+   igualmente, en vez de perderlo para siempre. Ver <html class="no-js/js"> en header.php */
+.js [data-anim="lines"],
+.js [data-anim="nav-links"] {
   overflow: hidden;
   visibility: hidden;
   /* se activa vía JS */
@@ -162,7 +183,8 @@ footer {
 
 .language-toggle .lang-link {
   text-decoration: none;
-  opacity: 0.5;
+  /* opacity: 0.5 daba ~3.3:1 de contraste, por debajo de WCAG AA (4.5:1) */
+  opacity: 0.7;
   transition: opacity 0.2s;
 }
 

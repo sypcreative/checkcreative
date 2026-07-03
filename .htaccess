@@ -1,4 +1,29 @@
 
+# Hardening manual — NO está entre los marcadores de WordPress,
+# así que no se sobrescribe al regenerar las reglas de reescritura.
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(log|sql|env)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(log|sql|env)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^wp-config\.php$ - [F,L]
+    RewriteRule ^xmlrpc\.php$ - [F,L]
+    RewriteRule ^\.git - [F,L]
+</IfModule>
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
 # BEGIN WordPress
 # Las directivas (líneas) entre «BEGIN WordPress» y «END WordPress» son
 # generadas dinámicamente y solo deberían ser modificadas mediante filtros de WordPress.

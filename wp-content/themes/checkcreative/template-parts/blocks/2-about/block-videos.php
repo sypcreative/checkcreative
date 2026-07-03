@@ -1,6 +1,6 @@
 <?php
 $title = get_field('block_videos_title');
-$repeater = get_field('block_videos_repeater');
+$repeater = get_field('block_videos_repeater') ?: [];
 ?>
 
 <section class="block-videos h-100 vw-100 position-relative py-5">
@@ -18,20 +18,24 @@ $repeater = get_field('block_videos_repeater');
 				<?php foreach ($repeater as $item) {
 					$video_url = $item['block_videos_repeater_url'] ?? '';
 					$video = $item['block_videos_repater_video'] ?? '';
-					$image = $item['block_videos_repeater_image'] ?? '';
-
-					$img_url = $image['url'] ?? '';
-					$img_alt = $image['alt'] ?? '';
+					$image = $item['block_videos_repeater_image'] ?? null;
+					$img_id = is_array($image) ? ($image['ID'] ?? 0) : 0;
 				?>
 
 					<div class="col-12 col-md-6 m-0" data-play-hover>
 						<a
 							href="<?php echo esc_url($video_url); ?>" target="_blank" rel="noopener noreferrer"
 							class="block-videos__video-item d-block">
-							<img
-								src="<?php echo esc_url($img_url); ?>"
-								alt="<?php echo esc_attr($img_alt); ?>"
-								class="img-fluid w-100 h-auto" />
+							<?php if ($img_id) : ?>
+								<?php
+								echo wp_get_attachment_image(
+									$img_id,
+									'large',
+									false,
+									['class' => 'img-fluid w-100 h-auto', 'loading' => 'lazy']
+								);
+								?>
+							<?php endif; ?>
 						</a>
 					</div>
 

@@ -4,6 +4,9 @@ import gsap from "gsap";
 import { initLenis } from "./initLenis.js";
 import { initLogoRevealLoader } from "./preloader.js";
 
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const REVEAL_SELECTORS = [
   "[data-reveal]",
   "h1, h2, h3, h4, .display",
@@ -43,6 +46,12 @@ function getRevealItems(container, margin = 64) {
 
 function prepRevealEnter(container) {
   const items = getRevealItems(container, 64);
+
+  if (prefersReducedMotion()) {
+    gsap.set(items, { clearProps: "all" });
+    return items;
+  }
+
   gsap.set(items, {
     clipPath: "inset(100% 0% 0% 0%)",
     y: (i, el) => (el.matches("img, picture, figure") ? 0 : 20),
@@ -58,6 +67,12 @@ function animateRevealLeave(
 ) {
   const items = getRevealItems(container, 0);
   if (!items.length) return Promise.resolve();
+
+  if (prefersReducedMotion()) {
+    const tl = gsap.timeline();
+    tl.to(container, { opacity: 0, duration: 0.15, ease: "none" });
+    return tl.then ? tl.then() : tl.finished;
+  }
 
   const tl = gsap.timeline({ defaults: { ease } });
   gsap.set(items, { clipPath: "inset(0% 0% 0% 0%)" });
@@ -89,9 +104,16 @@ function animateRevealEnter(
   { duration = 0.9, ease = "power2.out" } = {}
 ) {
   const list = items && items.length ? items : prepRevealEnter(container);
-  const tl = gsap.timeline({ defaults: { ease } });
 
   gsap.set(container, { autoAlpha: 1 });
+
+  if (prefersReducedMotion()) {
+    const tl = gsap.timeline();
+    tl.set(list, { clearProps: "all", opacity: 1 });
+    return tl.then ? tl.then() : tl.finished;
+  }
+
+  const tl = gsap.timeline({ defaults: { ease } });
 
   tl.to(list, {
     clipPath: "inset(0% 0% 0% 0%)",
@@ -248,6 +270,11 @@ export function setupBarba({ common = [], byNs = {}, initOnLoad = true } = {}) {
               const items =
                 next.__revealItems || prepRevealEnter(next.container);
               const tl = gsap.timeline({ delay: 0.0, onComplete: resolve });
+
+              if (prefersReducedMotion()) {
+                tl.set(items, { clearProps: "all", opacity: 1 });
+                return;
+              }
 
               tl.to(items, {
                 clipPath: "inset(0% 0% 0% 0%)",

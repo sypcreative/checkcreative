@@ -12,11 +12,14 @@ export function initLenis(options = {}) {
   if (_lenis) return _lenis;
 
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   // ==============================
-  // 🚫 MÓVIL: SIN LENIS, SCROLL NATIVO
+  // 🚫 MÓVIL O REDUCED-MOTION: SIN LENIS, SCROLL NATIVO
   // ==============================
-  if (isMobile) {
+  if (isMobile || prefersReducedMotion) {
     // MUY IMPORTANTE: no usar scrollerProxy aquí,
     // así ScrollTrigger usa window/pageYOffset por defecto.
     // (por si en algún build anterior se había configurado algo raro)

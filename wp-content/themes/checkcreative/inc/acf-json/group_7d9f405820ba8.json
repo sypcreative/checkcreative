@@ -1,0 +1,155 @@
+{
+    "key": "group_7d9f405820ba8",
+    "title": "Block Numbers",
+    "fields": [
+        {
+            "key": "field_30fc1044bd937",
+            "label": "Título",
+            "name": "block_numbers_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titular opcional que introduce el bloque de resultados.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Resultados",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_9dfd9e75d105a",
+            "label": "Resultados",
+            "name": "block_numbers_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Añade exactamente 3 resultados/cifras del proyecto.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 3,
+            "max": 3,
+            "collapsed": "field_45e5b1ece3997",
+            "button_label": "Añadir resultado",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_1b0257df32c07",
+                    "label": "Prefijo",
+                    "name": "block_numbers_items_prefix",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Opcional. Ej: +, x, ≈",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "+",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_9dfd9e75d105a"
+                },
+                {
+                    "key": "field_c4d6e8308f4ab",
+                    "label": "Cifra",
+                    "name": "block_numbers_items_value",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "Número final al que se anima la cifra.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "150",
+                    "step": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_9dfd9e75d105a"
+                },
+                {
+                    "key": "field_a98f3d270d3ba",
+                    "label": "Sufijo",
+                    "name": "block_numbers_items_suffix",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Opcional. Ej: %, M€, proyectos",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "%",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_9dfd9e75d105a"
+                },
+                {
+                    "key": "field_45e5b1ece3997",
+                    "label": "Descripción",
+                    "name": "block_numbers_items_label",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Texto breve bajo la cifra. Ej: Proyectos entregados",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Proyectos entregados",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_9dfd9e75d105a"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/block-numbers"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1751500800
+}

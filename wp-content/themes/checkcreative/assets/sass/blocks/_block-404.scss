@@ -1,0 +1,26 @@
+.block-404 {
+  &__eyebrow {
+    color: rgba($cor-dark, 0.5);
+    letter-spacing: 0.1em;
+  }
+
+  &__number {
+    color: $cor-primary;
+    line-height: 0.9;
+  }
+
+  &__count {
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    min-width: 3ch;
+  }
+
+  &__title {
+    max-width: 34em;
+  }
+
+  &__text {
+    max-width: 28em;
+    color: rgba($cor-dark, 0.7);
+  }
+}

@@ -2,6 +2,8 @@
 $title = get_field('block_project_description_single_title');
 $desc = get_field('block_project_description_single_text');
 $img = get_field('block_project_description_single_img');
+$img_id = is_array($img) ? ($img['ID'] ?? 0) : 0;
+$img_alt = (is_array($img) ? ($img['alt'] ?? '') : '') ?: $title;
 ?>
 
 <section class="block-single-description h-100 vw-100 position-relative pt-8">
@@ -13,7 +15,20 @@ $img = get_field('block_project_description_single_img');
 			</div>
 			<div class="block-single-description__image col-12 col-md-6 offset-md-1 order-first order-md-last mb-0">
 				<div class="block-single-description__image-wrap">
-					<img src="<?php echo esc_url($img['url']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" class="block-single-description__image w-100">
+					<?php if ($img_id) : ?>
+						<?php
+						echo wp_get_attachment_image(
+							$img_id,
+							'large',
+							false,
+							[
+								'class' => 'block-single-description__image w-100',
+								'alt' => $img_alt,
+								'loading' => 'lazy',
+							]
+						);
+						?>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

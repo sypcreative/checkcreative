@@ -1,0 +1,9 @@
+# Bloquea el acceso directo al código fuente sin compilar.
+# El navegador solo debe cargar los bundles de /assets/dist/.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

@@ -10,6 +10,17 @@
     margin-bottom: 3rem;
   }
 
+  // Honeypot antispam: oculto visualmente sin display:none/visibility:hidden,
+  // que muchos bots sí comprueban antes de rellenar. El aria-hidden del wrapper
+  // + tabindex="-1" en el input ya lo esconden de lectores de pantalla y teclado.
+  &__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   &__title {
     text-transform: uppercase;
     margin: 0 0 1rem;
@@ -19,6 +30,24 @@
     max-width: 640px;
     font-size: 1rem;
     line-height: 1.7;
+  }
+
+  &__notice {
+    padding: 1rem 1.25rem;
+    border-radius: $cor-border-radius;
+    font-size: $cor-h6-font-size;
+
+    &--ok {
+      background-color: rgba($cor-primary, 0.08);
+      color: $cor-primary;
+      border: 1px solid rgba($cor-primary, 0.25);
+    }
+
+    &--error {
+      background-color: rgba(#b3261e, 0.08);
+      color: #b3261e;
+      border: 1px solid rgba(#b3261e, 0.25);
+    }
   }
 
   &__image-wrapper {
@@ -74,7 +103,12 @@
 
       &:focus {
         border-bottom-width: 2px;
-        border-bottom-color: #000;
+        border-bottom-color: $cor-primary;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $cor-primary;
+        outline-offset: 2px;
       }
 
       /* Estado flotante: cuando tiene foco o texto */

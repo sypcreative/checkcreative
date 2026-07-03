@@ -3,6 +3,11 @@
 /** @noinspection PhpUnused */
 
 /**
+ * Icono por defecto para los bloques ACF que no tienen uno propio.
+ */
+const CHECKCREATIVE_BLOCK_ICON_DEFAULT = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>';
+
+/**
  * Esta función crea categorías para los bloques de Gutenberg y los coloca en primera posición
  */
 function checkcreative_blocks_category($categories): array
@@ -67,7 +72,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-hero-home.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -93,7 +98,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-description.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -119,7 +124,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-clients.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -145,7 +150,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-best-projects.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -171,7 +176,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-hero-about.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -197,7 +202,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-title-history.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -223,7 +228,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-image.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -249,7 +254,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-team.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -275,7 +280,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/4-works/block-works.php',
 				'category'        => 'checkcreative-works',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -301,7 +306,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/6-single-works/block-description-single.php',
 				'category'        => 'checkcreative-single-works',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -327,7 +332,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/6-single-works/block-objective-single.php',
 				'category'        => 'checkcreative-single-works',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -353,7 +358,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/6-single-works/block-gallery-single.php',
 				'category'        => 'checkcreative-single-works',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -379,7 +384,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/6-single-works/block-related-projects.php',
 				'category'        => 'checkcreative-single-works',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -405,7 +410,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/3-services/block-hero-services.php',
 				'category'        => 'checkcreative-services',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -432,7 +437,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/3-services/block-timeline-services.php',
 				'category'        => 'checkcreative-services',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -458,7 +463,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-videos.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -484,7 +489,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/5-contact/block-contact.php',
 				'category'        => 'checkcreative-contact',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -510,7 +515,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/7-gallery/block-gallery.php',
 				'category'        => 'checkcreative-gallery',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -536,7 +541,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-services-home.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -562,7 +567,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-images.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -588,7 +593,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-paragraphs.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -614,7 +619,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/1-home/block-testimonies.php',
 				'category'        => 'checkcreative-home',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -640,7 +645,7 @@ function checkcreative_blocks(): void
 				'render_template' => 'template-parts/blocks/2-about/block-mission.php',
 				'category'        => 'checkcreative-about',
 				'mode'            => 'edit',
-				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks" viewBox="0 0 16 16"><path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/><path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/> </svg>',
+				'icon'            => CHECKCREATIVE_BLOCK_ICON_DEFAULT,
 				'keywords'        => array('categorias', 'checkcreative'),
 				'render_callback' => 'render_preview',
 				'example'         => array(
@@ -648,6 +653,31 @@ function checkcreative_blocks(): void
 						'mode' => 'preview', // Important!
 						'data' => array(
 							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-mission.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
+						),
+					),
+				),
+			)
+		);
+		/**
+		 * Block Numbers
+		 */
+		acf_register_block(
+			array(
+				'name'            => 'block-numbers',
+				'title'           => __('Block Numbers', 'checkcreative'),
+				'post_types' 		=> ['page', 'proyectos'],
+				'description'     => __('Bloque con 3 cifras/resultados animadas al hacer scroll (ideal para resultados de un proyecto).', 'checkcreative'),
+				'render_template' => 'template-parts/blocks/6-single-works/block-numbers.php',
+				'category'        => 'checkcreative-single-works',
+				'mode'            => 'edit',
+				'icon'            => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/></svg>',
+				'keywords'        => array('numeros', 'resultados', 'cifras', 'checkcreative'),
+				'render_callback' => 'render_preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview', // Important!
+						'data' => array(
+							'image' => '<img src="' . get_template_directory_uri() . '/assets/dist/img/blocks/block-numbers.png' . '" style="display: block; margin: 0 auto;  max-width:100%;">'
 						),
 					),
 				),

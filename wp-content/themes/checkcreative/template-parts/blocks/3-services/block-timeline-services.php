@@ -36,13 +36,19 @@ $images = get_field('block_timeline_services_images') ?: [];
 				<?php foreach ($images as $img_item): ?>
 					<?php
 					$img = $img_item['block_timeline_services_images_image'] ?? null;
-					$img_url = is_array($img) ? ($img['url'] ?? '') : '';
-					$img_alt = is_array($img) ? ($img['alt'] ?? '') : '';
+					$img_id = is_array($img) ? ($img['ID'] ?? 0) : 0;
 
-					if (!$img_url) continue;
+					if (!$img_id) continue;
 					?>
 					<div class="process-image process-image--<?= $img_i ?>">
-						<img src="<?= esc_url($img_url) ?>" alt="<?= esc_attr($img_alt) ?>" loading="lazy">
+						<?php
+						echo wp_get_attachment_image(
+							$img_id,
+							'large', // accesorios de 180px de ancho fijo en el timeline
+							false,
+							['loading' => 'lazy']
+						);
+						?>
 					</div>
 					<?php $img_i++; ?>
 				<?php endforeach; ?>

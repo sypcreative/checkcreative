@@ -1,0 +1,71 @@
+.block-numbers {
+  &__title {
+    max-width: 40em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__divider {
+    position: absolute;
+    left: 0;
+    top: 12%;
+    bottom: 12%;
+    width: 1px;
+    background-color: $cor-gray;
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+
+  &__item {
+    will-change: transform, opacity;
+  }
+
+  &__index {
+    color: rgba($cor-dark, 0.45);
+    letter-spacing: 0.1em;
+  }
+
+  &__value {
+    font-family: $cor-font-family-headings;
+    font-weight: $cor-headings-font-weight;
+    letter-spacing: $cor-h1-letter-spacing;
+    line-height: 1;
+    font-size: clamp(3rem, 2.2rem + 3.5vw, 5.5rem);
+    color: $cor-primary;
+  }
+
+  &__count {
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    min-width: 1ch;
+  }
+
+  &__prefix,
+  &__suffix {
+    font-size: 0.4em;
+    align-self: flex-start;
+    margin-top: 0.35em;
+  }
+
+  &__prefix {
+    margin-right: 0.08em;
+  }
+
+  &__suffix {
+    margin-left: 0.08em;
+  }
+
+  &__label {
+    max-width: 16em;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba($cor-dark, 0.7);
+  }
+
+  @include media-breakpoint-down(md) {
+    &__col:not(:last-child) &__item {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid $cor-gray;
+    }
+  }
+}
