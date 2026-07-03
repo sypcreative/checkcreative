@@ -103,6 +103,9 @@ checkcreative_require('/inc/gtm-functions.php');
 // Endurecimiento de seguridad (REST API, etc.)
 checkcreative_require('/inc/security-hardening.php');
 
+// Structured data (JSON-LD)
+checkcreative_require('/inc/structured-data.php');
+
 // -----------------------------------------------------------------------------
 // Utilidades de depuración
 // -----------------------------------------------------------------------------

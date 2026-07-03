@@ -1,13 +1,13 @@
 <?php
 $title = get_field('block_testimonies_title');
-$repeater = get_field('block_testimonies_repeater');
+$repeater = get_field('block_testimonies_repeater') ?: [];
 ?>
 
 <section class="block-testimonies vw-100 position-relative pt-0 pt-md-7 pb-10">
 	<div class="block-testimonies__content container position-relative z-1">
 		<div class="row">
 			<div class="col-12">
-				<h1 class="display-md h2 text-center pb-5"><?php echo esc_html($title); ?></h1>
+				<h2 class="display-md h2 text-center pb-5"><?php echo esc_html($title); ?></h2>
 			</div>
 
 			<div class="col-12">

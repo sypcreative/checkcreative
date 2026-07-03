@@ -41,7 +41,16 @@ function barba_namespace()
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="format-detection" content="telephone=no">
-	<script>document.documentElement.classList.replace('no-js', 'js');</script>
+	<script>
+		document.documentElement.classList.replace('no-js', 'js');
+		// Red de seguridad: si por lo que sea el bundle principal no llega a
+		// ejecutarse (fallo de red, error de script...), esto fuerza a mostrar
+		// el contenido a los 4s en vez de dejar la página en blanco para siempre.
+		// Si el bundle sí arranca, él mismo cancela este timer (ver main.js).
+		window.__ccFallbackTimer = window.setTimeout(function () {
+			document.documentElement.classList.add('js-fallback-reveal');
+		}, 4000);
+	</script>
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>/assets/img/favicon.png" sizes="150x50">
 	<?php

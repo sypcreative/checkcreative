@@ -16,6 +16,24 @@
   &__logo-wrap {
     width: 12em;
     height: 3em;
+    position: relative;
+  }
+  &__logo-item {
+    // Los dos logos (base + top) tienen que ocupar exactamente el mismo
+    // hueco para que se superpongan y el clip-path revele uno sobre otro.
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    // El SVG puede traer width/height fijos en píxeles (típico al exportar
+    // de Figma/Illustrator) — esto los ignora y lo ajusta siempre al hueco
+    // de arriba, manteniendo proporción gracias al viewBox del propio SVG.
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   }
   &__logo-item.is--base {
     opacity: 0.2;

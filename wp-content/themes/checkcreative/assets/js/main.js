@@ -1,5 +1,12 @@
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
+// El bundle está vivo y ejecutándose: desarma el fallback de emergencia
+// de header.php (si no, a los 4s forzaría opacity:1 !important para siempre
+// y rompería el fade de las transiciones de Barba en futuras navegaciones).
+if (typeof window !== "undefined" && window.__ccFallbackTimer) {
+  window.clearTimeout(window.__ccFallbackTimer);
+}
+
 import {
   initBasicCustomCursor,
   initDynamicCustomTextCursor,

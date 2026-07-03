@@ -18,7 +18,7 @@ if (is_page('about') || is_page('sobre-nosotros')) {
 <section class="<?= esc_attr($extra_class) ?> vw-100 overflow-clip position-relative">
 	<div class="container h-100">
 		<div class="block-description__content position-relative d-flex align-items-center justify-content-center h-100 text-center z-1">
-			<h1 class="fs-3 w-80 text-center" data-highlight-text><?php echo esc_html($desc) ?></h1>
+			<h2 class="fs-3 w-80 text-center" data-highlight-text><?php echo esc_html($desc) ?></h2>
 		</div>
 	</div>
 	<?php if ($show && $imagenes) : ?>

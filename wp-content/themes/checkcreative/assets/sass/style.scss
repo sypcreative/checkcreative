@@ -1,7 +1,7 @@
 // FONTS
 
-// Se deben sustituir los  ";" en las urls por "%3b"  para que al minificar no de problema
-@import url("https://fonts.googleapis.com/css2?family=Londrina+Outline&family=Raleway:ital,wght@0,100%3b0,300%3b0,400%3b0,500%3b0,700%3b0,800%3b0,900%3b1,100%3b1,200%3b1,300%3b1,400%3b1,500%3b1,600%3b1,700%3b1,800%3b1,900&display=swap");
+// Google Fonts (Londrina, Raleway) quitado: no se usan en ningún sitio del
+// CSS/templates, era una petición de red bloqueante 100% inútil.
 @import "fonts";
 // @import "node_modules/font-awesome/css/font-awesome.min.css";
 

@@ -86,6 +86,22 @@ footer {
   /* se activa vía JS */
 }
 
+/* Evita el flash de contenido "en crudo" entre el primer pintado del
+   navegador y que Barba decide mostrarlo (con o sin preloader). Se oculta
+   solo si hay JS (así un usuario sin JS ve la página igual), y la propia
+   animación de entrada (GSAP autoAlpha) lo revela por encima de esto sin
+   ningún conflicto, porque un style inline siempre gana a esta regla. */
+.js [data-barba="container"] {
+  opacity: 0;
+}
+
+/* Red de seguridad: si el bundle principal no llega a ejecutarse, esta
+   clase (añadida por un setTimeout en header.php) fuerza a mostrar el
+   contenido en vez de dejarlo oculto para siempre. */
+.js-fallback-reveal [data-barba="container"] {
+  opacity: 1 !important;
+}
+
 .line-y {
   transform: translateY(-100%);
 }
